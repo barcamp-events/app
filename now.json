@@ -1,0 +1,17 @@
+{
+    "name": "BarCamp Events App",
+    "version": 2,
+    "builds": [
+      {
+        "src": "./www/**",
+        "use": "@now/static"
+      }
+    ],
+    "env": {
+      "IS_NOW": "true"
+    },
+    "alias": ["beta.barcamp.events"],
+    "routes": [
+      { "src": "/(.*)", "dest": "/www/$1" }
+    ]
+  }

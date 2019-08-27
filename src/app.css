@@ -1,0 +1,60 @@
+@import "../node_modules/@stellar-design/core/dist/stellar-core/stellar-core.css";
+@import "./assets/fonts/inter/inter.css";
+@import "./assets/fonts/parco/parco.css";
+
+:root{--ms-ratio:var(--major-second);--ms-base:12px}
+@media (min-width:550px){:root{--ms-base:13px}}
+@media (min-width:700px){:root{--ms-base:14px}}
+@media (min-width:800px){:root{--ms-base:15px; --ms-ratio: var(--major-third);}}
+@media (min-width:900px){:root{--ms-base:16px}}
+@media (min-width:1000px){:root{--ms-base:17px}}
+@media (min-width:1200px){:root{--ms-base:18px}}
+
+html, body {
+    font-family: var(--inter);
+    min-width: 320px;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    max-width: 36em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--parco);
+    font-weight: 500;
+}
+
+html.dark-mode {
+    background: var(--black)
+}
+
+.hero {
+    background-image: url("/assets/images/waves-light.png");
+    background-size: 150%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-blend-mode: screen;
+}
+
+.dark-mode .hero, .hero.dark-mode {
+    background-image: url("/assets/images/waves.png");
+    background-blend-mode: exclusion;
+    background-color: var(--theme-base9);
+}
+
+@media (max-width: 800px) {
+    .hero {
+        background-size: 100vh;
+    }
+}
+
+stellar-button {
+    --corners: 0.5rem;
+    backdrop-filter: blur(5px);
+    -webkit-clip-path: polygon(var(--corners) 0, calc(100% - var(--corners)) 0,100% var(--corners),100% calc(100% - var(--corners)),calc(100% - var(--corners)) 100%,var(--corners) 100%,0 calc(100% - var(--corners)),0 var(--corners));
+    clip-path: polygon(var(--corners) 0, calc(100% - var(--corners)) 0,100% var(--corners),100% calc(100% - var(--corners)),calc(100% - var(--corners)) 100%,var(--corners) 100%,0 calc(100% - var(--corners)),0 var(--corners));
+}
+
+stellar-button.secondary {
+    --background: transparent;
+}

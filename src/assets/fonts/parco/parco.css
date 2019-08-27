@@ -1,0 +1,93 @@
+@font-face {
+    font-family: 'Parco';
+    src: url('/assets/fonts/parco/Parco-Outline.woff2') format('woff2'),
+        url('/assets/fonts/parco/Parco-Outline.woff') format('woff');
+    font-weight: 100;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Parco';
+    src: url('/assets/fonts/parco/Parco-OutlineItalic.woff2') format('woff2'),
+        url('/assets/fonts/parco/Parco-OutlineItalic.woff') format('woff');
+    font-weight: 100;
+    font-display: swap;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Parco';
+    src: url('/assets/fonts/parco/Parco-Inline.woff2') format('woff2'),
+        url('/assets/fonts/parco/Parco-Inline.woff') format('woff');
+    font-weight: 200;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Parco';
+    src: url('/assets/fonts/parco/Parco-InlineItalic.woff2') format('woff2'),
+        url('/assets/fonts/parco/Parco-InlineItalic.woff') format('woff');
+    font-weight: 200;
+    font-display: swap;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Parco';
+    src: url('/assets/fonts/parco/Parco-OutlineInline.woff2') format('woff2'),
+        url('/assets/fonts/parco/Parco-OutlineInline.woff') format('woff');
+    font-weight: 300;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Parco';
+    src: url('/assets/fonts/parco/Parco-OutlineInlineItalic.woff2') format('woff2'),
+        url('/assets/fonts/parco/Parco-OutlineInlineItalic.woff') format('woff');
+    font-weight: 300;
+    font-display: swap;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Parco';
+    src: url('/assets/fonts/parco/Parco-DoubleOutlineInline.woff2') format('woff2'),
+        url('/assets/fonts/parco/Parco-DoubleOutlineInline.woff') format('woff');
+    font-weight: 400;
+    font-display: swap;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Parco';
+    src: url('/assets/fonts/parco/Parco-DoubleOutlineInlineItalic.woff2') format('woff2'),
+        url('/assets/fonts/parco/Parco-DoubleOutlineInlineItalic.woff') format('woff');
+    font-weight: 400;
+    font-display: swap;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Parco';
+    src: url('/assets/fonts/parco/Parco-RegularItalic.woff2') format('woff2'),
+        url('/assets/fonts/parco/Parco-RegularItalic.woff') format('woff');
+    font-weight: 500;
+    font-display: swap;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Parco';
+    src: url('/assets/fonts/parco/Parco-Regular.woff2') format('woff2'),
+        url('/assets/fonts/parco/Parco-Regular.woff') format('woff');
+    font-weight: 500;
+    font-display: swap;
+    font-style: normal;
+}
+
+:root {
+    --parco: "Parco", sans-serif;
+}
