@@ -6,10 +6,12 @@ import User from './User';
 export const firebaseConfig = {
     apiKey: process.env.FIREBASE_API_KEY,
     authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
     projectId: process.env.FIREBASE_PROJECT_ID,
+    storageBucket: process.env.FIREBASE_PROJECT_ID,
+    messagingSenderId: process.env.FIREBASE_SENDER_ID,
+    appId: process.env.FIREBASE_APP_ID
 };
-
-console.log(firebaseConfig);
 
 firebase.initializeApp(firebaseConfig)
 
@@ -80,19 +82,21 @@ export default class Authentication {
     return this.user;
   }
 
-  async createNewUser(user, password) {
-    let response = await firebase.auth().createUserWithEmailAndPassword(user.email, password);
+  async createNewUser(email, password, profile) {
+    let response = await firebase.auth().createUserWithEmailAndPassword(email, password);
 
     await firebase.auth().currentUser.sendEmailVerification({
-      url: `${window.location.origin}`,
+      url: `${window.location.origin}/profile`,
     });
+
+    await firebase.auth().currentUser.updateProfile(profile);
 
     return response.user.uid;
   }
 
-  async signIn(username: string, password: string) {
+  async signIn(email: string, password: string) {
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-    const user = await firebase.auth().signInWithEmailAndPassword(username, password)
+    const user = await firebase.auth().signInWithEmailAndPassword(email, password)
     return user;
   }
 

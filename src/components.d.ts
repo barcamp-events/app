@@ -17,7 +17,9 @@ export namespace Components {
   interface BarcampApp {
     'history': RouterHistory;
   }
-  interface BarcampAuth {}
+  interface BarcampAuth {
+    'history': RouterHistory;
+  }
   interface BarcampDashboard {}
   interface BarcampDefaultMarketing {}
   interface BarcampDocs {
@@ -36,7 +38,9 @@ export namespace Components {
   interface BarcampHostSetFormat {}
   interface BarcampSchedule {}
   interface BarcampScheduleSignup {}
-  interface BarcampSignOut {}
+  interface BarcampSignOut {
+    'history': RouterHistory;
+  }
 }
 
 declare global {
@@ -196,7 +200,9 @@ declare namespace LocalJSX {
   interface BarcampApp extends JSXBase.HTMLAttributes<HTMLBarcampAppElement> {
     'history'?: RouterHistory;
   }
-  interface BarcampAuth extends JSXBase.HTMLAttributes<HTMLBarcampAuthElement> {}
+  interface BarcampAuth extends JSXBase.HTMLAttributes<HTMLBarcampAuthElement> {
+    'history'?: RouterHistory;
+  }
   interface BarcampDashboard extends JSXBase.HTMLAttributes<HTMLBarcampDashboardElement> {}
   interface BarcampDefaultMarketing extends JSXBase.HTMLAttributes<HTMLBarcampDefaultMarketingElement> {}
   interface BarcampDocs extends JSXBase.HTMLAttributes<HTMLBarcampDocsElement> {
@@ -215,7 +221,9 @@ declare namespace LocalJSX {
   interface BarcampHostSetFormat extends JSXBase.HTMLAttributes<HTMLBarcampHostSetFormatElement> {}
   interface BarcampSchedule extends JSXBase.HTMLAttributes<HTMLBarcampScheduleElement> {}
   interface BarcampScheduleSignup extends JSXBase.HTMLAttributes<HTMLBarcampScheduleSignupElement> {}
-  interface BarcampSignOut extends JSXBase.HTMLAttributes<HTMLBarcampSignOutElement> {}
+  interface BarcampSignOut extends JSXBase.HTMLAttributes<HTMLBarcampSignOutElement> {
+    'history'?: RouterHistory;
+  }
 
   interface IntrinsicElements {
     'app-footer': AppFooter;

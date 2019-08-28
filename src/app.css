@@ -32,6 +32,10 @@ p {
     line-height: 1.4;
 }
 
+stellar-input {
+    --line-height: 3.5rem;
+}
+
 h1.parco, h2.parco, h3.parco, h4.parco, h5.parco, h6.parco {
     font-family: var(--parco);
     font-weight: 500;
@@ -47,6 +51,7 @@ html.dark-mode {
     background-position: center;
     background-repeat: no-repeat;
     background-blend-mode: screen;
+    background-color: var(--theme-base3);
 }
 
 .dark-mode .hero, .hero.dark-mode {
@@ -74,6 +79,12 @@ stellar-button {
 
 stellar-button.secondary {
     --background: transparent;
+    --color: var(--theme-base5);
+}
+
+.dark-mode stellar-button.secondary {
+    --background: transparent;
+    --color: var(--theme-base0);
 }
 
 app-header,
