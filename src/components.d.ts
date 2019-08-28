@@ -7,6 +7,7 @@
 
 import { HTMLStencilElement, JSXBase } from '@stencil/core/internal';
 import {
+  MatchResults,
   RouterHistory,
 } from '@stencil/router';
 
@@ -19,6 +20,10 @@ export namespace Components {
   interface BarcampAuth {}
   interface BarcampDashboard {}
   interface BarcampDefaultMarketing {}
+  interface BarcampDocs {
+    'history': RouterHistory;
+    'match': MatchResults;
+  }
   interface BarcampForgotPassword {}
   interface BarcampHome {}
   interface BarcampHostBranding {}
@@ -76,6 +81,12 @@ declare global {
   var HTMLBarcampDefaultMarketingElement: {
     prototype: HTMLBarcampDefaultMarketingElement;
     new (): HTMLBarcampDefaultMarketingElement;
+  };
+
+  interface HTMLBarcampDocsElement extends Components.BarcampDocs, HTMLStencilElement {}
+  var HTMLBarcampDocsElement: {
+    prototype: HTMLBarcampDocsElement;
+    new (): HTMLBarcampDocsElement;
   };
 
   interface HTMLBarcampForgotPasswordElement extends Components.BarcampForgotPassword, HTMLStencilElement {}
@@ -162,6 +173,7 @@ declare global {
     'barcamp-auth': HTMLBarcampAuthElement;
     'barcamp-dashboard': HTMLBarcampDashboardElement;
     'barcamp-default-marketing': HTMLBarcampDefaultMarketingElement;
+    'barcamp-docs': HTMLBarcampDocsElement;
     'barcamp-forgot-password': HTMLBarcampForgotPasswordElement;
     'barcamp-home': HTMLBarcampHomeElement;
     'barcamp-host-branding': HTMLBarcampHostBrandingElement;
@@ -187,6 +199,10 @@ declare namespace LocalJSX {
   interface BarcampAuth extends JSXBase.HTMLAttributes<HTMLBarcampAuthElement> {}
   interface BarcampDashboard extends JSXBase.HTMLAttributes<HTMLBarcampDashboardElement> {}
   interface BarcampDefaultMarketing extends JSXBase.HTMLAttributes<HTMLBarcampDefaultMarketingElement> {}
+  interface BarcampDocs extends JSXBase.HTMLAttributes<HTMLBarcampDocsElement> {
+    'history'?: RouterHistory;
+    'match'?: MatchResults;
+  }
   interface BarcampForgotPassword extends JSXBase.HTMLAttributes<HTMLBarcampForgotPasswordElement> {}
   interface BarcampHome extends JSXBase.HTMLAttributes<HTMLBarcampHomeElement> {}
   interface BarcampHostBranding extends JSXBase.HTMLAttributes<HTMLBarcampHostBrandingElement> {}
@@ -208,6 +224,7 @@ declare namespace LocalJSX {
     'barcamp-auth': BarcampAuth;
     'barcamp-dashboard': BarcampDashboard;
     'barcamp-default-marketing': BarcampDefaultMarketing;
+    'barcamp-docs': BarcampDocs;
     'barcamp-forgot-password': BarcampForgotPassword;
     'barcamp-home': BarcampHome;
     'barcamp-host-branding': BarcampHostBranding;

@@ -1,3 +1,6 @@
-:host {
-  display: block;
+
+@media (max-width: 700px) {
+  app-footer stellar-tabs {
+    margin: 0 auto;
+  }
 }

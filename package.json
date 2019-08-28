@@ -8,7 +8,7 @@
     "develop:android": "npx cap open android",
     "develop:electron": "npx cap open electron",
     "build": "stencil build --dev",
-    "build.prod": "stencil build --prod && npx cap copy",
+    "build.prod": "stencil build --prod --prerender && npx cap copy",
     "start": "stencil build --dev --watch --serve",
     "start.prod": "stencil build --prod --watch --serve",
     "test": "jest",

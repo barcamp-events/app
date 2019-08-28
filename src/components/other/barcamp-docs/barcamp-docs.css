@@ -1,0 +1,16 @@
+barcamp-docs {
+  display: block;
+}
+
+barcamp-docs h1 {
+  font-family: var(--parco);
+  font-weight: 600;
+}
+
+barcamp-docs h2 {
+  font-family: var(--parco);
+  font-weight: 200;
+  font-size: 2rem;
+  margin-top: 1.25em !important;
+  font-style: italic;
+}

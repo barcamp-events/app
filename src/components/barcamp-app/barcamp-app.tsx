@@ -90,6 +90,7 @@ export class BarcampApp {
           <article>
             <stencil-router>
               <stencil-route-switch scrollTopOffset={0}>
+                <this.Route url='/docs/:name' component='barcamp-docs' />
                 <this.Route url='/auth' component='barcamp-auth' />
                 <this.Route url='/sign-out' component='barcamp-sign-out' />
 

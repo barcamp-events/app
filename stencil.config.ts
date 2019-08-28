@@ -10,9 +10,6 @@ export const config: Config = {
   namespace: 'app',
   preamble: 'BarCamp Events',
   globalStyle: "./src/app.css",
-  devServer: {
-    openBrowser: false
-  },
   testing: {
     emulate: [
       { device: "iPad" },
@@ -42,6 +39,7 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'www',
+      baseUrl: "https://beta.barcamp.events",
       serviceWorker: null,
       copy: [
         { src: "svg/*.svg", dest: "./build/svg/" }

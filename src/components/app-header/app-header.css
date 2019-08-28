@@ -1,5 +1,6 @@
-app-header {
-  display: block;
-  position: relative;
-  z-index: 2;
+
+@media (max-width: 700px) {
+  app-header > div.flex {
+    grid-template-columns: auto auto !important;
+  }
 }

@@ -2,10 +2,10 @@
 @import "./assets/fonts/inter/inter.css";
 @import "./assets/fonts/parco/parco.css";
 
-:root{--ms-ratio:var(--major-second);--ms-base:12px}
+:root{--ms-base:12px;--ms-ratio: var(--minor-second);}
 @media (min-width:550px){:root{--ms-base:13px}}
 @media (min-width:700px){:root{--ms-base:14px}}
-@media (min-width:800px){:root{--ms-base:15px; --ms-ratio: var(--major-third);}}
+@media (min-width:800px){:root{--ms-base:15px;--ms-ratio: 1.15;}}
 @media (min-width:900px){:root{--ms-base:16px}}
 @media (min-width:1000px){:root{--ms-base:17px}}
 @media (min-width:1200px){:root{--ms-base:18px}}
@@ -13,13 +13,26 @@
 html, body {
     font-family: var(--inter);
     min-width: 320px;
+    line-height: 1.4;
+}
+
+a {
+    color: var(--theme-base5);
+}
+
+article {
+    min-height: calc(100vh - 10rem);
 }
 
 h1, h2, h3, h4, h5, h6, p {
     max-width: 36em;
 }
 
-h1, h2, h3, h4, h5, h6 {
+p {
+    line-height: 1.4;
+}
+
+h1.parco, h2.parco, h3.parco, h4.parco, h5.parco, h6.parco {
     font-family: var(--parco);
     font-weight: 500;
 }
@@ -46,6 +59,10 @@ html.dark-mode {
     .hero {
         background-size: 100vh;
     }
+
+    stellar-layout[padding="large"]:not(.hero) {
+        --padding: 2rem !important;
+    }
 }
 
 stellar-button {
@@ -57,4 +74,38 @@ stellar-button {
 
 stellar-button.secondary {
     --background: transparent;
+}
+
+app-header,
+app-footer {
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+    z-index: 2;
+}
+
+app-footer {
+    align-items: flex-start;
+}
+
+app-header > div.flex,
+app-footer > div.flex {
+    justify-content: space-between;
+}
+
+@media (max-width: 700px) {
+    app-header,
+    app-footer {
+        height: auto;
+        padding: 2rem 0;
+    }
+
+    app-header > div.flex,
+    app-footer > div.flex {
+        display: grid;
+        justify-content: space-evenly;
+        grid-gap: 1rem;
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
 }

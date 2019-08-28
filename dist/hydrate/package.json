@@ -1,0 +1,6 @@
+{
+  "name": "barcamp-events/hydrate",
+  "description": "app component hydration app built for a NodeJS environment.",
+  "main": "index.js",
+  "types": "index.d.ts"
+}
