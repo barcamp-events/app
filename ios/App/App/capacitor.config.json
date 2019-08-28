@@ -3,5 +3,5 @@
   "appName": "BarCamp Events",
   "bundledWebRuntime": true,
   "npmClient": "npm",
-  "webDir": "www"
+  "webDir": "public"
 }

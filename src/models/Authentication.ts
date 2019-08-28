@@ -4,10 +4,12 @@ import { User as FirebaseUser } from 'firebase'
 import User from './User';
 
 export const firebaseConfig = {
-    apiKey: "<@FIREBASE_API_KEY@>",
-    authDomain: "<@FIREBASE_AUTH_DOMAIN@>",
-    projectId: "<@FIREBASE_PROJECT_ID@>",
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
 };
+
+console.log(firebaseConfig);
 
 firebase.initializeApp(firebaseConfig)
 

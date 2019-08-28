@@ -1,10 +1,5 @@
 import { Config } from '@stencil/core';
-import replace from 'rollup-plugin-replace';
-
-const environment = process.env;
-console.log("FIREBASE_API_KEY", JSON.stringify(process.env.FIREBASE_API_KEY))
-console.log("FIREBASE_AUTH_DOMAIN", JSON.stringify(process.env.FIREBASE_AUTH_DOMAIN))
-console.log("FIREBASE_PROJECT_ID", JSON.stringify(process.env.FIREBASE_PROJECT_ID))
+import dotenvPlugin from 'rollup-plugin-dotenv'
 
 export const config: Config = {
   namespace: 'app',
@@ -39,8 +34,8 @@ export const config: Config = {
   outputTargets: [
     {
       type: 'www',
+      dir: "public",
       baseUrl: "https://beta.barcamp.events",
-      serviceWorker: null,
       copy: [
         { src: "svg/*.svg", dest: "./build/svg/" }
         { src: "assets/audio" },
@@ -53,13 +48,6 @@ export const config: Config = {
     }
   ],
   plugins: [
-    replace({
-      ENVIRONMENT: process.env.NODE_ENV || "development",
-      VERSION: process.env.VERSION || "0.0.0",
-      FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
-      FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
-      FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
-      delimiters: ['<@', '@>'],
-    })
+    dotenvPlugin()
   ]
 };

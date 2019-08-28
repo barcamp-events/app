@@ -1,19 +1,13 @@
 {
   "name": "BarCamp Events App",
   "version": 2,
-  "builds": [
-    {
-      "src": "./www/**",
-      "use": "@now/static"
-    }
-  ],
   "env": {
     "IS_NOW": "true"
   },
   "alias": ["beta.barcamp.events"],
   "routes": [
-    { "src": "/assets/(.*)", "dest": "/www/assets/$1" },
-    { "src": "/build/(.*)", "dest": "/www/build/$1" },
-    { "src": "/(.*)", "dest": "/www/index.html" }
+    { "src": "/assets/(.*)", "dest": "/public/assets/$1" },
+    { "src": "/build/(.*)", "dest": "/public/build/$1" },
+    { "src": "/(.*)", "dest": "/public/index.html" }
   ]
 }

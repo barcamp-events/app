@@ -7,8 +7,8 @@
     "develop:ios": "npx cap open ios",
     "develop:android": "npx cap open android",
     "develop:electron": "npx cap open electron",
-    "build": "stencil build --dev",
-    "build.prod": "stencil build --prod --prerender && npx cap copy",
+    "build": "stencil build --prod",
+    "build.prod": "stencil build --prod && npx cap copy",
     "start": "stencil build --dev --watch --serve",
     "start.prod": "stencil build --prod --watch --serve",
     "test": "jest",
@@ -37,7 +37,8 @@
     "@stencil/core": "^1.3.1",
     "@stencil/router": "^1.0.1",
     "@stencil/state-tunnel": "^1.0.1",
-    "firebase": "^5.5.3"
+    "firebase": "^5.5.3",
+    "rollup-plugin-dotenv": "^0.2.0"
   },
   "jest": {
     "preset": "@stencil/core/testing"
