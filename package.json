@@ -7,7 +7,7 @@
     "develop:ios": "npx cap open ios",
     "develop:android": "npx cap open android",
     "develop:electron": "npx cap open electron",
-    "build": "stencil build --prod",
+    "build": "NODE_ENV=production stencil build --prod",
     "build.prod": "stencil build --prod && npx cap copy",
     "start": "stencil build --dev --watch --serve",
     "start.prod": "stencil build --prod --watch --serve",
@@ -18,6 +18,9 @@
     "capacitor",
     "mobile"
   ],
+  "engines": {
+    "node": "10.x"
+  },
   "devDependencies": {
     "@types/jest": "^23.3.1",
     "jest": "^23.4.2",
@@ -32,7 +35,7 @@
     "@capacitor/core": "^1.1.1",
     "@capacitor/ios": "^1.1.1",
     "@rawmodel/core": "^3.0.0-alpha7",
-    "@stellar-design/core": "^1.2.8",
+    "@stellar-design/core": "^1.2.9",
     "@stellar-design/device": "^0.1.2",
     "@stencil/core": "^1.3.1",
     "@stencil/router": "^1.0.1",
