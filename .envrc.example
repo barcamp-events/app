@@ -1,3 +1,7 @@
-FIREBASE_API_KEY=example
-FIREBASE_AUTH_DOMAIN=example
-FIREBASE_PROJECT_ID=example
+export FIREBASE_API_KEY=example
+export FIREBASE_AUTH_DOMAIN=example
+export FIREBASE_DATABASE_URL=example
+export FIREBASE_PROJECT_ID=example
+export FIREBASE_STORAGE_BUCKET=example
+export FIREBASE_SENDER_ID=example
+export FIREBASE_APP_ID=example
