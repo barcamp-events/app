@@ -13,7 +13,9 @@ import {
 
 export namespace Components {
   interface AppFooter {}
-  interface AppHeader {}
+  interface AppHeader {
+    'user': User;
+  }
   interface BarcampApp {
     'history': RouterHistory;
   }
@@ -196,7 +198,9 @@ declare global {
 
 declare namespace LocalJSX {
   interface AppFooter extends JSXBase.HTMLAttributes<HTMLAppFooterElement> {}
-  interface AppHeader extends JSXBase.HTMLAttributes<HTMLAppHeaderElement> {}
+  interface AppHeader extends JSXBase.HTMLAttributes<HTMLAppHeaderElement> {
+    'user'?: User;
+  }
   interface BarcampApp extends JSXBase.HTMLAttributes<HTMLBarcampAppElement> {
     'history'?: RouterHistory;
   }

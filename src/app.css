@@ -70,7 +70,7 @@ html.dark-mode {
     }
 }
 
-stellar-button {
+stellar-button:not([ghost]) {
     --corners: 0.5rem;
     backdrop-filter: blur(5px);
     -webkit-clip-path: polygon(var(--corners) 0, calc(100% - var(--corners)) 0,100% var(--corners),100% calc(100% - var(--corners)),calc(100% - var(--corners)) 100%,var(--corners) 100%,0 calc(100% - var(--corners)),0 var(--corners));

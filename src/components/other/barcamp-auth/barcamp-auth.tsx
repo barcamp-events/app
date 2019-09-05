@@ -17,6 +17,8 @@ export class BarcampAuth {
 
   componentWillLoad() {
     Authentication.onAuthStateChanged(({user}) => {
+      console.log('come on', user);
+
       if (user) {
         const urlParams = new URLSearchParams(window.location.search);
         const redirect = urlParams.get('then') ? decodeURI(urlParams.get('then')) : '/'

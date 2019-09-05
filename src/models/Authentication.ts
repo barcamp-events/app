@@ -25,15 +25,10 @@ export default class Authentication {
 
   constructor () {
     firebase.auth().onAuthStateChanged(async (firebaseUser: FirebaseUser) => {
+      console.log("sup", firebaseUser);
       if (firebaseUser) {
         this.firebaseUser = firebaseUser;
-
-        if (!this.firebaseUser.emailVerified) {
-          this.signOut();
-          return;
-        }
-
-        this.user = await User.getByEmail(this.firebaseUser.email);
+        this.user = await User.get(this.firebaseUser.uid);
 
         if (!this.user) {
           this.signOut();
@@ -89,13 +84,15 @@ export default class Authentication {
   async createNewUser(email, password, profile) {
     let response = await firebase.auth().createUserWithEmailAndPassword(email, password);
 
-    await firebase.auth().currentUser.sendEmailVerification({
+    await response.user.sendEmailVerification({
       url: `${window.location.origin}/profile`,
     });
+    await response.user.updateProfile(profile);
+    User.create({email, ...profile})
 
-    await firebase.auth().currentUser.updateProfile(profile);
+    response = await firebase.auth().signInWithEmailAndPassword(email, password)
 
-    return response.user.uid;
+    return response.user;
   }
 
   async signIn(email: string, password: string) {

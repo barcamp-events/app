@@ -1,13 +1,13 @@
 {
-  "name": "App",
-  "short_name": "App",
-  "start_url": "index.html",
+  "name": "Stencil Starter",
+  "short_name": "Stencil",
+  "start_url": "/",
   "display": "standalone",
   "icons": [{
-    "src": "assets/images/logo.png",
+    "src": "assets/images/icon.png",
     "sizes": "512x512",
     "type": "image/png"
   }],
-  "background_color": "#31d53d",
-  "theme_color": "#31d53d"
+  "background_color": "#16161d",
+  "theme_color": "#16161d"
 }

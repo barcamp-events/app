@@ -13,5 +13,4 @@ export class BarcampSchedule {
       </Host>
     );
   }
-
 }

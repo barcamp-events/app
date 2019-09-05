@@ -1,16 +1,19 @@
-import { Component, Host, h, Prop, State } from '@stencil/core';
+import { Component, h, Prop, State } from '@stencil/core';
 import { RouterHistory } from '@stencil/router';
 import '@stellar-design/core';
 import '@stencil/router';
 import Authentication from '../../models/Authentication';
 import User from '../../models/User';
 import Event from '../../models/Event';
+import Tunnel from '../../tunnels/authentication'
 
 @Component({
   tag: 'barcamp-app'
 })
 export class BarcampApp {
   @Prop() history: RouterHistory;
+
+  @State() auth = new Authentication;
   @State() user: User;
   @State() event: Event;
 
@@ -82,40 +85,44 @@ export class BarcampApp {
   }
 
   render() {
+    const userState = {
+      user: this.user
+    };
+
     return (
-      <Host>
-        <stellar-theme body system />
-        <main>
-          <app-header />
-          <article>
-            <stencil-router>
-              <stencil-route-switch scrollTopOffset={0}>
-                <this.Route url='/docs/:name' component='barcamp-docs' />
-                <this.Route url='/auth' component='barcamp-auth' />
-                <this.Route url='/sign-out' component='barcamp-sign-out' />
+        <Tunnel.Provider state={userState}>
+          <stellar-theme body system />
+          <main>
+            <app-header />
+            <article>
+              <stencil-router>
+                <stencil-route-switch scrollTopOffset={0}>
+                  <this.Route url='/docs/:name' component='barcamp-docs' />
+                  <this.Route url='/auth' component='barcamp-auth' />
+                  <this.Route url='/sign-out' component='barcamp-sign-out' />
 
-                <this.PrivateRoute url='/host' component='barcamp-host-name-your-event' />
-                <this.PrivateEventManagerRoute url='/host/:eventId/budget' component='barcamp-host-set-budget' />
-                <this.PrivateEventManagerRoute url='/host/:eventId/venue' component='barcamp-host-find-venue' />
-                <this.PrivateEventManagerRoute url='/host/:eventId/agenda' component='barcamp-host-set-agenda' />
-                <this.PrivateEventManagerRoute url='/host/:eventId/sponsors' component='barcamp-host-find-sponsors' />
-                <this.PrivateEventManagerRoute url='/host/:eventId/volunteers' component='barcamp-host-volunteers' />
-                <this.PrivateEventManagerRoute url='/host/:eventId/format' component='barcamp-host-set-format' />
-                <this.PrivateEventManagerRoute url='/host/:eventId/branding' component='barcamp-host-branding' />
+                  <this.PrivateRoute url='/host' component='barcamp-host-name-your-event' />
+                  <this.PrivateEventManagerRoute url='/host/:eventId/budget' component='barcamp-host-set-budget' />
+                  <this.PrivateEventManagerRoute url='/host/:eventId/venue' component='barcamp-host-find-venue' />
+                  <this.PrivateEventManagerRoute url='/host/:eventId/agenda' component='barcamp-host-set-agenda' />
+                  <this.PrivateEventManagerRoute url='/host/:eventId/sponsors' component='barcamp-host-find-sponsors' />
+                  <this.PrivateEventManagerRoute url='/host/:eventId/volunteers' component='barcamp-host-volunteers' />
+                  <this.PrivateEventManagerRoute url='/host/:eventId/format' component='barcamp-host-set-format' />
+                  <this.PrivateEventManagerRoute url='/host/:eventId/branding' component='barcamp-host-branding' />
 
-                <this.Route url='/:eventSlug' component='barcamp-default-marketing' />
-                <this.Route url='/:eventSlug/:eventYear' component='barcamp-default-marketing' />
-                <this.PrivateRoute url='/:eventSlug/schedule' component='barcamp-schedule' />
-                <this.PrivateRoute url='/:eventSlug/:eventYear/schedule' component='barcamp-schedule' />
+                  <this.Route url='/:eventSlug' component='barcamp-default-marketing' />
+                  <this.Route url='/:eventSlug/:eventYear' component='barcamp-default-marketing' />
+                  <this.PrivateRoute url='/:eventSlug/schedule' component='barcamp-schedule' />
+                  <this.PrivateRoute url='/:eventSlug/:eventYear/schedule' component='barcamp-schedule' />
 
-                <this.PrivateRoute url='/dashboard' component='barcamp-dashboard' />
-                <this.Route url='/' component='barcamp-home' />
-              </stencil-route-switch>
-            </stencil-router>
-          </article>
-          <app-footer />
-        </main>
-      </Host>
+                  <this.PrivateRoute url='/dashboard' component='barcamp-dashboard' />
+                  <this.Route url='/' component='barcamp-home' />
+                </stencil-route-switch>
+              </stencil-router>
+            </article>
+            <app-footer />
+          </main>
+        </Tunnel.Provider>
     );
   }
 }
