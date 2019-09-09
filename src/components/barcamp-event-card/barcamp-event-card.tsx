@@ -21,12 +21,14 @@ export class BarcampEventCard {
     return (
       <Host>
         <stellar-card>
-          <header class="hero flex items-center justify-between">
-            <h5 class="parco">{this.conference.name || "BarCamp Undefined"}<small class="db fs7">At {this.conference.venue.address}</small></h5>
-            <div class="bg-white dm-bg-black flex flex-column tc br3 overflow-hidden shadow-1">
+          <header class="hero">
+            <stellar-grid class="items-center justify-between" style={{"grid-template-columns": "auto auto"}}>
+            <h5 class="parco">{this.conference.name || "BarCamp Undefined"}<small class="db fs7 theme-base2">At {this.conference.venue.address}</small></h5>
+            <div class="bg-white dm-bg-black flex flex-column tc br3 overflow-hidden shadow-1 mw3">
               <h6 class="pa2">9</h6>
               <h6 class="fs7 bg-theme-complement5 ma0 ph3 pv2 parco fw6 theme-complement0">Nov</h6>
             </div>
+            </stellar-grid>
           </header>
           <section>
             <copy-wrap>

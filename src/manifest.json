@@ -1,10 +1,10 @@
 {
-  "name": "Stencil Starter",
-  "short_name": "Stencil",
+  "name": "BarCamp Events",
+  "short_name": "Events",
   "start_url": "/",
   "display": "standalone",
   "icons": [{
-    "src": "assets/images/icon.png",
+    "src": "assets/images/logo.png",
     "sizes": "512x512",
     "type": "image/png"
   }],

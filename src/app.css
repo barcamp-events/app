@@ -1,9 +1,12 @@
 @import "../node_modules/@stellar-design/core/dist/stellar-core/stellar-core.css";
-@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,500,600,700&display=swap');
+@import "./assets/fonts/work/work.css";
 @import "./assets/fonts/parco/parco.css";
 
 :root {
     --inter: "Work Sans", sans-serif;
+    --font-body: var(--inter);
+    --font-heading: var(--inter);
+    --font-system: var(--inter);
 }
 
 :root{--ms-base:12px;--ms-ratio: var(--minor-second);}

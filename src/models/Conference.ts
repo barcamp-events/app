@@ -127,9 +127,15 @@ export default class Conference extends Model {
 		})
 	}
 
-	static async onChange(key, cb) {
-		Conference.doc(key).onSnapshot(docSnapshot => {
-			cb(docSnapshot.data())
+	static async onNew(cb) {
+		Conference.collection.onSnapshot(querySnapshot => {
+			var conferences = [];
+
+			querySnapshot.forEach(function(doc) {
+				conferences.push(new Conference(doc.data()));
+			});
+
+			cb(conferences)
 		})
 	}
 }

@@ -48,12 +48,6 @@ export class BarcampProfile {
     return <Host>
     <stencil-route-title title="Sign up or Sign in" />
     <stellar-layout class="hero" size="flush" padding="medium">
-      <stellar-layout>
-        <copy-wrap align="center">
-          <h1 class="parco i">{this.user.displayName}</h1>
-          <h6>{this.user.bio}</h6>
-        </copy-wrap>
-      </stellar-layout>
       <stellar-layout size="small">
         <stellar-card id="profile" flippable={this.success} flip_icon={undefined}>
           <header>
