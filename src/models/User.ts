@@ -1,40 +1,42 @@
 import firebase from 'firebase';
 import { Model, prop } from './Model';
-import Image from './Image';
+import { MD5 } from './utils';
 
 export default class User extends Model {
 	static bucket = "users/";
 	static size = 10;
 
-    @prop()
-    name;
+	constructor(data?, config?) {
+		super(data, config);
 
-    @prop()
-    public email: string;
+		this.onChange((data) => {
+			this.populate(data);
+		})
+	}
 
-    @prop()
-    public firebaseUID: string;
+	@prop()
+	public displayName: string;
 
-    @prop()
-	key;
+	@prop()
+	public email: string;
 
-    @prop()
-	social;
+	@prop()
+	public key: string;
 
-    @prop()
-	images;
+	@prop()
+	public social;
 
-    @prop()
-	birthday;
+	@prop({defaultValue: "violet"})
+	public color: string = "violet";
 
-    @prop()
-	description;
+	@prop({emptyValue: false})
+	public dark_mode: boolean;
 
-    @prop()
-	privacy;
+	@prop({emptyValue: false})
+	public reduced_motion;
 
-    @prop()
-	stripe_customer;
+	@prop()
+	public bio;
 
 	link(platform) {
 		let url;
@@ -48,13 +50,20 @@ export default class User extends Model {
 		}
 
 		return url;
-    }
+	}
 
-    public loggedIn() {}
+	onChange(callback) {
+		User.onChange(this.key, callback.bind(this))
+	}
 
-	get_profile_picture() {
-		const image = new Image(this.images[0])
-		return image.url
+	public loggedIn() {}
+
+	get profile_picture() {
+		return 'http://www.gravatar.com/avatar/' + MD5(this.email) + '.jpg?s=200&d=blank';
+	}
+
+	get is_usable () {
+		return this.key && this.displayName && this.email;
 	}
 
 	static async current() {
@@ -67,60 +76,69 @@ export default class User extends Model {
 		return false;
 	}
 
-    // MODEL METHODS
-    async save() {
-        try {
-            this.commit();
-            const user = await User.update(this);
-            this.populate(user);
-            this.commit();
-        } catch (e) {
-            this.rollback()
-        }
-    }
+	// MODEL METHODS
+	async save() {
+		try {
+			this.commit();
+			const user = await User.update(this);
+			this.populate(user);
+			this.commit();
+		} catch (e) {
+			this.rollback()
+		}
+	}
 
-    static get ref () {
-        return firebase.firestore()
-    }
+	static get ref () {
+		return firebase.firestore()
+	}
 
-    static get doc () {
-        return User.ref.doc(User.bucket)
-    }
+	static doc (key) {
+		return User.collection.doc(key)
+	}
 
-    static get collection () {
-        return firebase.firestore().collection(User.bucket)
-    }
+	static get collection () {
+		return firebase.firestore().collection(User.bucket)
+	}
 
-    static async get(key: string): Promise<User> {
-		let data = (await User.ref.doc(key).get()).data();
+	static async get(key: string): Promise<User> {
+		let data = (await User.collection.doc(key).get()).data();
 		const user = new User(data)
 		user.key = key;
 		return user
-    }
+	}
 
-    static async list() {
+	static async list() {
 		return await User.collection.limit(User.size).get();
-    }
+	}
 
-    static async create(data) {
-        const key = firebase.auth().currentUser.uid;
+	static async create(data) {
+		const key = data.key;
 		const user = new User({ ...data, key })
-		return await User.ref.doc(key).set(user.serialize());
-    }
+		await User.doc(key).set(user.serialize());
+		return user;
+	}
 
-    static async update(user: User) {
+	static async update(user: User) {
 		if (user) {
-            const ref = User.ref.doc(user.key)
+			const ref = User.doc(user.key)
 
-            await ref.update({
-                ...user.serialize(),
-                updated: firebase.firestore.FieldValue.serverTimestamp()
-            });
+			await ref.update({
+				...user.serialize(),
+				updated: firebase.firestore.FieldValue.serverTimestamp()
+			});
 		}
-    }
+	}
 
-    static async delete(key) {
-        const ref = User.ref.doc(key)
+	static async delete(key) {
+		const ref = User.ref.doc(key)
 		await ref.delete();
-    }
+	}
+
+	static async onChange(key, cb) {
+		User.doc(key).onSnapshot(docSnapshot => {
+			cb(docSnapshot.data())
+		})
+	}
 }
+
+window["User"] = User;

@@ -28,6 +28,9 @@ export namespace Components {
     'history': RouterHistory;
     'match': MatchResults;
   }
+  interface BarcampEventCard {
+    'conference': Conference;
+  }
   interface BarcampForgotPassword {}
   interface BarcampHome {}
   interface BarcampHostBranding {}
@@ -38,6 +41,7 @@ export namespace Components {
   interface BarcampHostSetAgenda {}
   interface BarcampHostSetBudget {}
   interface BarcampHostSetFormat {}
+  interface BarcampProfile {}
   interface BarcampSchedule {}
   interface BarcampScheduleSignup {}
   interface BarcampSignOut {
@@ -93,6 +97,12 @@ declare global {
   var HTMLBarcampDocsElement: {
     prototype: HTMLBarcampDocsElement;
     new (): HTMLBarcampDocsElement;
+  };
+
+  interface HTMLBarcampEventCardElement extends Components.BarcampEventCard, HTMLStencilElement {}
+  var HTMLBarcampEventCardElement: {
+    prototype: HTMLBarcampEventCardElement;
+    new (): HTMLBarcampEventCardElement;
   };
 
   interface HTMLBarcampForgotPasswordElement extends Components.BarcampForgotPassword, HTMLStencilElement {}
@@ -155,6 +165,12 @@ declare global {
     new (): HTMLBarcampHostSetFormatElement;
   };
 
+  interface HTMLBarcampProfileElement extends Components.BarcampProfile, HTMLStencilElement {}
+  var HTMLBarcampProfileElement: {
+    prototype: HTMLBarcampProfileElement;
+    new (): HTMLBarcampProfileElement;
+  };
+
   interface HTMLBarcampScheduleElement extends Components.BarcampSchedule, HTMLStencilElement {}
   var HTMLBarcampScheduleElement: {
     prototype: HTMLBarcampScheduleElement;
@@ -180,6 +196,7 @@ declare global {
     'barcamp-dashboard': HTMLBarcampDashboardElement;
     'barcamp-default-marketing': HTMLBarcampDefaultMarketingElement;
     'barcamp-docs': HTMLBarcampDocsElement;
+    'barcamp-event-card': HTMLBarcampEventCardElement;
     'barcamp-forgot-password': HTMLBarcampForgotPasswordElement;
     'barcamp-home': HTMLBarcampHomeElement;
     'barcamp-host-branding': HTMLBarcampHostBrandingElement;
@@ -190,6 +207,7 @@ declare global {
     'barcamp-host-set-agenda': HTMLBarcampHostSetAgendaElement;
     'barcamp-host-set-budget': HTMLBarcampHostSetBudgetElement;
     'barcamp-host-set-format': HTMLBarcampHostSetFormatElement;
+    'barcamp-profile': HTMLBarcampProfileElement;
     'barcamp-schedule': HTMLBarcampScheduleElement;
     'barcamp-schedule-signup': HTMLBarcampScheduleSignupElement;
     'barcamp-sign-out': HTMLBarcampSignOutElement;
@@ -213,6 +231,9 @@ declare namespace LocalJSX {
     'history'?: RouterHistory;
     'match'?: MatchResults;
   }
+  interface BarcampEventCard extends JSXBase.HTMLAttributes<HTMLBarcampEventCardElement> {
+    'conference'?: Conference;
+  }
   interface BarcampForgotPassword extends JSXBase.HTMLAttributes<HTMLBarcampForgotPasswordElement> {}
   interface BarcampHome extends JSXBase.HTMLAttributes<HTMLBarcampHomeElement> {}
   interface BarcampHostBranding extends JSXBase.HTMLAttributes<HTMLBarcampHostBrandingElement> {}
@@ -223,6 +244,7 @@ declare namespace LocalJSX {
   interface BarcampHostSetAgenda extends JSXBase.HTMLAttributes<HTMLBarcampHostSetAgendaElement> {}
   interface BarcampHostSetBudget extends JSXBase.HTMLAttributes<HTMLBarcampHostSetBudgetElement> {}
   interface BarcampHostSetFormat extends JSXBase.HTMLAttributes<HTMLBarcampHostSetFormatElement> {}
+  interface BarcampProfile extends JSXBase.HTMLAttributes<HTMLBarcampProfileElement> {}
   interface BarcampSchedule extends JSXBase.HTMLAttributes<HTMLBarcampScheduleElement> {}
   interface BarcampScheduleSignup extends JSXBase.HTMLAttributes<HTMLBarcampScheduleSignupElement> {}
   interface BarcampSignOut extends JSXBase.HTMLAttributes<HTMLBarcampSignOutElement> {
@@ -237,6 +259,7 @@ declare namespace LocalJSX {
     'barcamp-dashboard': BarcampDashboard;
     'barcamp-default-marketing': BarcampDefaultMarketing;
     'barcamp-docs': BarcampDocs;
+    'barcamp-event-card': BarcampEventCard;
     'barcamp-forgot-password': BarcampForgotPassword;
     'barcamp-home': BarcampHome;
     'barcamp-host-branding': BarcampHostBranding;
@@ -247,6 +270,7 @@ declare namespace LocalJSX {
     'barcamp-host-set-agenda': BarcampHostSetAgenda;
     'barcamp-host-set-budget': BarcampHostSetBudget;
     'barcamp-host-set-format': BarcampHostSetFormat;
+    'barcamp-profile': BarcampProfile;
     'barcamp-schedule': BarcampSchedule;
     'barcamp-schedule-signup': BarcampScheduleSignup;
     'barcamp-sign-out': BarcampSignOut;

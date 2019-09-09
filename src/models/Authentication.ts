@@ -1,5 +1,10 @@
+import '@firebase/performance';
+import '@firebase/app';
+import '@firebase/auth';
+import '@firebase/firestore';
+import '@firebase/functions';
+import '@stencil/router';
 import firebase from 'firebase/app';
-import 'firebase/auth';
 import { User as FirebaseUser } from 'firebase'
 import User from './User';
 
@@ -24,19 +29,18 @@ export default class Authentication {
   user: User = undefined;
 
   constructor () {
-    firebase.auth().onAuthStateChanged(async (firebaseUser: FirebaseUser) => {
-      console.log("sup", firebaseUser);
+    firebase.auth().onAuthStateChanged(async (firebaseUser) => {
       if (firebaseUser) {
         this.firebaseUser = firebaseUser;
         this.user = await User.get(this.firebaseUser.uid);
 
-        if (!this.user) {
-          this.signOut();
+        if (!this.user.is_usable) {
           return;
         }
 
-        this.user.firebaseUID = this.firebaseUser.uid;
+        this.user.key = this.firebaseUser.uid;
         this.user.loggedIn();
+        console.log("logged in", this.user);
       } else {
         this.firebaseUser = undefined;
         this.user = undefined;
@@ -83,16 +87,19 @@ export default class Authentication {
 
   async createNewUser(email, password, profile) {
     let response = await firebase.auth().createUserWithEmailAndPassword(email, password);
+    this.signOut();
 
     await response.user.sendEmailVerification({
       url: `${window.location.origin}/profile`,
     });
     await response.user.updateProfile(profile);
-    User.create({email, ...profile})
 
-    response = await firebase.auth().signInWithEmailAndPassword(email, password)
+    const user = await User.create({email, key: response.user.uid, ...profile});
+    this.user = user;
 
-    return response.user;
+    await this.signIn(email, password);
+
+    return user;
   }
 
   async signIn(email: string, password: string) {
@@ -102,7 +109,6 @@ export default class Authentication {
   }
 
   signOut() {
-    sessionStorage.clear()
     firebase.auth().signOut()
   }
 }

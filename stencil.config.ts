@@ -5,6 +5,12 @@ export const config: Config = {
   namespace: 'app',
   preamble: 'BarCamp Events',
   globalStyle: "./src/app.css",
+  commonjs: {
+    namedExports: {
+      './node_modules/idb/build/idb.js': ['openDb'],
+      './node_modules/firebase/dist/index.cjs.js': ['initializeApp', 'firestore']
+    }
+  },
   testing: {
     emulate: [
       { device: "iPad" },
@@ -58,6 +64,7 @@ export const config: Config = {
       FIREBASE_PROJECT_ID: process.env.FIREBASE_PROJECT_ID,
       FIREBASE_STORAGE_BUCKET: process.env.FIREBASE_STORAGE_BUCKET,
       FIREBASE_SENDER_ID: process.env.FIREBASE_SENDER_ID,
+      GOOGLE_PLACES_API: process.env.GOOGLE_PLACES_API,
       delimiters: ['<@', '@>'],
     })
   ]

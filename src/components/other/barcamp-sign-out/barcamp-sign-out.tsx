@@ -12,14 +12,14 @@ export class BarcampSignOut {
   async componentWillLoad() {
     if (this.auth.authenticated()) {
       await this.auth.signOut();
-      this.history.push(`/sign-in`, {});
+      this.history.push(`/auth`, {});
     }
   }
 
   async componentDidLoad() {
     if (this.auth.authenticated()) {
       await this.auth.signOut();
-      this.history.push(`/sign-in`, {});
+      this.history.push(`/auth`, {});
     }
   }
 }

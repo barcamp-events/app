@@ -4,8 +4,10 @@ import '@stellar-design/core';
 import '@stencil/router';
 import Authentication from '../../models/Authentication';
 import User from '../../models/User';
-import Event from '../../models/Event';
-import Tunnel from '../../tunnels/authentication'
+import Conference from '../../models/Conference';
+import Tunnel from '../../tunnels/authentication';
+
+const components = "app-header, app-footer, barcamp-app, barcamp-profile";
 
 @Component({
   tag: 'barcamp-app'
@@ -15,11 +17,19 @@ export class BarcampApp {
 
   @State() auth = new Authentication;
   @State() user: User;
-  @State() event: Event;
+  @State() conference: Conference;
 
   componentWillLoad() {
     Authentication.onAuthStateChanged(({user}) => {
       this.user = user;
+
+      if (this.user) {
+        this.user.onChange(() => {
+          document.querySelectorAll(components).forEach((component: any) => {
+            component.forceUpdate();
+          })
+        })
+      }
     })
   }
 
@@ -74,7 +84,7 @@ export class BarcampApp {
         (props: { [key: string]: any}) => {
           this.updateClass(Component);
 
-          if (this.user && this.event && this.event.isManagedBy(this.user)) {
+          if (this.user && this.conference && this.conference.isManagedBy(this.user)) {
             return <Component {...props} {...props.componentProps} />;
           }
 
@@ -91,7 +101,7 @@ export class BarcampApp {
 
     return (
         <Tunnel.Provider state={userState}>
-          <stellar-theme body system />
+          <stellar-theme body system base={this.user && this.user.color || "violet"} complement={this.user && this.user.color || "violet"} dark={this.user && this.user.dark_mode} />
           <main>
             <app-header />
             <article>
@@ -101,6 +111,9 @@ export class BarcampApp {
                   <this.Route url='/auth' component='barcamp-auth' />
                   <this.Route url='/sign-out' component='barcamp-sign-out' />
 
+                  <this.PrivateRoute url='/dashboard' component='barcamp-dashboard' />
+
+                  <this.PrivateRoute url='/profile' component='barcamp-profile' />
                   <this.PrivateRoute url='/host' component='barcamp-host-name-your-event' />
                   <this.PrivateEventManagerRoute url='/host/:eventId/budget' component='barcamp-host-set-budget' />
                   <this.PrivateEventManagerRoute url='/host/:eventId/venue' component='barcamp-host-find-venue' />
@@ -115,7 +128,6 @@ export class BarcampApp {
                   <this.PrivateRoute url='/:eventSlug/schedule' component='barcamp-schedule' />
                   <this.PrivateRoute url='/:eventSlug/:eventYear/schedule' component='barcamp-schedule' />
 
-                  <this.PrivateRoute url='/dashboard' component='barcamp-dashboard' />
                   <this.Route url='/' component='barcamp-home' />
                 </stencil-route-switch>
               </stencil-router>

@@ -1,5 +1,7 @@
 import firebase from 'firebase';
 import { Model, prop } from './Model';
+import { Plugins } from '@capacitor/core';
+import Maps from './Maps';
 
 export default class Location extends Model {
 	static bucket = "location/";
@@ -8,52 +10,107 @@ export default class Location extends Model {
     @prop()
     key;
 
+    // Geo
+    @prop()
+    accuracy;
+
+    // Geo
     @prop()
 	latitude;
 
+    // Geo
     @prop()
-	longitude;
+    longitude;
 
-    @prop()
-	altitude;
-
-    @prop()
-	accuracy;
-
-    @prop()
-	city;
-
-    @prop()
-	street;
-
-    @prop()
-	region;
-
-    @prop()
-	postalCode;
-
-    @prop()
-	country;
-
-    @prop()
-	name;
-
+    // Geo
     @prop()
     timestamp;
 
+    // Reverse Lookup
+    @prop()
+	city;
 
-    async reverse_lookup() {
-        //
-	}
+    // Reverse Lookup
+    @prop()
+	street;
 
-	static async retrieve_current_position() {
-        //
+    // Reverse Lookup
+    @prop()
+	region;
+
+    // Reverse Lookup
+    @prop()
+	postalCode;
+
+    // Reverse Lookup
+    @prop()
+    state;
+
+    // Reverse Lookup
+    @prop()
+    country;
+
+    // Reverse Lookup
+    @prop()
+    place_id;
+
+    // Reverse Lookup
+    @prop({emptyValue: "no name"})
+    name;
+
+    // Reverse Lookup
+    @prop()
+	address;
+
+    // Reverse Lookup
+    @prop()
+	url;
+
+    static async getCurrentCity() {
+        const { Geolocation } = Plugins;
+        const position = await Geolocation.getCurrentPosition();
+        const reverseLookup = await Location.reverseLookup(position.coords);
+
+        return new Location({
+            timestamp: position.timestamp,
+            accuracy: position.coords.accuracy,
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            address: reverseLookup.formatted_address,
+            name: reverseLookup.address_components[0].long_name + " " + reverseLookup.address_components[2].long_name,
+            city: reverseLookup.address_components[0],
+            region: reverseLookup.address_components[1],
+            state: reverseLookup.address_components[2],
+            country: reverseLookup.address_components[3],
+            place_id: reverseLookup.place_id
+        });
+    }
+
+    static async getByAddress(address) {
+        const position = await Location.find(address);
+
+        const reverseLookup = await Location.reverseLookup({
+            latitude: position.geometry.location.lat,
+            longitude: position.geometry.location.lng
+        }, "street_address");
+
+        return new Location({
+            latitude: position.geometry.location.lat,
+            longitude: position.geometry.location.lng,
+            name: position.name,
+            address: reverseLookup.formatted_address,
+            place_id: position.place_id,
+            url: position.url
+        });
     }
 
 	static async find(address) {
-        console.log(address)
-	}
+        return await Maps.search_place(address)
+    }
 
+    static async reverseLookup({latitude, longitude}, level = "locality") {
+        return await Maps.reverse_geocode(latitude, longitude, level);
+    }
 
     // MODEL METHODS
     async save() {
@@ -111,3 +168,5 @@ export default class Location extends Model {
 		await ref.delete();
     }
 }
+
+window["BarCampLocation"] = Location
