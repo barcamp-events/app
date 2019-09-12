@@ -186,5 +186,3 @@ export default class Talk extends Model {
 		})
 	}
 }
-
-window["Talk"] = Talk;

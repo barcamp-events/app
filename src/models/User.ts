@@ -213,5 +213,3 @@ export default class User extends Model {
 		})
 	}
 }
-
-window["User"] = User;

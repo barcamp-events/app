@@ -168,5 +168,3 @@ export default class Location extends Model {
 		await ref.delete();
     }
 }
-
-window["BarCampLocation"] = Location

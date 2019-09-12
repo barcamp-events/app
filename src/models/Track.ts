@@ -191,5 +191,3 @@ export default class Track extends Model {
 		})
 	}
 }
-
-window["Track"] = Track;

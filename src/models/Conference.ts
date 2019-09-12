@@ -277,5 +277,3 @@ export default class Conference extends Model {
 		})
 	}
 }
-
-window["Conference"] = Conference;
