@@ -6,6 +6,7 @@ import Maps from './Maps';
 import slugify from 'slugify';
 import Dayjs from 'dayjs'
 import Track from './Track';
+import Sponsor, { SponsorList } from './Sponsor';
 
 export default class Conference extends Model {
 	static bucket = "conference/";
@@ -36,14 +37,23 @@ export default class Conference extends Model {
 	@prop({ })
 	public slug: string;
 
-	@prop({})
+	@prop({ defaultValue: false, emptyValue: false })
+	public approved: boolean;
+
+	@prop({cast: {handler: Location}})
 	public venue: Location;
 
 	@prop({defaultValue: [], emptyValue: []})
-	public tracks: string[] = [];
+	public tracks: string[];
 
 	@prop({defaultValue: [], emptyValue: []})
-	public attendees: string[] = [];
+	public attendees: string[];
+
+	@prop({defaultValue: [], emptyValue: []})
+	public agenda: Agenda[];
+
+	@prop({defaultValue: [], emptyValue: []})
+	public sponsors: string[];
 
 	@prop({
 		defaultValue: Dayjs().set('hour', 8).set('second', 0).set('minute', 0).set('millisecond', 0),
@@ -86,6 +96,20 @@ export default class Conference extends Model {
 		}
 	}
 
+	async addSponsor(sponsor: Sponsor) {
+		if (!this.is_sponsoring(sponsor)) {
+			this.sponsors = [...this.sponsors, sponsor.key];
+			return await this.save()
+		}
+	}
+
+	async removeSponsor(sponsor: Sponsor) {
+		if (this.is_sponsoring(sponsor)) {
+			this.sponsors = this.sponsors.filter((key) => { return sponsor.key !== key });
+			return await this.save()
+		}
+	}
+
 	updateSlug() {
 		this.slug = slugify(this.name).toLowerCase();
 	}
@@ -96,6 +120,10 @@ export default class Conference extends Model {
 
 	is_user_attending(user: User) {
 		return this.attendees.includes(user.key)
+	}
+
+	is_sponsoring(sponsor: Sponsor) {
+		return this.sponsors.includes(sponsor.key)
 	}
 
 	get slots() {
@@ -119,12 +147,34 @@ export default class Conference extends Model {
 	async theTracks(): Promise<Track[]> {
 		const tracks = [];
 
-		await asyncForEach(this.tracks, async (key) => {
+		await asyncForEach(this.tracks, async (key, index) => {
 			const track = await Track.get(key);
-			tracks.push(track);
+			tracks[index] = track;
 		})
 
 		return tracks;
+	}
+
+	async theSponsors(): Promise<SponsorList> {
+		const sponsors = [];
+
+		await asyncForEach(this.sponsors, async (key, index) => {
+			const sponsor = await Sponsor.get(key);
+			sponsors[index] = sponsor;
+		});
+
+		return new SponsorList(sponsors);
+	}
+
+	async theAttendees(): Promise<User[]> {
+		const users = [];
+
+		await asyncForEach(this.attendees, async (key, index) => {
+			const user = await User.get(key);
+			users[index] = user;
+		});
+
+		return users;
 	}
 
 	// MODEL METHODS
@@ -207,7 +257,7 @@ export default class Conference extends Model {
 
 	static async list() {
 		let conferences = [];
-		let result = await Conference.collection.limit(Conference.size).get();
+		let result = await Conference.collection.where("approved", "==", true).limit(Conference.size).get();
 
 		result.forEach((doc) => {
 			conferences.push(new Conference(doc.data()))
@@ -266,7 +316,7 @@ export default class Conference extends Model {
 	}
 
 	static async onNew(cb) {
-		Conference.collection.onSnapshot(querySnapshot => {
+		Conference.collection.where("approved", "==", true).onSnapshot(querySnapshot => {
 			var conferences = [];
 
 			querySnapshot.forEach(function(doc) {
@@ -277,3 +327,5 @@ export default class Conference extends Model {
 		})
 	}
 }
+
+window["Conference"] = Conference;

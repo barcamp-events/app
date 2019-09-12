@@ -16,50 +16,51 @@ export default class User extends Model {
 	}
 
 	@prop({
-		populatable: ['firebase']
+		serializable: ['firebase']
 	})
 	public displayName: string;
 
 	@prop({
-		populatable: ['firebase']
+		serializable: ['firebase']
 	})
 	public email: string;
 
 	@prop({
-		populatable: ['firebase']
+		serializable: ['firebase']
 	})
 	public key: string;
 
 	@prop({
-		populatable: ['firebase']
+		serializable: ['firebase']
 	})
 	public social;
 
 	@prop({
 		defaultValue: "violet",
-		populatable: ['firebase']
+		emptyValue: "violet",
+		serializable: ['firebase']
 	})
-	public color: string = "violet";
+	public color: string;
 
 	@prop({
 		emptyValue: false,
-		populatable: ['firebase']
+		serializable: ['firebase']
 	})
 	public dark_mode: boolean;
 
 	@prop({
 		emptyValue: false,
-		populatable: ['firebase']
+		serializable: ['firebase']
 	})
 	public reduced_motion;
 
 	@prop({
-		populatable: ['firebase']
+		serializable: ['firebase']
 	})
 	public bio;
 
 	@prop({
-		populatable: []
+		serializable: []
 	})
 	public location;
 
@@ -154,6 +155,8 @@ export default class User extends Model {
 	static async update(user: User) {
 		if (user) {
 			const ref = User.doc(user.key)
+
+			console.log(user.serialize('firebase'));
 
 			await ref.update({
 				...user.serialize('firebase'),

@@ -48,6 +48,12 @@ h1.parco, h2.parco, h3.parco, h4.parco, h5.parco, h6.parco {
     font-weight: 500;
 }
 
+h1.parco.alt, h2.parco.alt, h3.parco.alt, h4.parco.alt, h5.parco.alt, h6.parco.alt {
+    font-family: var(--parco);
+    font-weight: 200;
+    font-style: italic;
+}
+
 html.dark-mode {
     background: var(--black)
 }

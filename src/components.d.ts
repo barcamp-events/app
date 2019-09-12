@@ -53,6 +53,9 @@ export namespace Components {
   interface BarcampSignOut {
     'history': RouterHistory;
   }
+  interface BarcampSponsor {
+    'sponsor': Sponsor;
+  }
 }
 
 declare global {
@@ -194,6 +197,12 @@ declare global {
     prototype: HTMLBarcampSignOutElement;
     new (): HTMLBarcampSignOutElement;
   };
+
+  interface HTMLBarcampSponsorElement extends Components.BarcampSponsor, HTMLStencilElement {}
+  var HTMLBarcampSponsorElement: {
+    prototype: HTMLBarcampSponsorElement;
+    new (): HTMLBarcampSponsorElement;
+  };
   interface HTMLElementTagNameMap {
     'app-footer': HTMLAppFooterElement;
     'app-header': HTMLAppHeaderElement;
@@ -217,6 +226,7 @@ declare global {
     'barcamp-schedule': HTMLBarcampScheduleElement;
     'barcamp-schedule-signup': HTMLBarcampScheduleSignupElement;
     'barcamp-sign-out': HTMLBarcampSignOutElement;
+    'barcamp-sponsor': HTMLBarcampSponsorElement;
   }
 }
 
@@ -260,6 +270,9 @@ declare namespace LocalJSX {
   interface BarcampSignOut extends JSXBase.HTMLAttributes<HTMLBarcampSignOutElement> {
     'history'?: RouterHistory;
   }
+  interface BarcampSponsor extends JSXBase.HTMLAttributes<HTMLBarcampSponsorElement> {
+    'sponsor'?: Sponsor;
+  }
 
   interface IntrinsicElements {
     'app-footer': AppFooter;
@@ -284,6 +297,7 @@ declare namespace LocalJSX {
     'barcamp-schedule': BarcampSchedule;
     'barcamp-schedule-signup': BarcampScheduleSignup;
     'barcamp-sign-out': BarcampSignOut;
+    'barcamp-sponsor': BarcampSponsor;
   }
 }
 

@@ -64,7 +64,11 @@ export default class Location extends Model {
 
     // Reverse Lookup
     @prop()
-	url;
+    url;
+
+    get directions() {
+        return `https://www.google.com/maps/dir/?api=1&destination_place_id=${this.place_id}`;
+    }
 
     static async getCurrentCity() {
         const { Geolocation } = Plugins;
@@ -168,3 +172,6 @@ export default class Location extends Model {
 		await ref.delete();
     }
 }
+
+
+window["BarCampLocation"] = Location;

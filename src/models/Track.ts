@@ -27,6 +27,9 @@ export default class Track extends Model {
 	@prop({})
 	public image: string;
 
+	@prop({defaultValue: "Churn, MRR, fundraising, or even the lemonade stand you ran when you were a kid are all fair game. This is a great place to talk about ways to build epic things and/or getting dat paper."})
+	public description: string;
+
 	@prop({defaultValue: [], emptyValue: []})
 	public talks: string[];
 
