@@ -11,7 +11,7 @@ export class BarcampHome {
           <copy-wrap align="center">
             <h1 class="fs-massive parco">Share your Passion!</h1>
             <p class="mb4">BarCamp is an un-conference organized in your community, by your community. Make new friends or catch up with old ones at one of the world’s best&nbsp;events.</p>
-            <div class="flex items-center">
+            <div class="inline-flex flex items-center">
               <stellar-button>Attend an Event</stellar-button>
               <stellar-button class="ml4 secondary">Host an Event</stellar-button>
             </div>
@@ -66,7 +66,7 @@ export class BarcampHome {
           <copy-wrap align="center">
             <h3 class="fs-large parco"><stellar-animate-text words method="jump">Sponsor Your Local&nbsp;BarCamp</stellar-animate-text></h3>
             <p class="mb4">BarCamp Events are organized by people n your community. When you sponsor a BarCamp, that money goes directly to those folks, and they don’t have to deal with the&nbsp;taxes. </p>
-            <div class="flex items-center">
+            <div class="inline-flex items-center">
               <stellar-button>Learn more</stellar-button>
               <stellar-button class="ml4 secondary">Host an Event</stellar-button>
             </div>
