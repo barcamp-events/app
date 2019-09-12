@@ -43,7 +43,7 @@ export const config: Config = {
       dir: "public",
       baseUrl: "https://beta.barcamp.events",
       copy: [
-        { src: "svg/*.svg", dest: "./build/svg/" }
+        { src: "svg/*.svg", dest: "./build/svg/" },
         { src: "assets/audio" },
         { src: "assets/fonts" },
         { src: "assets/images" },
