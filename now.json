@@ -20,7 +20,7 @@
       "FIREBASE_SENDER_ID": "@firebase-sender-id",
       "FIREBASE_APP_ID": "@firebase-app-id",
       "GOOGLE_PLACES_API": "@google-places-api",
-      "GOOGLE_MAPS_API": "@google-maps-api",
+      "GOOGLE_MAPS_API": "@google-maps-api"
     }
   },
   "env": {
