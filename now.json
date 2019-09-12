@@ -2,9 +2,15 @@
   "name": "BarCamp Events App",
   "version": 2,
   "builds": [
-    {
+{
       "src": "package.json",
       "use": "@now/static-build",
+      "config": {
+        "distDir": "public"
+      }
+    },
+    {
+      "use": "@now/static",
       "config": {
         "distDir": "public"
       }
@@ -30,6 +36,6 @@
   "routes": [
     { "src": "/assets/(.*)", "dest": "public/assets/$1" },
     { "src": "/build/(.*)", "dest": "public/build/$1" },
-    { "src": "/(.*)", "dest": "public/index.html" }
+    { "src": "^/(.*)", "dest": "public/index.html" }
   ]
 }
