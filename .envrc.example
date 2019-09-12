@@ -5,3 +5,5 @@ export FIREBASE_PROJECT_ID=example
 export FIREBASE_STORAGE_BUCKET=example
 export FIREBASE_SENDER_ID=example
 export FIREBASE_APP_ID=example
+export GOOGLE_PLACES_API=example
+export GOOGLE_MAPS_API=example

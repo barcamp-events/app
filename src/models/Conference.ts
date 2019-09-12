@@ -1,10 +1,11 @@
 import firebase from 'firebase';
-import { Model, prop } from './Model';
+import { Model, prop, asyncForEach } from './Model';
 import Location from './Location'
 import User from './User';
 import Maps from './Maps';
 import slugify from 'slugify';
 import Dayjs from 'dayjs'
+import Track from './Track';
 
 export default class Conference extends Model {
 	static bucket = "conference/";
@@ -39,6 +40,9 @@ export default class Conference extends Model {
 	public venue: Location;
 
 	@prop({defaultValue: [], emptyValue: []})
+	public tracks: string[] = [];
+
+	@prop({defaultValue: [], emptyValue: []})
 	public attendees: string[] = [];
 
 	@prop({
@@ -57,8 +61,15 @@ export default class Conference extends Model {
 	})
 	public end: Dayjs.Dayjs;
 
+	@prop({defaultValue: 30, emptyValue: 30})
+	public talk_length: number;
+
 	onChange(callback) {
 		Conference.onChange(this.key, callback.bind(this))
+	}
+
+	async prepare() {
+		await this.createTracks()
 	}
 
 	async attend(user: User) {
@@ -85,6 +96,35 @@ export default class Conference extends Model {
 
 	is_user_attending(user: User) {
 		return this.attendees.includes(user.key)
+	}
+
+	get slots() {
+		return this.end.diff(this.start, 'hour')
+	}
+
+	async createTracks(tracks: string[] = ["Technology", "Design", "Makers", "Kitchen Sink"]): Promise<Boolean> {
+		let trackKeys = [];
+		let talks = new Array(this.slots).fill(null);
+
+		await asyncForEach(tracks, async (name) => {
+			const track = await Track.create(new Track({name, conferenceKey: this.key, talks: talks}));
+			trackKeys.push(track.key);
+		})
+
+		this.tracks = trackKeys;
+
+		return true;
+	}
+
+	async theTracks(): Promise<Track[]> {
+		const tracks = [];
+
+		await asyncForEach(this.tracks, async (key) => {
+			const track = await Track.get(key);
+			tracks.push(track);
+		})
+
+		return tracks;
 	}
 
 	// MODEL METHODS
@@ -177,9 +217,8 @@ export default class Conference extends Model {
 	}
 
 	static async near_me() {
+		//@ts-ignore
 		const current = await Location.getCurrentCity();
-
-		console.log("Searching in", current.latitude, current.longitude);
 
 		let conferences = [];
 		let result = await Conference.collection.limit(Conference.size).get();
@@ -191,12 +230,12 @@ export default class Conference extends Model {
 		return conferences;
 	}
 
-	static async create(data): Promise<Conference> {
+	static async create(data: Conference): Promise<Conference> {
 		let conference = new Conference({ ...data })
 		const result = await Conference.collection.add(conference.serialize());
 		conference.populate({key: result.id})
+		await conference.prepare()
 		await conference.save()
-		console.log(conference);
 		return conference;
 	}
 

@@ -3,6 +3,12 @@ import { Handler } from './handler';
 import { Prop, PropConfig, PropRef, PropError } from './props';
 import { normalize, isDeepEqual, isArray, isUndefined, toArray, realize } from './utils';
 
+export const asyncForEach = async (array, callback) => {
+  for (let index = 0; index < array.length; index++) {
+    await callback(array[index], index, array)
+  }
+}
+
 /**
  * Model configuration interface.
  */

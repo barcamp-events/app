@@ -144,7 +144,7 @@ export default class User extends Model {
 		return await User.collection.limit(User.size).get();
 	}
 
-	static async create(data) {
+	static async create(data: User) {
 		const key = data.key;
 		const user = new User({ ...data, key })
 		await User.doc(key).set(user.serialize('firebase'));
@@ -159,6 +159,46 @@ export default class User extends Model {
 				...user.serialize('firebase'),
 				updated: firebase.firestore.FieldValue.serverTimestamp()
 			});
+		}
+	}
+
+
+	static async where(options: any[]|any[][], getAs?: "one"|"many") {
+		let result;
+		let conferences = [];
+
+		if(options[0].constructor === Array) {
+			let query = User.collection;
+			// @ts-ignore
+			options.forEach((option: string[]) => {
+				// @ts-ignore
+				query = query.where(option[0], option[1], option[2])
+			})
+
+			if (getAs === "one") {
+				result = await query.limit(1).get()
+			} else {
+				result = await query.get()
+			}
+
+		} else {
+			if (getAs === "one") {
+				// @ts-ignore
+				result = result = await User.collection.where(options[0], options[1], options[2]).limit(1).get();
+			} else {
+				// @ts-ignore
+				result = result = await User.collection.where(options[0], options[1], options[2]).get();
+			}
+		}
+
+		result.forEach((doc) => {
+			conferences.push(new User(doc.data()));
+		});
+
+		if (getAs === "one") {
+			return conferences[0];
+		} else {
+			return conferences;
 		}
 	}
 
