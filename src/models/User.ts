@@ -1,6 +1,7 @@
 import firebase from 'firebase';
 import { Model, prop } from './Model';
 import { MD5 } from './utils';
+import Location from './Location';
 
 export default class User extends Model {
 	static bucket = "users/";
@@ -14,29 +15,53 @@ export default class User extends Model {
 		})
 	}
 
-	@prop()
+	@prop({
+		populatable: ['firebase']
+	})
 	public displayName: string;
 
-	@prop()
+	@prop({
+		populatable: ['firebase']
+	})
 	public email: string;
 
-	@prop()
+	@prop({
+		populatable: ['firebase']
+	})
 	public key: string;
 
-	@prop()
+	@prop({
+		populatable: ['firebase']
+	})
 	public social;
 
-	@prop({defaultValue: "violet"})
+	@prop({
+		defaultValue: "violet",
+		populatable: ['firebase']
+	})
 	public color: string = "violet";
 
-	@prop({emptyValue: false})
+	@prop({
+		emptyValue: false,
+		populatable: ['firebase']
+	})
 	public dark_mode: boolean;
 
-	@prop({emptyValue: false})
+	@prop({
+		emptyValue: false,
+		populatable: ['firebase']
+	})
 	public reduced_motion;
 
-	@prop()
+	@prop({
+		populatable: ['firebase']
+	})
 	public bio;
+
+	@prop({
+		populatable: []
+	})
+	public location;
 
 	link(platform) {
 		let url;
@@ -64,6 +89,14 @@ export default class User extends Model {
 
 	get is_usable () {
 		return this.key && this.displayName && this.email;
+	}
+
+	async currentLocation() {
+		if (!this.location) {
+			this.location = await Location.getCurrentCity();
+		}
+
+		return this.location;
 	}
 
 	static async current() {
@@ -114,7 +147,7 @@ export default class User extends Model {
 	static async create(data) {
 		const key = data.key;
 		const user = new User({ ...data, key })
-		await User.doc(key).set(user.serialize());
+		await User.doc(key).set(user.serialize('firebase'));
 		return user;
 	}
 
@@ -123,7 +156,7 @@ export default class User extends Model {
 			const ref = User.doc(user.key)
 
 			await ref.update({
-				...user.serialize(),
+				...user.serialize('firebase'),
 				updated: firebase.firestore.FieldValue.serverTimestamp()
 			});
 		}

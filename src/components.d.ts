@@ -23,13 +23,19 @@ export namespace Components {
     'history': RouterHistory;
   }
   interface BarcampDashboard {}
-  interface BarcampDefaultMarketing {}
+  interface BarcampDefaultMarketing {
+    'history': RouterHistory;
+    'match': MatchResults;
+  }
   interface BarcampDocs {
     'history': RouterHistory;
     'match': MatchResults;
   }
   interface BarcampEventCard {
     'conference': Conference;
+    'get_conf': () => Promise<Conference>;
+    'get_user': () => Promise<import("/Users/williammriley/Sites/BarCamp/app/src/models/User").default>;
+    'user': User;
   }
   interface BarcampForgotPassword {}
   interface BarcampHome {}
@@ -226,13 +232,17 @@ declare namespace LocalJSX {
     'history'?: RouterHistory;
   }
   interface BarcampDashboard extends JSXBase.HTMLAttributes<HTMLBarcampDashboardElement> {}
-  interface BarcampDefaultMarketing extends JSXBase.HTMLAttributes<HTMLBarcampDefaultMarketingElement> {}
+  interface BarcampDefaultMarketing extends JSXBase.HTMLAttributes<HTMLBarcampDefaultMarketingElement> {
+    'history'?: RouterHistory;
+    'match'?: MatchResults;
+  }
   interface BarcampDocs extends JSXBase.HTMLAttributes<HTMLBarcampDocsElement> {
     'history'?: RouterHistory;
     'match'?: MatchResults;
   }
   interface BarcampEventCard extends JSXBase.HTMLAttributes<HTMLBarcampEventCardElement> {
     'conference'?: Conference;
+    'user'?: User;
   }
   interface BarcampForgotPassword extends JSXBase.HTMLAttributes<HTMLBarcampForgotPasswordElement> {}
   interface BarcampHome extends JSXBase.HTMLAttributes<HTMLBarcampHomeElement> {}
