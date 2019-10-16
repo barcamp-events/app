@@ -52,12 +52,12 @@ export default class Track extends Model {
 		return true;
 	}
 
-	async theTalks(): Promise<Track[]> {
+	async theTalks(): Promise<Talk[]> {
 		const talks = [];
 
 		await asyncForEach(this.talks, async (key) => {
-			const track = await Talk.get(key);
-			talks.push(track);
+			const talk = await Talk.get(key);
+			talks.push(talk);
 		})
 
 		return talks;

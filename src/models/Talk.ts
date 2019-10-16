@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 import { Model, prop } from './Model';
-import { Dayjs } from 'dayjs';
+import Dayjs from 'dayjs';
 
 export default class Talk extends Model {
 	static bucket = "talk/";
@@ -21,6 +21,9 @@ export default class Talk extends Model {
 	public speakerKey: string;
 
 	@prop({})
+	public signingUpKey: string;
+
+	@prop({})
 	public conferenceKey: string;
 
 	@prop({})
@@ -29,7 +32,11 @@ export default class Talk extends Model {
 	@prop({})
     public description: string;
 
-	@prop({})
+	@prop({
+		cast: {
+			handler: Dayjs
+		}
+	})
     public time: Dayjs;
 
 	@prop({defaultValue: [], emptyValue: []})
@@ -55,6 +62,14 @@ export default class Talk extends Model {
 
 	is_user_attending(user: User) {
 		return this.attendees.includes(user.key)
+	}
+
+	get is_taken() {
+		return this.speakerKey && this.title && this.description
+	}
+
+	get is_signing_up() {
+		return this.signingUpKey !== null;
 	}
 
 	// MODEL METHODS

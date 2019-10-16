@@ -20,7 +20,6 @@ export class BarcampEventCard {
     })
   }
 
-
   @Method()
   async get_conf() {
     return this.conference;
@@ -74,8 +73,11 @@ export class BarcampEventCard {
               <stellar-asset src="./assets/images/loading.svg" class="theme-base5 mr3 fs6" />
               One sec...
             </p>}
-            {!this.loading && !this.conference.is_user_attending(this.user) && <stellar-button tag="button" onClick={this.onAttendClick.bind(this)}>Attend</stellar-button>}
-            {!this.loading && this.conference.is_user_attending(this.user) && <stellar-button tag="button" onClick={this.onUnattendClick.bind(this)}>Leave</stellar-button>}
+            <stellar-grid align="baseline" style={{"grid-template-columns": "auto auto"}}>
+              {!this.loading && !this.conference.is_user_attending(this.user) && <stellar-button tag="button" onClick={this.onAttendClick.bind(this)}>Attend</stellar-button>}
+              {!this.loading && this.conference.is_user_attending(this.user) && <stellar-button href={`/${this.conference.slug}/${this.conference.year}/schedule`} tag="route-link">Schedule</stellar-button>}
+              {!this.loading && this.conference.is_user_attending(this.user) && <stellar-button tag="button" onClick={this.onUnattendClick.bind(this)} ghost>Leave</stellar-button>}
+            </stellar-grid>
             <p class="fs8">123 miles away</p>
           </footer>
         </stellar-card>
