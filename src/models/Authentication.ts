@@ -1,10 +1,8 @@
+import firebase from '@firebase/app';
 import '@firebase/performance';
-import '@firebase/app';
 import '@firebase/auth';
 import '@firebase/firestore';
-import '@firebase/functions';
 import '@stencil/router';
-import firebase from 'firebase/app';
 import { User as FirebaseUser } from 'firebase'
 import User from './User';
 
@@ -20,9 +18,8 @@ const firebaseConfig = {
   "messagingSenderId": "<@FIREBASE_SENDER_ID@>"
 }
 
-console.log(window["ENVIRONMENT"], firebaseConfig)
-
 firebase.initializeApp(firebaseConfig)
+firebase.performance()
 
 export default class Authentication {
   firebaseUser: FirebaseUser = undefined;

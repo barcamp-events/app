@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from '@firebase/app';
 import { Model, prop } from './Model';
 import { Plugins } from '@capacitor/core';
 import Maps from './Maps';

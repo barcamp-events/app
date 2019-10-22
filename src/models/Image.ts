@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from '@firebase/app';
 import { Model, prop } from './Model';
 
 export default class Image extends Model {

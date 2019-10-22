@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from '@firebase/app';
 import { Model, prop, asyncForEach } from './Model';
 import Talk from './Talk';
 import Conference from './Conference';
@@ -63,6 +63,13 @@ export default class Track extends Model {
 		return talks;
 	}
 
+	async resetTalks() {
+		const talks = await this.theTalks();
+
+		await asyncForEach(talks, async (talk: Talk) => {
+			return await talk.release()
+		})
+	}
 
 	// MODEL METHODS
 	async save() {

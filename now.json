@@ -36,6 +36,9 @@
   "routes": [
     { "src": "/assets/(.*)", "dest": "public/assets/$1" },
     { "src": "/build/(.*)", "dest": "public/build/$1" },
+    { "src": "^/manifest.json", "dest": "public/manifest.json" },
+    { "src": "^/robots.txt", "dest": "public/robots.txt" },
+    { "src": "^/sw.js", "dest": "public/sw.js" },
     { "src": "^/(.*)", "dest": "public/index.html" }
   ]
 }

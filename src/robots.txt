@@ -1,0 +1,6 @@
+# Group 1
+User-agent: *
+Allow: /
+
+Sitemap: https://beta.barcamp.events/sitemap.xml
+Sitemap: https://barcamp.events/sitemap.xml

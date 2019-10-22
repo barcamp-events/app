@@ -14,12 +14,14 @@ export class BarcampScheduleTrack {
   }
 
   render() {
-    return this.talks && <Host style={{"min-width": "300px"}}>
+    return this.talks && <Host class="dc" style={{"min-width": "300px"}}>
       <stellar-grid cols="1" noresponsive>
-        {this.talks.map(talk => <div>
-          <p class="b fw6">{talk.time.format("H:mm")}</p>
-          <barcamp-schedule-talk talk={talk} />
-        </div>)}
+        <stellar-reveal-list class="dc" delay={300} timing={150}>
+          {this.talks.map(talk => <div>
+            <p class="b fw6">{talk.time.format("H:mm")}</p>
+            <barcamp-schedule-talk talk={talk} />
+          </div>)}
+        </stellar-reveal-list>
       </stellar-grid>
     </Host>
   }

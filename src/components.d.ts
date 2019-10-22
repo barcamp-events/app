@@ -49,11 +49,26 @@ export namespace Components {
   interface BarcampHostSetFormat {}
   interface BarcampProfile {}
   interface BarcampSchedule {
+    'getConference': () => Promise<Conference>;
     'history': RouterHistory;
     'match': MatchResults;
   }
   interface BarcampScheduleSignup {}
   interface BarcampScheduleTalk {
+    'talk': Talk;
+    'user': User;
+  }
+  interface BarcampScheduleTalkAvailable {
+    'talk': Talk;
+    'user': User;
+  }
+  interface BarcampScheduleTalkSignedUp {
+    'speaker': User;
+    'talk': Talk;
+    'user': User;
+  }
+  interface BarcampScheduleTalkSigningUp {
+    'signingUp': User;
     'talk': Talk;
     'user': User;
   }
@@ -208,6 +223,24 @@ declare global {
     new (): HTMLBarcampScheduleTalkElement;
   };
 
+  interface HTMLBarcampScheduleTalkAvailableElement extends Components.BarcampScheduleTalkAvailable, HTMLStencilElement {}
+  var HTMLBarcampScheduleTalkAvailableElement: {
+    prototype: HTMLBarcampScheduleTalkAvailableElement;
+    new (): HTMLBarcampScheduleTalkAvailableElement;
+  };
+
+  interface HTMLBarcampScheduleTalkSignedUpElement extends Components.BarcampScheduleTalkSignedUp, HTMLStencilElement {}
+  var HTMLBarcampScheduleTalkSignedUpElement: {
+    prototype: HTMLBarcampScheduleTalkSignedUpElement;
+    new (): HTMLBarcampScheduleTalkSignedUpElement;
+  };
+
+  interface HTMLBarcampScheduleTalkSigningUpElement extends Components.BarcampScheduleTalkSigningUp, HTMLStencilElement {}
+  var HTMLBarcampScheduleTalkSigningUpElement: {
+    prototype: HTMLBarcampScheduleTalkSigningUpElement;
+    new (): HTMLBarcampScheduleTalkSigningUpElement;
+  };
+
   interface HTMLBarcampScheduleTrackElement extends Components.BarcampScheduleTrack, HTMLStencilElement {}
   var HTMLBarcampScheduleTrackElement: {
     prototype: HTMLBarcampScheduleTrackElement;
@@ -248,6 +281,9 @@ declare global {
     'barcamp-schedule': HTMLBarcampScheduleElement;
     'barcamp-schedule-signup': HTMLBarcampScheduleSignupElement;
     'barcamp-schedule-talk': HTMLBarcampScheduleTalkElement;
+    'barcamp-schedule-talk-available': HTMLBarcampScheduleTalkAvailableElement;
+    'barcamp-schedule-talk-signed-up': HTMLBarcampScheduleTalkSignedUpElement;
+    'barcamp-schedule-talk-signing-up': HTMLBarcampScheduleTalkSigningUpElement;
     'barcamp-schedule-track': HTMLBarcampScheduleTrackElement;
     'barcamp-sign-out': HTMLBarcampSignOutElement;
     'barcamp-sponsor': HTMLBarcampSponsorElement;
@@ -298,6 +334,20 @@ declare namespace LocalJSX {
     'talk'?: Talk;
     'user'?: User;
   }
+  interface BarcampScheduleTalkAvailable extends JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkAvailableElement> {
+    'talk'?: Talk;
+    'user'?: User;
+  }
+  interface BarcampScheduleTalkSignedUp extends JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkSignedUpElement> {
+    'speaker'?: User;
+    'talk'?: Talk;
+    'user'?: User;
+  }
+  interface BarcampScheduleTalkSigningUp extends JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkSigningUpElement> {
+    'signingUp'?: User;
+    'talk'?: Talk;
+    'user'?: User;
+  }
   interface BarcampScheduleTrack extends JSXBase.HTMLAttributes<HTMLBarcampScheduleTrackElement> {
     'track'?: Track;
   }
@@ -331,6 +381,9 @@ declare namespace LocalJSX {
     'barcamp-schedule': BarcampSchedule;
     'barcamp-schedule-signup': BarcampScheduleSignup;
     'barcamp-schedule-talk': BarcampScheduleTalk;
+    'barcamp-schedule-talk-available': BarcampScheduleTalkAvailable;
+    'barcamp-schedule-talk-signed-up': BarcampScheduleTalkSignedUp;
+    'barcamp-schedule-talk-signing-up': BarcampScheduleTalkSigningUp;
     'barcamp-schedule-track': BarcampScheduleTrack;
     'barcamp-sign-out': BarcampSignOut;
     'barcamp-sponsor': BarcampSponsor;

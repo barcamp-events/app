@@ -26,11 +26,11 @@ export class BarcampHome {
             </copy-wrap>
             <stellar-grid class="mt4">
               <copy-wrap>
-                <h6 class="parco tracked fs7 i theme-base6 dm-theme-base3">Meet your community</h6>
+                <h6 class="parco tracked fs7 i theme-base6 dm-theme-base1">Meet your community</h6>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut temporibus sapiente velit adipisci labore&nbsp;sed.</p>
               </copy-wrap>
               <copy-wrap class="ma0">
-                <h6 class="parco tracked fs7 i theme-base6 dm-theme-base3">Learn something new</h6>
+                <h6 class="parco tracked fs7 i theme-base6 dm-theme-base1">Learn something new</h6>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut temporibus sapiente velit adipisci labore&nbsp;sed.</p>
               </copy-wrap>
             </stellar-grid>
@@ -48,11 +48,11 @@ export class BarcampHome {
             </copy-wrap>
             <stellar-grid class="mt4">
               <copy-wrap>
-                <h6 class="parco tracked fs7 i theme-base5 dm-theme-base2">Improve your community</h6>
+                <h6 class="parco tracked fs7 i theme-base5 dm-theme-base0">Improve your community</h6>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut temporibus sapiente velit adipisci labore&nbsp;sed.</p>
               </copy-wrap>
               <copy-wrap class="ma0">
-                <h6 class="parco tracked fs7 i theme-base5 dm-theme-base2">Pop bubbles</h6>
+                <h6 class="parco tracked fs7 i theme-base5 dm-theme-base0">Pop bubbles</h6>
                 <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut temporibus sapiente velit adipisci labore&nbsp;sed.</p>
               </copy-wrap>
             </stellar-grid>

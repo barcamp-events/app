@@ -1,13 +1,15 @@
-import { Component, Host, h, Prop, State } from '@stencil/core';
+import { Component, Host, h, Prop, State, Method, Element } from '@stencil/core';
 import Conference from '../../../models/Conference';
 import AuthenticationTunnel from '../../../tunnels/authentication';
 import { MatchResults, RouterHistory } from '@stencil/router';
 import Track from '../../../models/Track';
+import delay from 'async-delay';
 
 @Component({
   tag: 'barcamp-schedule'
 })
 export class BarcampSchedule {
+  @Element() element: HTMLElement;
 
   @Prop() match: MatchResults;
   @Prop() history: RouterHistory;
@@ -18,7 +20,7 @@ export class BarcampSchedule {
   @State() slug: string;
   @State() year: string;
 
-  @State() current_track: string;
+  @State() activeTab: string = "all";
 
   componentWillLoad() {
     this.slug = this.match.params.slug;
@@ -41,6 +43,17 @@ export class BarcampSchedule {
     })
   }
 
+  @Method()
+  async getConference() {
+    return this.conference;
+  }
+
+  async displayTrack (e) {
+    this.activeTab = undefined;
+    await delay(100);
+    this.activeTab = e.detail.name;
+  }
+
   render() {
     return this.conference && <Host>
       <stencil-route-title title="Schedule" />
@@ -49,14 +62,15 @@ export class BarcampSchedule {
       </stellar-layout>
 
       <stellar-layout size="flush" padding="none" class="sticky top-0 z-1">
-        <stellar-tabs block blockIndicator size="large" class="w-100 bn" style={{"--max-width": "100%"}}>
-          {this.tracks.map(track => <stellar-tab id={track.name} class="w-100">{track.name}</stellar-tab>)}
+        <stellar-tabs block blockIndicator size="large" class="w-100 bn relative" style={{"--max-width": "100%"}}>
+          <stellar-tab name="all" dark class="w-100" open onContentChange={this.displayTrack.bind(this)}>All Tracks</stellar-tab>
+          {this.tracks.map(track => <stellar-tab name={track.name.toLowerCase()} class="w-100" onContentChange={this.displayTrack.bind(this)}>{track.name}</stellar-tab>)}
         </stellar-tabs>
       </stellar-layout>
-      <div style={{"overflow-x": "auto", "overflow-y": "hidden"}} class="pl4">
-        <stellar-layout size="full">
-          <stellar-grid cols="4" noresponsive>
-            {this.tracks.map(track => <barcamp-schedule-track track={track} />)}
+      <div style={{"overflow-x": "auto", "overflow-y": "hidden"}} class={"pl4"}>
+        <stellar-layout size={(this.activeTab === "all") ? "full" : "small"}>
+          <stellar-grid cols={(this.activeTab === "all") ? "4" : "1"} noresponsive>
+            {this.tracks.map(track => <barcamp-schedule-track track={track} class={(this.activeTab === "all" || this.activeTab === track.name.toLowerCase()) ? "dc w-100" : "dn"} />)}
           </stellar-grid>
         </stellar-layout>
       </div>

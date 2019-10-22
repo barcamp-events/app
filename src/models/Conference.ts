@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from '@firebase/app';
 import { Model, prop, asyncForEach } from './Model';
 import Location from './Location'
 import User from './User';
@@ -175,6 +175,14 @@ export default class Conference extends Model {
 		});
 
 		return users;
+	}
+
+	async resetConferenceTracks() {
+		const tracks = await this.theTracks();
+
+		await asyncForEach(tracks, async (track: Track) => {
+			return await track.resetTalks()
+		})
 	}
 
 	// MODEL METHODS

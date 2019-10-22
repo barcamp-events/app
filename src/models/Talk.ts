@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from '@firebase/app';
 import { Model, prop } from './Model';
 import Dayjs from 'dayjs';
 
@@ -37,13 +37,25 @@ export default class Talk extends Model {
 			handler: Dayjs
 		}
 	})
-    public time: Dayjs;
+    public time: DayjsType;
 
 	@prop({defaultValue: [], emptyValue: []})
 	public attendees: string[] = [];
 
 	onChange(callback) {
 		Talk.onChange(this.key, callback.bind(this))
+	}
+
+	async release () {
+		this.populate({
+			speakerKey: null,
+			signingUpKey: null,
+			title: null,
+			description: null,
+			attendees: []
+		});
+
+		await this.save();
 	}
 
 	async attend(user: User) {
@@ -69,7 +81,7 @@ export default class Talk extends Model {
 	}
 
 	get is_signing_up() {
-		return this.signingUpKey !== null;
+		return this.signingUpKey;
 	}
 
 	// MODEL METHODS

@@ -11,8 +11,11 @@ export class BarcampScheduleTalk {
 
   @Prop() talk: Talk;
   @Prop() user: User;
+
   @State() speaker: User;
   @State() signingUp: User;
+
+  @State() visible: boolean = false;
 
   async componentWillLoad() {
     if (this.talk.speakerKey) {
@@ -21,117 +24,36 @@ export class BarcampScheduleTalk {
 
     if (this.talk.signingUpKey) {
       this.signingUp = await User.get(this.talk.signingUpKey)
-      this.startCountdown();
     }
 
     this.talk.onChange(async (talk: Talk) => {
-      this.talk.populate(talk);
+      if (!talk.signingUpKey) { talk.signingUpKey = null; }
+      if (!talk.speakerKey) { talk.speakerKey = null; }
 
-      if (this.talk.speakerKey) {
-        this.speaker = await User.get(this.talk.speakerKey);
-      }
+      this.talk.populate(talk);
 
       if (this.talk.signingUpKey) {
         this.signingUp = await User.get(this.talk.signingUpKey)
       }
 
+      if (this.talk.speakerKey) {
+        this.speaker = await User.get(this.talk.speakerKey);
+      }
+
       // @ts-ignore
-      this.element.forceUpdate();
+      this.element.forceUpdate()
     });
   }
 
-  startCountdown() {
-    setTimeout(async () => {
-      this.talk.signingUpKey = null;
-      await this.talk.save();
-    }, 300000)
-  }
-
-  async flipped(e) {
-    if (e.target.flipped) {
-      this.talk.signingUpKey = this.user.key;
-    } else {
-      this.talk.signingUpKey = null;
-    }
-
-    await this.talk.save();
-  }
-
-  flipCard() {
-    this.element.querySelector('stellar-card').flip_card();
-  }
-
-  addTalk(e) {
-    this.talk.populate(e.detail.json);
-    this.talk.save()
-  }
-
-  renderTalk() {
-    return <stellar-card>
-      <header class="hero">
-        <h5>{this.talk.title}</h5>
-      </header>
-      <section>
-        <copy-wrap>
-          <h5>{this.talk.title}</h5>
-          <p>{this.talk.description}</p>
-        </copy-wrap>
-      </section>
-      <footer class="flex items-center justify-between">
-        <p>{this.signingUp && this.signingUp.displayName}</p>
-        <stellar-avatar name={this.signingUp && this.signingUp.displayName} />
-      </footer>
-    </stellar-card>
-  }
-
-  renderSigningUp() {
-    return <stellar-card>
-      <header class="hero">
-        <h5>Incoming...</h5>
-      </header>
-      <section>
-        <copy-wrap align="center">
-          <p>Someone is signing up for this talk right now!</p>
-        </copy-wrap>
-      </section>
-      <footer class="flex items-center justify-between">
-        <p>{this.signingUp && this.signingUp.displayName}</p>
-        <stellar-avatar name={this.signingUp && this.signingUp.displayName} />
-      </footer>
-    </stellar-card>
-  }
-
-  renderAvailableTalk() {
-    return <stellar-card flippable onFlip={this.flipped.bind(this)} flip_icon={""}>
-      <section class="flush hero">
-        <copy-wrap align="center" class="ma3">
-          <h6>No one</h6>
-          <p>Looks like this time slot is empty.</p>
-        </copy-wrap>
-      </section>
-      <footer>
-        <stellar-button block onClick={this.flipCard.bind(this)} ghost>Sign up for this slot!</stellar-button>
-      </footer>
-      <section slot="back">
-        <stellar-form ajax onSubmitted={this.addTalk.bind(this)}>
-          <h5>{this.talk.time}</h5>
-          <stellar-grid >
-            <stellar-input type="hidden" name="key" value={this.talk.key} />
-            <stellar-input type="hidden" name="speakerKey" value={this.user.key} />
-            <stellar-input name="title" label="Title" placeholder="Food Court" />
-            <stellar-input type="textarea" name="description" label="Describe your talk" placeholder="Is a hot dog a sandwich?" />
-            <stellar-button tag="submit">Add your talk</stellar-button>
-          </stellar-grid>
-        </stellar-form>
-      </section>
-    </stellar-card>
-  }
+  in() { this.visible = true; }
+  out() { this.visible = false; }
 
   render() {
-    return <Host>
-      {(this.talk.is_signing_up && this.talk.signingUpKey !== this.user.key) && !this.talk.is_taken && this.renderSigningUp()}
-      {(!this.talk.is_signing_up || this.talk.signingUpKey === this.user.key) && !this.talk.is_taken && this.renderAvailableTalk()}
-      {this.talk.is_taken && this.renderTalk()}
+    return <Host class="db">
+      {this.visible && (this.talk.signingUpKey && this.talk.signingUpKey !== this.user.key) && !this.talk.is_taken && <barcamp-schedule-talk-signing-up talk={this.talk} signingUp={this.signingUp} />}
+      {this.visible && (!this.talk.signingUpKey || this.talk.signingUpKey === this.user.key) && !this.talk.is_taken && <barcamp-schedule-talk-available talk={this.talk} />}
+      {this.visible && this.talk.is_taken && <barcamp-schedule-talk-signed-up talk={this.talk} speaker={this.speaker} />}
+      <stellar-intersection in={this.in.bind(this)} out={this.out.bind(this)} element={this.element} />
     </Host>
   }
 }

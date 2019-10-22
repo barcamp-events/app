@@ -1,4 +1,4 @@
-import firebase from 'firebase';
+import firebase from '@firebase/app';
 import { Model, prop } from './Model';
 import { MD5 } from './utils';
 import Location from './Location';
