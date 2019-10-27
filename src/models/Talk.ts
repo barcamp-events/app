@@ -1,18 +1,11 @@
-import firebase from '@firebase/app';
-import { Model, prop } from './Model';
+import { prop } from './Model';
 import Dayjs from 'dayjs';
+import FirebaseModel from './FirebaseModel';
 
-export default class Talk extends Model {
+export default class Talk extends FirebaseModel {
 	static bucket = "talk/";
-	static size = 10;
-
-	constructor(data?, config?) {
-		super(data, config);
-
-		this.onChange((data) => {
-			this.populate(data);
-		})
-	}
+    static get model () { return Talk }
+    static instantiate (args?) { return new Talk(args) }
 
 	@prop({})
 	public key: string;
@@ -41,10 +34,6 @@ export default class Talk extends Model {
 
 	@prop({defaultValue: [], emptyValue: []})
 	public attendees: string[] = [];
-
-	onChange(callback) {
-		Talk.onChange(this.key, callback.bind(this))
-	}
 
 	async release () {
 		this.populate({
@@ -76,140 +65,15 @@ export default class Talk extends Model {
 		return this.attendees.includes(user.key)
 	}
 
-	get is_taken() {
-		return this.speakerKey && this.title && this.description
+	get isTaken() {
+		return this.title && this.description
 	}
 
-	get is_signing_up() {
-		return this.signingUpKey;
+	get isAvailable() {
+		return !this.isTaken && !this.isSigningUp;
 	}
 
-	// MODEL METHODS
-	async save() {
-		try {
-			this.commit();
-			const talk = await Talk.update(this);
-			this.populate(talk);
-			this.commit();
-			return true
-		} catch (e) {
-			this.rollback()
-			return false
-		}
-	}
-
-	static get ref () {
-		return firebase.firestore()
-	}
-
-	static doc (key) {
-		return Talk.collection.doc(key)
-	}
-
-	static get collection () {
-		return firebase.firestore().collection(Talk.bucket)
-	}
-
-	static async get(key: string): Promise<Talk> {
-		let data = (await Talk.collection.doc(key).get()).data();
-		const talk = new Talk(data)
-		talk.key = key;
-		return talk
-	}
-
-	static async where(options: any[]|any[][], getAs?: "one"|"many") {
-		let result;
-		let talks = [];
-
-		if(options[0].constructor === Array) {
-			let query = Talk.collection;
-			// @ts-ignore
-			options.forEach((option: string[]) => {
-				// @ts-ignore
-				query = query.where(option[0], option[1], option[2])
-			})
-
-			if (getAs === "one") {
-				result = await query.limit(1).get()
-			} else {
-				result = await query.get()
-			}
-
-		} else {
-			if (getAs === "one") {
-				// @ts-ignore
-				result = result = await Talk.collection.where(options[0], options[1], options[2]).limit(1).get();
-			} else {
-				// @ts-ignore
-				result = result = await Talk.collection.where(options[0], options[1], options[2]).get();
-			}
-		}
-
-		result.forEach((doc) => {
-			talks.push(new Talk(doc.data()));
-		});
-
-		if (getAs === "one") {
-			return talks[0];
-		} else {
-			return talks;
-		}
-	}
-
-	static async list() {
-		let talks = [];
-		let result = await Talk.collection.limit(Talk.size).get();
-
-		result.forEach((doc) => {
-			talks.push(new Talk(doc.data()))
-		});
-
-		return talks;
-	}
-
-	static async create(data: Talk): Promise<Talk> {
-		let talk = new Talk({ ...data })
-		const result = await Talk.collection.add(talk.serialize());
-		talk.populate({key: result.id})
-		await talk.save()
-		return talk;
-	}
-
-	static async update(talk: Talk): Promise<Talk> {
-		if (talk) {
-			const ref = Talk.doc(talk.key)
-
-			await ref.update({
-				...talk.serialize(),
-				updated: firebase.firestore.FieldValue.serverTimestamp()
-			});
-
-			return talk;
-		}
-	}
-
-	static async delete(key) {
-		const ref = Talk.doc(key)
-		await ref.delete();
-	}
-
-	static async onChange(key, cb) {
-		if (key) {
-			Talk.doc(key).onSnapshot(docSnapshot => {
-				cb(docSnapshot.data())
-			})
-		}
-	}
-
-	static async onNew(cb) {
-		Talk.collection.onSnapshot(querySnapshot => {
-			var talks = [];
-
-			querySnapshot.forEach(function(doc) {
-				talks.push(new Talk(doc.data()));
-			});
-
-			cb(talks)
-		})
+	get isSigningUp() {
+		return this.signingUpKey && !this.isTaken;
 	}
 }

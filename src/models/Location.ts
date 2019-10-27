@@ -1,14 +1,12 @@
-import firebase from '@firebase/app';
-import { Model, prop } from './Model';
+import { prop } from './Model';
 import { Plugins } from '@capacitor/core';
 import Maps from './Maps';
+import FirebaseModel from './FirebaseModel';
 
-export default class Location extends Model {
+export default class Location extends FirebaseModel {
 	static bucket = "location/";
-    static size = 10;
-
-    @prop()
-    key;
+    static get model () { return Location }
+    static instantiate (args?) { return new Location(args) }
 
     // Geo
     @prop()
@@ -115,63 +113,6 @@ export default class Location extends Model {
     static async reverseLookup({latitude, longitude}, level = "locality") {
         return await Maps.reverse_geocode(latitude, longitude, level);
     }
-
-    // MODEL METHODS
-    async save() {
-        try {
-            this.commit();
-            const model = await Location.update(this);
-            this.populate(model);
-            this.commit();
-        } catch (e) {
-            this.rollback()
-        }
-    }
-
-    static get ref () {
-        return firebase.firestore()
-    }
-
-    static get doc () {
-        return Location.ref.doc(Location.bucket)
-    }
-
-    static get collection () {
-        return firebase.firestore().collection(Location.bucket)
-    }
-
-    static async get(key) {
-		let model = (await Location.ref.doc(key).get()).data();
-		model = new Location(model)
-		model.key = key;
-		return model
-    }
-
-    static async list() {
-		return await Location.collection.limit(Location.size).get();
-    }
-
-    static async add(data) {
-		const model = new Location(data)
-		return await Location.doc.set(model.serialize());
-    }
-
-    static async update(model: Location) {
-		if (model) {
-            const ref = Location.ref.doc(model.key)
-
-            await ref.update({
-                ...model.serialize(),
-                updated: firebase.firestore.FieldValue.serverTimestamp()
-            });
-		}
-    }
-
-    static async delete(key) {
-        const ref = Location.ref.doc(key)
-		await ref.delete();
-    }
 }
-
 
 window["BarCampLocation"] = Location;

@@ -14,6 +14,8 @@ export class BarcampSchedule {
   @Prop() match: MatchResults;
   @Prop() history: RouterHistory;
 
+  @Prop() user: User;
+
   @State() conference: Conference;
   @State() tracks: Track[] = [];
 
@@ -55,6 +57,17 @@ export class BarcampSchedule {
   }
 
   render() {
+    if (!this.user) {
+      return <Host>
+        <stellar-layout class="hero">
+          <h3 class="b">Sign up, Sign in, or Continue as a Guest.</h3>
+        </stellar-layout>
+        <stellar-layout>
+          <barcamp-auth-choices />
+        </stellar-layout>
+      </Host>;
+    }
+
     return this.conference && <Host>
       <stencil-route-title title="Schedule" />
       <stellar-layout class="hero">

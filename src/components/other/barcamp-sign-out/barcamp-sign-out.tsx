@@ -10,16 +10,12 @@ export class BarcampSignOut {
   @State() auth: Authentication = new Authentication();
 
   async componentWillLoad() {
-    if (this.auth.authenticated()) {
-      await this.auth.signOut();
-      this.history.push(`/auth`, {});
-    }
+    await this.auth.signOut();
+    this.history.push(`/auth`, {});
   }
 
   async componentDidLoad() {
-    if (this.auth.authenticated()) {
-      await this.auth.signOut();
-      this.history.push(`/auth`, {});
-    }
+    await this.auth.signOut();
+    this.history.push(`/auth`, {});
   }
 }

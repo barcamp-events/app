@@ -3,6 +3,7 @@ import ConferenceObject from './models/Conference'
 import SponsorObject from './models/Sponsor'
 import TrackObject from './models/Track'
 import TalkObject from './models/Talk'
+import AuthenticationObject from './models/Authentication'
 import { Dayjs } from 'dayjs';
 
 
@@ -12,6 +13,7 @@ declare global {
   type Conference = ConferenceObject;
   type Track = TrackObject;
   type Talk = TalkObject;
+  type Authentication = AuthenticationObject
   type DayjsType = Dayjs
 
   type Agenda = {

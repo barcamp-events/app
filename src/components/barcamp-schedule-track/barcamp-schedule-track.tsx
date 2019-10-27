@@ -18,7 +18,7 @@ export class BarcampScheduleTrack {
       <stellar-grid cols="1" noresponsive>
         <stellar-reveal-list class="dc" delay={300} timing={150}>
           {this.talks.map(talk => <div>
-            <p class="b fw6">{talk.time.format("H:mm")}</p>
+            <p class="b fw6">{talk.time.format("hh:mm")}</p>
             <barcamp-schedule-talk talk={talk} />
           </div>)}
         </stellar-reveal-list>

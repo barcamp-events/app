@@ -1,38 +1,24 @@
 import firebase from '@firebase/app';
-import { Model, prop } from './Model';
+import { prop } from './Model';
 import { MD5 } from './utils';
 import Location from './Location';
+import FirebaseModel from './FirebaseModel';
 
-export default class User extends Model {
+export default class User extends FirebaseModel {
 	static bucket = "users/";
-	static size = 10;
+    static get model () { return User }
+    static instantiate (args?) { return new User(args) }
 
-	constructor(data?, config?) {
-		super(data, config);
-
-		this.onChange((data) => {
-			this.populate(data);
-		})
-	}
-
-	@prop({
-		serializable: ['firebase']
-	})
+	@prop({ serializable: ['firebase'] })
 	public displayName: string;
 
-	@prop({
-		serializable: ['firebase']
-	})
+	@prop({ serializable: ['firebase'] })
 	public email: string;
 
-	@prop({
-		serializable: ['firebase']
-	})
+	@prop({ serializable: ['firebase'] })
 	public key: string;
 
-	@prop({
-		serializable: ['firebase']
-	})
+	@prop({ serializable: ['firebase'] })
 	public social;
 
 	@prop({
@@ -54,15 +40,14 @@ export default class User extends Model {
 	})
 	public reduced_motion;
 
-	@prop({
-		serializable: ['firebase']
-	})
+	@prop({ serializable: ['firebase'] })
 	public bio;
 
-	@prop({
-		serializable: []
-	})
+	@prop({ serializable: [] })
 	public location;
+
+	@prop({ defaultValue: false, emptyValue: false })
+	public anonymous;
 
 	link(platform) {
 		let url;
@@ -78,18 +63,12 @@ export default class User extends Model {
 		return url;
 	}
 
-	onChange(callback) {
-		User.onChange(this.key, callback.bind(this))
-	}
-
-	public loggedIn() {}
-
 	get profile_picture() {
 		return 'http://www.gravatar.com/avatar/' + MD5(this.email) + '.jpg?s=200&d=blank';
 	}
 
 	get is_usable () {
-		return this.key && this.displayName && this.email;
+		return this.key && this.displayName;
 	}
 
 	async currentLocation() {
@@ -108,111 +87,5 @@ export default class User extends Model {
 		}
 
 		return false;
-	}
-
-	// MODEL METHODS
-	async save() {
-		try {
-			this.commit();
-			const user = await User.update(this);
-			this.populate(user);
-			this.commit();
-		} catch (e) {
-			this.rollback()
-		}
-	}
-
-	static get ref () {
-		return firebase.firestore()
-	}
-
-	static doc (key) {
-		return User.collection.doc(key)
-	}
-
-	static get collection () {
-		return firebase.firestore().collection(User.bucket)
-	}
-
-	static async get(key: string): Promise<User> {
-		let data = (await User.collection.doc(key).get()).data();
-		const user = new User(data)
-		user.key = key;
-		return user
-	}
-
-	static async list() {
-		return await User.collection.limit(User.size).get();
-	}
-
-	static async create(data: User) {
-		const key = data.key;
-		const user = new User({ ...data, key })
-		await User.doc(key).set(user.serialize('firebase'));
-		return user;
-	}
-
-	static async update(user: User) {
-		if (user) {
-			const ref = User.doc(user.key)
-
-			console.log(user.serialize('firebase'));
-
-			await ref.update({
-				...user.serialize('firebase'),
-				updated: firebase.firestore.FieldValue.serverTimestamp()
-			});
-		}
-	}
-
-
-	static async where(options: any[]|any[][], getAs?: "one"|"many") {
-		let result;
-		let conferences = [];
-
-		if(options[0].constructor === Array) {
-			let query = User.collection;
-			// @ts-ignore
-			options.forEach((option: string[]) => {
-				// @ts-ignore
-				query = query.where(option[0], option[1], option[2])
-			})
-
-			if (getAs === "one") {
-				result = await query.limit(1).get()
-			} else {
-				result = await query.get()
-			}
-
-		} else {
-			if (getAs === "one") {
-				// @ts-ignore
-				result = result = await User.collection.where(options[0], options[1], options[2]).limit(1).get();
-			} else {
-				// @ts-ignore
-				result = result = await User.collection.where(options[0], options[1], options[2]).get();
-			}
-		}
-
-		result.forEach((doc) => {
-			conferences.push(new User(doc.data()));
-		});
-
-		if (getAs === "one") {
-			return conferences[0];
-		} else {
-			return conferences;
-		}
-	}
-
-	static async delete(key) {
-		const ref = User.ref.doc(key)
-		await ref.delete();
-	}
-
-	static async onChange(key, cb) {
-		User.doc(key).onSnapshot(docSnapshot => {
-			cb(docSnapshot.data())
-		})
 	}
 }

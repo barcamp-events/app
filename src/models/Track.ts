@@ -1,19 +1,12 @@
-import firebase from '@firebase/app';
-import { Model, prop, asyncForEach } from './Model';
+import { prop, asyncForEach } from './Model';
 import Talk from './Talk';
 import Conference from './Conference';
+import FirebaseModel from './FirebaseModel';
 
-export default class Track extends Model {
+export default class Track extends FirebaseModel {
 	static bucket = "track/";
-	static size = 10;
-
-	constructor(data?, config?) {
-		super(data, config);
-
-		this.onChange((data) => {
-			this.populate(data);
-		});
-	}
+    static get model () { return Track }
+    static instantiate (args?) { return new Track(args) }
 
 	@prop({})
 	public key: string;
@@ -33,19 +26,20 @@ export default class Track extends Model {
 	@prop({defaultValue: [], emptyValue: []})
 	public talks: string[];
 
-	onChange(callback) {
-		Track.onChange(this.key, callback.bind(this))
+	async prepare() {
+		console.log("calling track prepare")
+		await this.createTalks();
 	}
 
 	async createTalks(): Promise<Boolean> {
 		let talkKeys = [];
-		const conference = await Conference.get(this.conferenceKey)
+		const conference: Conference = await Conference.get(this.conferenceKey);
 
 		await asyncForEach(this.talks, async (_, index) => {
-			const time = conference.start.add((conference.talk_length * (index - 1)), "minute");
+			const time = conference.talksBegin.add((conference.talkLength * index), "minute");
 			const track = await Talk.create(new Talk({trackKey: this.key, conferenceKey: this.conferenceKey, time }));
 			talkKeys.push(track.key);
-		})
+		});
 
 		this.talks = talkKeys;
 
@@ -70,134 +64,6 @@ export default class Track extends Model {
 			return await talk.release()
 		})
 	}
-
-	// MODEL METHODS
-	async save() {
-		try {
-			this.commit();
-			const track = await Track.update(this);
-			this.populate(track);
-			this.commit();
-			return true
-		} catch (e) {
-			this.rollback()
-			return false
-		}
-	}
-
-
-	static get ref () {
-		return firebase.firestore()
-	}
-
-	static doc (key) {
-		return Track.collection.doc(key)
-	}
-
-	static get collection () {
-		return firebase.firestore().collection(Track.bucket)
-	}
-
-	static async get(key: string): Promise<Track> {
-		let data = (await Track.collection.doc(key).get()).data();
-		const track = new Track(data)
-		track.key = key;
-		return track
-	}
-
-	static async where(options: any[]|any[][], getAs?: "one"|"many") {
-		let result;
-		let tracks = [];
-
-		if(options[0].constructor === Array) {
-			let query = Track.collection;
-			// @ts-ignore
-			options.forEach((option: string[]) => {
-				// @ts-ignore
-				query = query.where(option[0], option[1], option[2])
-			})
-
-			if (getAs === "one") {
-				result = await query.limit(1).get()
-			} else {
-				result = await query.get()
-			}
-
-		} else {
-			if (getAs === "one") {
-				// @ts-ignore
-				result = result = await track.collection.where(options[0], options[1], options[2]).limit(1).get();
-			} else {
-				// @ts-ignore
-				result = result = await track.collection.where(options[0], options[1], options[2]).get();
-			}
-		}
-
-		result.forEach((doc) => {
-			tracks.push(new Track(doc.data()));
-		});
-
-		if (getAs === "one") {
-			return tracks[0];
-		} else {
-			return tracks;
-		}
-	}
-
-	static async list() {
-		let tracks = [];
-		let result = await Track.collection.limit(Track.size).get();
-
-		result.forEach((doc) => {
-			tracks.push(new Track(doc.data()))
-		});
-
-		return tracks;
-	}
-
-	static async create(track: Track): Promise<Track> {
-		const result = await Track.collection.add(track.serialize());
-		track.populate({key: result.id})
-		await track.createTalks()
-		await track.save()
-		return track;
-	}
-
-	static async update(track: Track): Promise<Track> {
-		if (track) {
-			const ref = Track.doc(track.key)
-
-			await ref.update({
-				...track.serialize(),
-				updated: firebase.firestore.FieldValue.serverTimestamp()
-			});
-
-			return track;
-		}
-	}
-
-	static async delete(key) {
-		const ref = Track.doc(key)
-		await ref.delete();
-	}
-
-	static async onChange(key, cb) {
-		if (key) {
-			Track.doc(key).onSnapshot(docSnapshot => {
-				cb(docSnapshot.data())
-			})
-		}
-	}
-
-	static async onNew(cb) {
-		Track.collection.onSnapshot(querySnapshot => {
-			var tracks = [];
-
-			querySnapshot.forEach(function(doc) {
-				tracks.push(new Track(doc.data()));
-			});
-
-			cb(tracks)
-		})
-	}
 }
+
+window["Track"] = Track;

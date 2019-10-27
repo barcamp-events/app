@@ -50,9 +50,12 @@ export class BarcampScheduleTalk {
 
   render() {
     return <Host class="db">
-      {this.visible && (this.talk.signingUpKey && this.talk.signingUpKey !== this.user.key) && !this.talk.is_taken && <barcamp-schedule-talk-signing-up talk={this.talk} signingUp={this.signingUp} />}
-      {this.visible && (!this.talk.signingUpKey || this.talk.signingUpKey === this.user.key) && !this.talk.is_taken && <barcamp-schedule-talk-available talk={this.talk} />}
-      {this.visible && this.talk.is_taken && <barcamp-schedule-talk-signed-up talk={this.talk} speaker={this.speaker} />}
+      {this.visible && this.talk.isAvailable && <barcamp-schedule-talk-available talk={this.talk} />}
+
+      {this.visible && this.talk.isSigningUp && <barcamp-schedule-talk-signing-up talk={this.talk} signingUp={this.signingUp} /> }
+
+      {this.visible && this.talk.isTaken && <barcamp-schedule-talk-signed-up talk={this.talk} speaker={this.speaker} />}
+
       <stellar-intersection in={this.in.bind(this)} out={this.out.bind(this)} element={this.element} />
     </Host>
   }

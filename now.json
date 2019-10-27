@@ -25,6 +25,7 @@
       "FIREBASE_STORAGE_BUCKET": "@firebase-storage-bucket",
       "FIREBASE_SENDER_ID": "@firebase-sender-id",
       "FIREBASE_APP_ID": "@firebase-app-id",
+      "FIREBASE_MEASUREMENT_ID": "@firebase-measurement-id",
       "GOOGLE_PLACES_API": "@google-places-api",
       "GOOGLE_MAPS_API": "@google-maps-api"
     }
@@ -36,9 +37,9 @@
   "routes": [
     { "src": "/assets/(.*)", "dest": "public/assets/$1" },
     { "src": "/build/(.*)", "dest": "public/build/$1" },
-    { "src": "^/manifest.json", "dest": "public/manifest.json" },
-    { "src": "^/robots.txt", "dest": "public/robots.txt" },
-    { "src": "^/sw.js", "dest": "public/sw.js" },
+    { "src": "/manifest.json", "dest": "public/manifest.json" },
+    { "src": "/robots.txt", "dest": "public/robots.txt" },
+    { "src": "/sw.js", "dest": "public/sw.js" },
     { "src": "^/(.*)", "dest": "public/index.html" }
   ]
 }

@@ -2,7 +2,7 @@ import { Component, Host, h, State, Prop } from '@stencil/core';
 import { RouterHistory, MatchResults } from '@stencil/router';
 import Conference from '../../../models/Conference'
 import Track from '../../../models/Track';
-import { SponsorList } from '../../../models/Sponsor';
+import { SponsorList } from "../../../models/SponsorList";
 
 @Component({
   tag: 'barcamp-default-marketing'
@@ -108,7 +108,7 @@ export class BarcampDefaultMarketing {
             </stellar-accordion>
             <stellar-accordion>
               <p slot="label" class="pa0">How long are the talks?</p>
-              <p>Talks go for {this.conference && this.conference.talk_length}minutes</p>
+              <p>Talks go for {this.conference && this.conference.talkLength}minutes</p>
             </stellar-accordion>
             <stellar-accordion>
               <p slot="label" class="pa0">Can I give a sales presentation?</p>

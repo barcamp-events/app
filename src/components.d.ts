@@ -22,6 +22,24 @@ export namespace Components {
   interface BarcampAuth {
     'history': RouterHistory;
   }
+  interface BarcampAuthChoiceGuest {
+    'auth': Authentication;
+    'history': RouterHistory;
+    'user': User;
+  }
+  interface BarcampAuthChoiceSignIn {
+    'auth': Authentication;
+    'history': RouterHistory;
+    'user': User;
+  }
+  interface BarcampAuthChoiceSignUp {
+    'auth': Authentication;
+    'history': RouterHistory;
+    'user': User;
+  }
+  interface BarcampAuthChoices {
+    'auth': Authentication;
+  }
   interface BarcampDashboard {}
   interface BarcampDefaultMarketing {
     'history': RouterHistory;
@@ -52,6 +70,7 @@ export namespace Components {
     'getConference': () => Promise<Conference>;
     'history': RouterHistory;
     'match': MatchResults;
+    'user': User;
   }
   interface BarcampScheduleSignup {}
   interface BarcampScheduleTalk {
@@ -113,6 +132,30 @@ declare global {
   var HTMLBarcampAuthElement: {
     prototype: HTMLBarcampAuthElement;
     new (): HTMLBarcampAuthElement;
+  };
+
+  interface HTMLBarcampAuthChoiceGuestElement extends Components.BarcampAuthChoiceGuest, HTMLStencilElement {}
+  var HTMLBarcampAuthChoiceGuestElement: {
+    prototype: HTMLBarcampAuthChoiceGuestElement;
+    new (): HTMLBarcampAuthChoiceGuestElement;
+  };
+
+  interface HTMLBarcampAuthChoiceSignInElement extends Components.BarcampAuthChoiceSignIn, HTMLStencilElement {}
+  var HTMLBarcampAuthChoiceSignInElement: {
+    prototype: HTMLBarcampAuthChoiceSignInElement;
+    new (): HTMLBarcampAuthChoiceSignInElement;
+  };
+
+  interface HTMLBarcampAuthChoiceSignUpElement extends Components.BarcampAuthChoiceSignUp, HTMLStencilElement {}
+  var HTMLBarcampAuthChoiceSignUpElement: {
+    prototype: HTMLBarcampAuthChoiceSignUpElement;
+    new (): HTMLBarcampAuthChoiceSignUpElement;
+  };
+
+  interface HTMLBarcampAuthChoicesElement extends Components.BarcampAuthChoices, HTMLStencilElement {}
+  var HTMLBarcampAuthChoicesElement: {
+    prototype: HTMLBarcampAuthChoicesElement;
+    new (): HTMLBarcampAuthChoicesElement;
   };
 
   interface HTMLBarcampDashboardElement extends Components.BarcampDashboard, HTMLStencilElement {}
@@ -263,6 +306,10 @@ declare global {
     'app-header': HTMLAppHeaderElement;
     'barcamp-app': HTMLBarcampAppElement;
     'barcamp-auth': HTMLBarcampAuthElement;
+    'barcamp-auth-choice-guest': HTMLBarcampAuthChoiceGuestElement;
+    'barcamp-auth-choice-sign-in': HTMLBarcampAuthChoiceSignInElement;
+    'barcamp-auth-choice-sign-up': HTMLBarcampAuthChoiceSignUpElement;
+    'barcamp-auth-choices': HTMLBarcampAuthChoicesElement;
     'barcamp-dashboard': HTMLBarcampDashboardElement;
     'barcamp-default-marketing': HTMLBarcampDefaultMarketingElement;
     'barcamp-docs': HTMLBarcampDocsElement;
@@ -301,6 +348,24 @@ declare namespace LocalJSX {
   interface BarcampAuth extends JSXBase.HTMLAttributes<HTMLBarcampAuthElement> {
     'history'?: RouterHistory;
   }
+  interface BarcampAuthChoiceGuest extends JSXBase.HTMLAttributes<HTMLBarcampAuthChoiceGuestElement> {
+    'auth'?: Authentication;
+    'history'?: RouterHistory;
+    'user'?: User;
+  }
+  interface BarcampAuthChoiceSignIn extends JSXBase.HTMLAttributes<HTMLBarcampAuthChoiceSignInElement> {
+    'auth'?: Authentication;
+    'history'?: RouterHistory;
+    'user'?: User;
+  }
+  interface BarcampAuthChoiceSignUp extends JSXBase.HTMLAttributes<HTMLBarcampAuthChoiceSignUpElement> {
+    'auth'?: Authentication;
+    'history'?: RouterHistory;
+    'user'?: User;
+  }
+  interface BarcampAuthChoices extends JSXBase.HTMLAttributes<HTMLBarcampAuthChoicesElement> {
+    'auth'?: Authentication;
+  }
   interface BarcampDashboard extends JSXBase.HTMLAttributes<HTMLBarcampDashboardElement> {}
   interface BarcampDefaultMarketing extends JSXBase.HTMLAttributes<HTMLBarcampDefaultMarketingElement> {
     'history'?: RouterHistory;
@@ -328,6 +393,7 @@ declare namespace LocalJSX {
   interface BarcampSchedule extends JSXBase.HTMLAttributes<HTMLBarcampScheduleElement> {
     'history'?: RouterHistory;
     'match'?: MatchResults;
+    'user'?: User;
   }
   interface BarcampScheduleSignup extends JSXBase.HTMLAttributes<HTMLBarcampScheduleSignupElement> {}
   interface BarcampScheduleTalk extends JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkElement> {
@@ -363,6 +429,10 @@ declare namespace LocalJSX {
     'app-header': AppHeader;
     'barcamp-app': BarcampApp;
     'barcamp-auth': BarcampAuth;
+    'barcamp-auth-choice-guest': BarcampAuthChoiceGuest;
+    'barcamp-auth-choice-sign-in': BarcampAuthChoiceSignIn;
+    'barcamp-auth-choice-sign-up': BarcampAuthChoiceSignUp;
+    'barcamp-auth-choices': BarcampAuthChoices;
     'barcamp-dashboard': BarcampDashboard;
     'barcamp-default-marketing': BarcampDefaultMarketing;
     'barcamp-docs': BarcampDocs;

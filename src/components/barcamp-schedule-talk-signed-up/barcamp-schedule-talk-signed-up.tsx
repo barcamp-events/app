@@ -48,7 +48,7 @@ export class BarcampScheduleTalkSignedUp {
             <stellar-avatar name={this.speaker && this.speaker.displayName} class="mr3" />
             <p>{this.speaker && this.speaker.displayName}</p>
           </div>
-          {(this.talk.speakerKey === this.user.key) && <stellar-button tag="button" onClick={this.onCancel.bind(this)} ghost dark>{this.confirmCancel ? "Are you sure?" : "Cancel"}</stellar-button>}
+          {(this.user && this.talk.speakerKey === this.user.key) && <stellar-button tag="button" onClick={this.onCancel.bind(this)} ghost dark>{this.confirmCancel ? "Are you sure?" : "Cancel"}</stellar-button>}
         </footer>
       </stellar-card>
     </Host>
