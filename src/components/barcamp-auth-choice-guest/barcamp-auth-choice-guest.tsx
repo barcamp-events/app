@@ -13,7 +13,7 @@ export class BarcampAuthChoiceGuest {
 
   @Prop() history: RouterHistory;
   @Prop() user: User;
-  @Prop() auth: Authentication = new Authentication;
+  @State() auth: Authentication = window["Authentication"] as Authentication;
 
   @State() card: HTMLStellarCardElement;
 
@@ -29,10 +29,18 @@ export class BarcampAuthChoiceGuest {
     if (urlParams.get('redirect')) {
       this.redirectURL = urlParams.get('redirect') ? decodeURI(urlParams.get('redirect')) : '/';
     }
+
+    Authentication.onAuthStateChanged(async (user) => {
+      if (user) {
+        this.success = true;
+        await delay(100);
+        await this.card.flip_card();
+      }
+    });
   }
 
   componentDidLoad() {
-    this.card = this.element.querySelector('stellar-card')
+    this.card = this.element.querySelector('stellar-card');
   }
 
   redirect () {
@@ -53,7 +61,7 @@ export class BarcampAuthChoiceGuest {
   }
   render() {
     return <Host>
-      <stellar-card id="guest" flippable={this.success}>
+      <stellar-card id="guest" flippable={this.success} flip-icon={"false"}>
         <section>
           <stellar-form ajax onSubmitted={this.onSubmit.bind(this)}>
             <stellar-grid cols="1" noresponsive>
@@ -63,8 +71,15 @@ export class BarcampAuthChoiceGuest {
           </stellar-form>
         </section>
         {this.user && <section slot="back">
-          <h3 class="tc lh-copy">Welcome to BarCamp Events!</h3>
-        </section>}
+            <copy-wrap align="center" class="mt5">
+              <stellar-avatar name={this.user.displayName} size="large" class="s-bevel" />
+              <h4 class="parco mb5">Welcome to BarCamp Events!</h4>
+              <stellar-grid class="mw6 w-80" style={{"--grid-width" : "100px", "--grid-gap": "1rem"}}>
+                <stellar-button tag="route-link" href={this.redirectURL} class="mr4" block>Continue to Redirect</stellar-button>
+                <stellar-button tag="route-link" href={this.redirectURL} ghost block>Dashboard</stellar-button>
+              </stellar-grid>
+            </copy-wrap>
+          </section>}
       </stellar-card>
     </Host>;
   }

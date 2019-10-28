@@ -88,4 +88,11 @@ export default class User extends FirebaseModel {
 
 		return false;
 	}
+
+	static async create(data: any) {
+		const key = data.key;
+		const user = new User({ ...data, key })
+		await User.doc(key).set(user.serialize('firebase'));
+		return user;
+	}
 }

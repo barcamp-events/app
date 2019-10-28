@@ -19,11 +19,17 @@ export default class Talk extends FirebaseModel {
 	@prop({})
 	public conferenceKey: string;
 
+	@prop({defaultValue: 30, emptyValue: 30})
+	public talkLength: number;
+
 	@prop({})
 	public title: string;
 
 	@prop({})
     public description: string;
+
+	@prop({})
+	public trackTitle: string;
 
 	@prop({
 		cast: {
@@ -41,10 +47,15 @@ export default class Talk extends FirebaseModel {
 			signingUpKey: null,
 			title: null,
 			description: null,
+			talkLength: 30,
 			attendees: []
 		});
 
 		await this.save();
+	}
+
+	get friendlyLength() {
+		return `From ${this.time.format(Talk.format)} to ${this.time.add(this.talkLength, 'minute').format(Talk.format)}`;
 	}
 
 	async attend(user: User) {
@@ -76,4 +87,6 @@ export default class Talk extends FirebaseModel {
 	get isSigningUp() {
 		return this.signingUpKey && !this.isTaken;
 	}
+
+	static format = "h:mma";
 }

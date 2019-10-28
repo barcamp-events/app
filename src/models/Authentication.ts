@@ -1,4 +1,5 @@
 import firebase from '@firebase/app';
+import '@firebase/analytics';
 import '@firebase/performance';
 import '@firebase/auth';
 import '@firebase/firestore';
@@ -15,11 +16,15 @@ const firebaseConfig = {
   "storageBucket": "<@FIREBASE_STORAGE_BUCKET@>",
   "apiKey": "<@FIREBASE_API_KEY@>",
   "authDomain": "<@FIREBASE_AUTH_DOMAIN@>",
-  "messagingSenderId": "<@FIREBASE_SENDER_ID@>"
+  "messagingSenderId": "<@FIREBASE_SENDER_ID@>",
+  "measurementId": "<@FIREBASE_MEASUREMENT_ID@>"
 }
 
-firebase.initializeApp(firebaseConfig)
-firebase.performance()
+if (firebase.apps.length === 0) {
+  firebase.initializeApp(firebaseConfig)
+  firebase.performance()
+  firebase.analytics()
+}
 
 export default class Authentication {
   firebaseUser: FirebaseUser = undefined;
@@ -36,8 +41,6 @@ export default class Authentication {
         }
 
         this.user.key = this.firebaseUser.uid;
-        this.user.loggedIn();
-        console.log("logged in", this.user);
       } else {
         this.firebaseUser = undefined;
         this.user = undefined;
@@ -82,21 +85,24 @@ export default class Authentication {
     return this.user;
   }
 
-  async createNewUser(email, password, profile) {
+  async createNewUser(email, password, profile: {displayName: string}) {
     let response = await firebase.auth().createUserWithEmailAndPassword(email, password);
-    this.signOut();
-
+    await this.signOut();
     await response.user.sendEmailVerification({
       url: `${window.location.origin}/profile`,
     });
     await response.user.updateProfile(profile);
-
-    const user = await User.create({email, key: response.user.uid, ...profile});
-    this.user = user;
-
+    this.user = await User.create({email, key: response.user.uid, ...profile}) as User;
     await this.signIn(email, password);
+    return this.user;
+  }
 
-    return user;
+  async signInAsGuest() {
+    let response = await firebase.auth().signInAnonymously();
+
+    this.user = await User.create({key: response.user.uid, displayName: "Guest", anonymous: response.user.isAnonymous}) as User;
+
+    return this.user;
   }
 
   async signIn(email: string, password: string) {
@@ -109,3 +115,6 @@ export default class Authentication {
     firebase.auth().signOut()
   }
 }
+
+
+window["Authentication"] = new Authentication;

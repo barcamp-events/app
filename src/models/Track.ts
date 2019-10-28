@@ -37,7 +37,15 @@ export default class Track extends FirebaseModel {
 
 		await asyncForEach(this.talks, async (_, index) => {
 			const time = conference.talksBegin.add((conference.talkLength * index), "minute");
-			const track = await Talk.create(new Talk({trackKey: this.key, conferenceKey: this.conferenceKey, time }));
+
+			const track = await Talk.create(new Talk({
+				trackKey: this.key,
+				conferenceKey: this.conferenceKey,
+				trackTitle: this.name,
+				time,
+				talkLength: conference.talkLength
+			}));
+
 			talkKeys.push(track.key);
 		});
 
@@ -61,6 +69,8 @@ export default class Track extends FirebaseModel {
 		const talks = await this.theTalks();
 
 		await asyncForEach(talks, async (talk: Talk) => {
+			talk.trackTitle = this.name;
+			await talk.save()
 			return await talk.release()
 		})
 	}

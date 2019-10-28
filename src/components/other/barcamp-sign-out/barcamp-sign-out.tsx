@@ -7,7 +7,7 @@ import Authentication from '../../../models/Authentication'
 })
 export class BarcampSignOut {
   @Prop() history: RouterHistory;
-  @State() auth: Authentication = new Authentication();
+  @State() auth: Authentication = window["Authentication"] as Authentication;
 
   async componentWillLoad() {
     await this.auth.signOut();

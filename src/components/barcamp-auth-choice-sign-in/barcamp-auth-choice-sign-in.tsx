@@ -1,7 +1,7 @@
 import { Component, Host, h, State, Element, Prop } from '@stencil/core';
-import delay from "async-delay";
 import { RouterHistory } from '@stencil/router';
 import Authentication from '../../models/Authentication';
+import delay from 'async-delay';
 import AuthenticationTunnel from '../../tunnels/authentication';
 
 @Component({
@@ -12,7 +12,7 @@ export class BarcampAuthChoiceSignIn {
 
   @Prop() history: RouterHistory;
   @Prop() user: User;
-  @Prop() auth: Authentication = new Authentication;
+  @State() auth: Authentication = window["Authentication"] as Authentication;
 
   @State() card: HTMLStellarCardElement;
 
@@ -28,10 +28,18 @@ export class BarcampAuthChoiceSignIn {
     if (urlParams.get('redirect')) {
       this.redirectURL = urlParams.get('redirect') ? decodeURI(urlParams.get('redirect')) : '/';
     }
+
+    Authentication.onAuthStateChanged(async (user) => {
+      if (user) {
+        this.success = true;
+        await delay(100);
+        await this.card.flip_card();
+      }
+    });
   }
 
   componentDidLoad() {
-    this.card = this.element.querySelector('stellar-card')
+    this.card = this.element.querySelector('stellar-card');
   }
 
   redirect () {
@@ -42,14 +50,9 @@ export class BarcampAuthChoiceSignIn {
     const email = e.detail.json.email;
     const password = e.detail.json.password;
 
-    console.log(e.detail.json);
-
     try {
-      const result = await this.auth.signIn(email, password);
-      console.log(result);
+      await this.auth.signIn(email, password);
       this.success = true;
-      await delay(100);
-      await this.card.flip_card();
     } catch (e) {
       this.error = e.message;
       console.log(e);
@@ -59,7 +62,7 @@ export class BarcampAuthChoiceSignIn {
   render() {
     return (
       <Host>
-        <stellar-card id="sign-in" flippable={this.success} flip_icon={undefined}>
+        <stellar-card id="sign-in" flippable={this.success} flip-icon={"false"}>
           <section>
             <stellar-form ajax onSubmitted={this.onSubmit.bind(this)}>
               <stellar-grid cols="1" noresponsive>
@@ -71,8 +74,12 @@ export class BarcampAuthChoiceSignIn {
           </section>
           {this.user && <section slot="back">
             <copy-wrap align="center" class="mt5">
-              <stellar-avatar name={this.user.displayName} size="large" shape="circle" />
-              <h4 class="parco">Welcome back {this.user.displayName}!</h4>
+              <stellar-avatar name={this.user.displayName} size="large" class="s-bevel" />
+              <h4 class="parco mb5">Welcome back {this.user.displayName}!</h4>
+              <stellar-grid class="mw6 w-80" style={{"--grid-width" : "100px", "--grid-gap": "1rem"}}>
+                <stellar-button tag="route-link" href={this.redirectURL} class="mr4" block>Continue to Redirect</stellar-button>
+                <stellar-button tag="route-link" href={this.redirectURL} ghost block>Dashboard</stellar-button>
+              </stellar-grid>
             </copy-wrap>
           </section>}
         </stellar-card>

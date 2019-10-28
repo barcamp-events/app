@@ -15,7 +15,7 @@ const components = "app-header, app-footer, barcamp-app, barcamp-profile";
 export class BarcampApp {
   @Prop() history: RouterHistory;
 
-  @State() auth = new Authentication;
+  @State() auth: Authentication = window["Authentication"] as Authentication;
   @State() user: User;
   @State() conference: Conference;
 

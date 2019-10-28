@@ -13,7 +13,7 @@ export class BarcampAuthChoiceSignUp {
 
   @Prop() history: RouterHistory;
   @Prop() user: User;
-  @Prop() auth: Authentication = new Authentication;
+  @State() auth: Authentication = window["Authentication"] as Authentication;
 
   @State() card: HTMLStellarCardElement;
 
@@ -29,10 +29,18 @@ export class BarcampAuthChoiceSignUp {
     if (urlParams.get('redirect')) {
       this.redirectURL = urlParams.get('redirect') ? decodeURI(urlParams.get('redirect')) : '/';
     }
+
+    Authentication.onAuthStateChanged(async (user) => {
+      if (user) {
+        this.success = true;
+        await delay(100);
+        await this.card.flip_card();
+      }
+    });
   }
 
   componentDidLoad() {
-    this.card = this.element.querySelector('stellar-card')
+    this.card = this.element.querySelector('stellar-card');
   }
 
   redirect () {
@@ -58,7 +66,7 @@ export class BarcampAuthChoiceSignUp {
   render() {
     return (
       <Host>
-        <stellar-card id="sign-up" flippable={this.success} flip_icon={""}>
+        <stellar-card id="sign-up" flippable={this.success} flip-icon={"false"}>
             <section>
               <stellar-form ajax onSubmitted={this.onSubmit.bind(this)}>
                 <stellar-grid cols="1" noresponsive>
