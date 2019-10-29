@@ -22,8 +22,13 @@ export class BarcampScheduleTalkGroup {
     this.attachInterval();
   }
 
-  scroll () {
-    window.scrollTo({ behavior: "smooth", top: this.element.offsetTop + (this.element.offsetHeight / 2) })
+  async scroll () {
+    const top = this.element.offsetTop + (this.element.offsetHeight / 2);
+
+    if (window.scrollY !== top) {
+      await (await document.querySelector("web-audio").source("chime")).play()
+      window.scrollTo({ behavior: "smooth", top })
+    }
   }
 
   @Listen("mousemove", {target: "window"})
@@ -41,15 +46,13 @@ export class BarcampScheduleTalkGroup {
 
   attachInterval() {
     this.interval = setInterval(() => {
-      console.log("time!");
-
       if (this.isBetween) {
         this.scroll()
       }
 
       // @ts-ignore
       this.element.forceUpdate()
-    }, 60 * 1000); // every 5 minutes
+    }, 60 * 1000);
   }
 
   get isAfter() {

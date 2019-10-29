@@ -55,7 +55,6 @@ export class BarcampAuthChoiceSignIn {
       this.success = true;
     } catch (e) {
       this.error = e.message;
-      console.log(e);
     }
   }
 

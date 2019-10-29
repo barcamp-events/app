@@ -42,8 +42,12 @@ export const config: Config = {
       type: 'www',
       dir: "public",
       baseUrl: "https://beta.barcamp.events",
+      serviceWorker: {
+        swSrc: 'src/sw.js'
+      },
       copy: [
         { src: "svg/*.svg", dest: "./build/svg/" },
+        { src: "firebase-messaging-sw.js", dest: "./firebase-messaging-sw.js" },
         { src: "assets/audio" },
         { src: "assets/fonts" },
         { src: "assets/images" },

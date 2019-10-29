@@ -29,8 +29,6 @@ export class BarcampDocs {
       'privacy-policy': 'https://raw.githubusercontent.com/barcamp-events/documents/master/PRIVACY_POLICY.md'
     };
 
-    console.log(docs[this.name])
-
     return docs[this.name]
   }
 

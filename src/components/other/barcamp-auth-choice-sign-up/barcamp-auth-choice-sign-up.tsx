@@ -59,7 +59,6 @@ export class BarcampAuthChoiceSignUp {
       await this.card.flip_card();
     } catch (e) {
       this.error = e.message;
-      console.log(e.message);
     }
   }
 

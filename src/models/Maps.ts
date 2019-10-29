@@ -31,8 +31,6 @@ export default class Maps {
 	static async get_distance(location: Location, destination: Location) {
 		let result = await fetch(`${Maps.proxy}https://maps.googleapis.com/maps/api/distancematrix/json?origins=${location.latitude},${location.longitude}|${destination.latitude},${destination.longitude}&key=${Maps.places_api_key}`);
 		result = await result.json();
-		console.log(Maps.maps_api_key, result);
-		console.log(Maps.places_api_key, result);
 		return result;
 	}
 

@@ -18,6 +18,9 @@ export default class User extends FirebaseModel {
 	@prop({ serializable: ['firebase'] })
 	public key: string;
 
+	@prop({ serializable: ['firebase'], defaultValue: [], emptyValue: [] })
+	public pushNotificationKeys: string[];
+
 	@prop({ serializable: ['firebase'] })
 	public social;
 

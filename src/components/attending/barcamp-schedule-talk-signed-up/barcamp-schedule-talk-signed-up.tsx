@@ -16,6 +16,7 @@ export class BarcampScheduleTalkSignedUp {
 
   async onCancel() {
     if (this.confirmCancel) {
+      await (await document.querySelector("web-audio").source("cancel")).play();
       await this.talk.release();
     }
     else {

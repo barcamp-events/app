@@ -6,6 +6,7 @@ import Authentication from '../../models/Authentication';
 import User from '../../models/User';
 import Conference from '../../models/Conference';
 import Tunnel from '../../tunnels/authentication';
+import Notification from '../../models/Notifications';
 
 const components = "app-header, app-footer, barcamp-app, barcamp-profile";
 
@@ -18,6 +19,8 @@ export class BarcampApp {
   @State() auth: Authentication = window["Authentication"] as Authentication;
   @State() user: User;
   @State() conference: Conference;
+
+  notifications: Notification = new Notification();
 
   componentWillLoad() {
     Authentication.onAuthStateChanged(({user}) => {
@@ -133,6 +136,11 @@ export class BarcampApp {
               </stencil-router>
             </article>
             <app-footer />
+            <web-audio>
+              <web-audio-source name="alert" src="/assets/audio/alert.mp3" />
+              <web-audio-source name="chime" src="/assets/audio/chime.mp3" />
+              <web-audio-source name="cancel" src="/assets/audio/cancel.mp3" />
+            </web-audio>
           </main>
         </Tunnel.Provider>
     );

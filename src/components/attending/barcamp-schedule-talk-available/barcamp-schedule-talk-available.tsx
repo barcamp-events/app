@@ -26,9 +26,10 @@ export class BarcampScheduleTalkAvailable {
     this.element.querySelector('stellar-card').flip_card();
   }
 
-  addTalk(e) {
+  async addTalk(e) {
     this.talk.populate(e.detail.json);
-    this.talk.save()
+    await (await document.querySelector("web-audio").source("alert")).play();
+    await this.talk.save();
   }
 
   render() {

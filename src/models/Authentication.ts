@@ -3,6 +3,7 @@ import '@firebase/analytics';
 import '@firebase/performance';
 import '@firebase/auth';
 import '@firebase/firestore';
+import '@firebase/messaging';
 import '@stencil/router';
 import { User as FirebaseUser } from 'firebase'
 import User from './User';
@@ -23,7 +24,10 @@ const firebaseConfig = {
 if (firebase.apps.length === 0) {
   firebase.initializeApp(firebaseConfig)
   firebase.performance()
-  firebase.analytics()
+  firebase.analytics();
+  navigator.serviceWorker.register('/sw.js').then( (registration) => {
+    firebase.messaging().useServiceWorker(registration);
+  });
 }
 
 export default class Authentication {

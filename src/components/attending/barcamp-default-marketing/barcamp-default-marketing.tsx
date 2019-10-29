@@ -34,8 +34,6 @@ export class BarcampDefaultMarketing {
     this.tracks = await this.conference.theTracks();
     this.sponsors = await this.conference.theSponsors();
 
-    console.log(this.conference);
-
     this.conference.onChange(async (conference) => {
       this.conference.populate(conference);
       this.tracks = await this.conference.theTracks();
