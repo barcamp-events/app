@@ -1,8 +1,8 @@
 import { Component, Host, h, Element, Prop, State } from '@stencil/core';
 import { RouterHistory } from '@stencil/router';
-import Authentication from '../../models/Authentication';
+import Authentication from '../../../models/Authentication';
 import delay from 'async-delay';
-import AuthenticationTunnel from '../../tunnels/authentication';
+import AuthenticationTunnel from '../../../tunnels/authentication';
 
 @Component({
   tag: 'barcamp-auth-choice-guest',

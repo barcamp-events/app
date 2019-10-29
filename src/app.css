@@ -133,3 +133,55 @@ app-footer > div.flex {
         text-align: center;
     }
 }
+
+.grayscale {
+    filter: grayscale(1);
+}
+
+.noclick {
+    pointer-events: none;
+}
+
+@keyframes slide-up {
+    0% {
+        opacity: 0;
+        transform: translateY(var(--distance));
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-down {
+    0% {
+        opacity: 0;
+        transform: translateY(var(--distance));
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-right {
+    0% {
+        opacity: 0;
+        transform: translateX(var(--distance));
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes slide-left {
+    0% {
+        opacity: 0;
+        transform: translateX(var(--distance));
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

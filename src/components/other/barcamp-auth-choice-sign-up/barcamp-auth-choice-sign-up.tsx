@@ -1,8 +1,8 @@
 import { Component, Host, h, State, Element, Prop } from '@stencil/core';
 import delay from "async-delay";
 import { RouterHistory } from '@stencil/router';
-import AuthenticationTunnel from '../../tunnels/authentication';
-import Authentication from '../../models/Authentication';
+import AuthenticationTunnel from '../../../tunnels/authentication';
+import Authentication from '../../../models/Authentication';
 
 @Component({
   tag: 'barcamp-auth-choice-sign-up',

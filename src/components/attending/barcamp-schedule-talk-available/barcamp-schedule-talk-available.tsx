@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, Element } from '@stencil/core';
-import Talk from '../../models/Talk';
-import User from '../../models/User';
-import AuthenticationTunnel from '../../tunnels/authentication';
+import Talk from '../../../models/Talk';
+import User from '../../../models/User';
+import AuthenticationTunnel from '../../../tunnels/authentication';
 
 @Component({
   tag: 'barcamp-schedule-talk-available'
@@ -41,14 +41,14 @@ export class BarcampScheduleTalkAvailable {
           </copy-wrap>
         </section>
         <footer class="flex items-center justify-between">
-          <stellar-button block onClick={this.flipCard.bind(this)} ghost>Sign up for this slot!</stellar-button>
+          <stellar-button tag="button" block onClick={this.flipCard.bind(this)} ghost>Sign up for this slot!</stellar-button>
         </footer>
         <header slot="back" class="hero">
           <h6 class="fs7 ttu b mv3">{this.talk.friendlyLength} in {this.talk.trackTitle}</h6>
         </header>
         <section slot="back">
           <stellar-form ajax onSubmitted={this.addTalk.bind(this)}>
-            <stellar-grid >
+            <stellar-grid cols="1" noresponsive>
               <stellar-input type="hidden" name="key" value={this.talk.key} />
               <stellar-input type="hidden" name="speakerKey" value={this.user.key} />
               <stellar-input name="title" label="Title" placeholder="Food Court" />

@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, Element } from '@stencil/core';
-import Talk from '../../models/Talk';
-import User from '../../models/User';
+import Talk from '../../../models/Talk';
+import User from '../../../models/User';
 
 @Component({
   tag: 'barcamp-schedule-talk-signing-up'

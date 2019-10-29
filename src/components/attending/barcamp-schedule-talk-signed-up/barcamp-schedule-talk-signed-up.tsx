@@ -1,7 +1,7 @@
 import { Component, Host, h, Prop, State, Listen } from '@stencil/core';
-import Talk from '../../models/Talk';
-import User from '../../models/User';
-import AuthenticationTunnel from '../../tunnels/authentication';
+import Talk from '../../../models/Talk';
+import User from '../../../models/User';
+import AuthenticationTunnel from '../../../tunnels/authentication';
 
 @Component({
   tag: 'barcamp-schedule-talk-signed-up'
@@ -22,7 +22,6 @@ export class BarcampScheduleTalkSignedUp {
       this.confirmCancel = true;
     }
   }
-
 
   @Listen("keydown", {target: "document"})
   handleEscape(e) {
@@ -53,7 +52,6 @@ export class BarcampScheduleTalkSignedUp {
       </stellar-card>
     </Host>
   }
-
 }
 
 AuthenticationTunnel.injectProps(BarcampScheduleTalkSignedUp, ['user']);

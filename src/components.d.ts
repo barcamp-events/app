@@ -77,6 +77,10 @@ export namespace Components {
     'talk': Talk;
     'user': User;
   }
+  interface BarcampScheduleTalkGroup {
+    'active': string;
+    'entry': any;
+  }
   interface BarcampScheduleTalkSignedUp {
     'speaker': User;
     'talk': Talk;
@@ -268,6 +272,12 @@ declare global {
     new (): HTMLBarcampScheduleTalkAvailableElement;
   };
 
+  interface HTMLBarcampScheduleTalkGroupElement extends Components.BarcampScheduleTalkGroup, HTMLStencilElement {}
+  var HTMLBarcampScheduleTalkGroupElement: {
+    prototype: HTMLBarcampScheduleTalkGroupElement;
+    new (): HTMLBarcampScheduleTalkGroupElement;
+  };
+
   interface HTMLBarcampScheduleTalkSignedUpElement extends Components.BarcampScheduleTalkSignedUp, HTMLStencilElement {}
   var HTMLBarcampScheduleTalkSignedUpElement: {
     prototype: HTMLBarcampScheduleTalkSignedUpElement;
@@ -325,6 +335,7 @@ declare global {
     'barcamp-schedule-signup': HTMLBarcampScheduleSignupElement;
     'barcamp-schedule-talk': HTMLBarcampScheduleTalkElement;
     'barcamp-schedule-talk-available': HTMLBarcampScheduleTalkAvailableElement;
+    'barcamp-schedule-talk-group': HTMLBarcampScheduleTalkGroupElement;
     'barcamp-schedule-talk-signed-up': HTMLBarcampScheduleTalkSignedUpElement;
     'barcamp-schedule-talk-signing-up': HTMLBarcampScheduleTalkSigningUpElement;
     'barcamp-schedule-track': HTMLBarcampScheduleTrackElement;
@@ -395,6 +406,10 @@ declare namespace LocalJSX {
     'talk'?: Talk;
     'user'?: User;
   }
+  interface BarcampScheduleTalkGroup {
+    'active'?: string;
+    'entry'?: any;
+  }
   interface BarcampScheduleTalkSignedUp {
     'speaker'?: User;
     'talk'?: Talk;
@@ -443,6 +458,7 @@ declare namespace LocalJSX {
     'barcamp-schedule-signup': BarcampScheduleSignup;
     'barcamp-schedule-talk': BarcampScheduleTalk;
     'barcamp-schedule-talk-available': BarcampScheduleTalkAvailable;
+    'barcamp-schedule-talk-group': BarcampScheduleTalkGroup;
     'barcamp-schedule-talk-signed-up': BarcampScheduleTalkSignedUp;
     'barcamp-schedule-talk-signing-up': BarcampScheduleTalkSigningUp;
     'barcamp-schedule-track': BarcampScheduleTrack;
@@ -484,6 +500,7 @@ declare module "@stencil/core" {
       'barcamp-schedule-signup': LocalJSX.BarcampScheduleSignup & JSXBase.HTMLAttributes<HTMLBarcampScheduleSignupElement>;
       'barcamp-schedule-talk': LocalJSX.BarcampScheduleTalk & JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkElement>;
       'barcamp-schedule-talk-available': LocalJSX.BarcampScheduleTalkAvailable & JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkAvailableElement>;
+      'barcamp-schedule-talk-group': LocalJSX.BarcampScheduleTalkGroup & JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkGroupElement>;
       'barcamp-schedule-talk-signed-up': LocalJSX.BarcampScheduleTalkSignedUp & JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkSignedUpElement>;
       'barcamp-schedule-talk-signing-up': LocalJSX.BarcampScheduleTalkSigningUp & JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkSigningUpElement>;
       'barcamp-schedule-track': LocalJSX.BarcampScheduleTrack & JSXBase.HTMLAttributes<HTMLBarcampScheduleTrackElement>;

@@ -1,6 +1,6 @@
 import { Component, Host, h, Prop, Element, State, Method } from '@stencil/core';
-import Conference from '../../models/Conference';
-import AuthenticationTunnel from '../../tunnels/authentication';
+import Conference from '../../../models/Conference';
+import AuthenticationTunnel from '../../../tunnels/authentication';
 import delay from 'async-delay'
 
 @Component({

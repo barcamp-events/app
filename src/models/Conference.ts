@@ -8,6 +8,8 @@ import Track from './Track';
 import Sponsor from './Sponsor';
 import { SponsorList } from "./SponsorList";
 import FirebaseModel from './FirebaseModel';
+import Talk from './Talk';
+import TalkList from './TalkList';
 
 export default class Conference extends FirebaseModel {
 	static bucket = "conference/";
@@ -123,6 +125,12 @@ export default class Conference extends FirebaseModel {
 
 	is_sponsoring(sponsor: Sponsor) {
 		return this.sponsors.includes(sponsor.key)
+	}
+
+	async getTalksInOrder () {
+		const talks = await Talk.where(["conferenceKey", "==", this.key], "many") as Talk[];
+		const list = new TalkList(talks);
+		return list.by_time_and_tracks(this.tracks);
 	}
 
 	get slots() {

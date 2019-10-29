@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop } from '@stencil/core';
-import Sponsor from '../../models/Sponsor';
+import Sponsor from '../../../models/Sponsor';
 
 @Component({
   tag: 'barcamp-sponsor'

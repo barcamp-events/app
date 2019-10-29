@@ -1,5 +1,5 @@
 import { Component, Host, h, Prop } from '@stencil/core';
-import AuthenticationTunnel from '../../tunnels/authentication';
+import AuthenticationTunnel from '../../../tunnels/authentication';
 
 @Component({
   tag: 'barcamp-auth-choices',

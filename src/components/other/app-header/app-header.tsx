@@ -1,6 +1,6 @@
 import { Component, Host, Prop, h } from '@stencil/core';
-import AuthenticationTunnel from '../../tunnels/authentication';
-import User from '../../models/User';
+import AuthenticationTunnel from '../../../tunnels/authentication';
+import User from '../../../models/User';
 
 @Component({
   tag: 'app-header',

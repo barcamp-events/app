@@ -14,6 +14,9 @@ export default class Talk extends FirebaseModel {
 	public speakerKey: string;
 
 	@prop({})
+	public trackKey: string;
+
+	@prop({})
 	public signingUpKey: string;
 
 	@prop({})
