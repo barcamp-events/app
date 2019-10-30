@@ -3,6 +3,7 @@ import Dayjs from 'dayjs';
 import FirebaseModel from './FirebaseModel';
 
 export default class Talk extends FirebaseModel {
+	static format = "h:mma";
 	static bucket = "talk/";
     static get model () { return Talk }
     static instantiate (args?) { return new Talk(args) }
@@ -44,6 +45,9 @@ export default class Talk extends FirebaseModel {
 	@prop({defaultValue: [], emptyValue: []})
 	public attendees: string[] = [];
 
+	@prop({defaultValue: [], emptyValue: []})
+	public notify: string[] = [];
+
 	async release () {
 		this.populate({
 			speakerKey: null,
@@ -62,20 +66,20 @@ export default class Talk extends FirebaseModel {
 	}
 
 	async attend(user: User) {
-		if (!this.is_user_attending(user)) {
+		if (!this.isUserAttending(user)) {
 			this.attendees = [...this.attendees, user.key];
 			return await this.save()
 		}
 	}
 
 	async unattend(user: User) {
-		if (this.is_user_attending(user)) {
+		if (this.isUserAttending(user)) {
 			this.attendees = this.attendees.filter((key) => { return user.key !== key });
 			return await this.save()
 		}
 	}
 
-	is_user_attending(user: User) {
+	isUserAttending(user: User) {
 		return this.attendees.includes(user.key)
 	}
 
@@ -91,5 +95,21 @@ export default class Talk extends FirebaseModel {
 		return this.signingUpKey && !this.isTaken;
 	}
 
-	static format = "h:mma";
+	async sendNotification (user: User) {
+		if (!this.isRecievingNotification(user)) {
+			this.notify = [...this.notify, user.key];
+			return await this.save();
+		}
+	}
+
+	async dontSendNotification (user: User) {
+		if (this.isRecievingNotification(user)) {
+			this.notify = this.notify.filter((key) => { return user.key !== key });
+			return await this.save();
+		}
+	}
+
+	isRecievingNotification(user: User) {
+		return this.notify.includes(user.key)
+	}
 }

@@ -22,9 +22,9 @@ export class AppHeader {
           {this.user && <stellar-dropdown class="bn mw6 ml-auto" position="right">
             <p slot="handle" class="fw4 parco flex items-center"><stellar-avatar name={this.user.displayName} notooltip class="mr3 s-bevel" />{this.user.displayName}</p>
             <stellar-item type="stencil-route-link" href="/profile">Profile</stellar-item>
-            <stellar-item type="stencil-route-link" href="/attend">Attend</stellar-item>
-            <stellar-item type="stencil-route-link" href="/host">Host</stellar-item>
-            <stellar-item type="stencil-route-link" href="/search"><stellar-icon name="search" class="fs6" /> Search</stellar-item>
+            {/* <stellar-item type="stencil-route-link" href="/attend">Attend</stellar-item> */}
+            {/* <stellar-item type="stencil-route-link" href="/host">Host</stellar-item> */}
+            {/* <stellar-item type="stencil-route-link" href="/search"><stellar-icon name="search" class="fs6" /> Search</stellar-item> */}
             <stellar-item type="stencil-route-link" href="/sign-out">Sign out</stellar-item>
           </stellar-dropdown>}
         </div>

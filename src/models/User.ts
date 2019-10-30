@@ -32,7 +32,8 @@ export default class User extends FirebaseModel {
 	public color: string;
 
 	@prop({
-		emptyValue: false,
+		emptyValue: true,
+		defaultValue: true,
 		serializable: ['firebase']
 	})
 	public dark_mode: boolean;
@@ -43,13 +44,20 @@ export default class User extends FirebaseModel {
 	})
 	public reduced_motion;
 
-	@prop({ serializable: ['firebase'] })
+	@prop({
+		serializable: ['firebase'],
+		defaultValue: "I share my passion at BarCamp",
+		emptyValue: "I share my passion at BarCamp"
+	})
 	public bio;
 
 	@prop({ serializable: [] })
 	public location;
 
-	@prop({ defaultValue: false, emptyValue: false })
+	@prop({
+		emptyValue: false,
+		serializable: ['firebase']
+	})
 	public anonymous;
 
 	link(platform) {

@@ -27,6 +27,11 @@ export class BarcampScheduleTalkAvailable {
   }
 
   async addTalk(e) {
+    if (this.user.anonymous) {
+      this.user.populate(e.detail.json.user);
+      await this.user.save();
+    }
+
     this.talk.populate(e.detail.json);
     await (await document.querySelector("web-audio").source("alert")).play();
     await this.talk.save();
@@ -50,6 +55,8 @@ export class BarcampScheduleTalkAvailable {
         <section slot="back">
           <stellar-form ajax onSubmitted={this.addTalk.bind(this)}>
             <stellar-grid cols="1" noresponsive>
+              {this.user.anonymous && this.user.displayName === "Guest" && <stellar-input name="user[displayName]" placeholder="Betty White" label="Your name" />}
+              {this.user.anonymous && !this.user.email && <stellar-input name="user[email]" placeholder="bettywhite@gmail.com" label="Your email" />}
               <stellar-input type="hidden" name="key" value={this.talk.key} />
               <stellar-input type="hidden" name="speakerKey" value={this.user.key} />
               <stellar-input name="title" label="Title" placeholder="Food Court" />

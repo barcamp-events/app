@@ -59,7 +59,7 @@ export class BarcampScheduleTalk {
   }
 
   render() {
-    return <Host class={`db ${this.track ? `theme-${this.track.color}` : ""}`} style={{"min-height": "12rem"}}>
+    return <Host class={`db ${this.track ? `theme-${this.track.color}` : ""}`} style={{"min-height": "12rem", "min-width": "17.5rem"}}>
       {!this.ready && <skeleton-img width={1000} height={400} block loading icon class="w-100 db ma0" />}
       {this.ready && (this.talk.signingUpKey && this.talk.signingUpKey !== this.user.key) && !this.talk.isTaken && <barcamp-schedule-talk-signing-up talk={this.talk} signingUp={this.signingUp} />}
       {this.ready && (!this.talk.signingUpKey || this.talk.signingUpKey === this.user.key) && !this.talk.isTaken && <barcamp-schedule-talk-available talk={this.talk} />}

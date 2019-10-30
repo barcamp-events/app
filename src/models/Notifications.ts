@@ -39,8 +39,17 @@ export default class Notifications {
       }
     }
 
+    get granted () {
+      return Notification.permission === "granted"
+    }
+
+    static supported () {
+      return isAvailable && firebase.messaging.isSupported
+    }
+
     foregroundMessages() {
       const messaging = firebase.messaging();
+
       messaging.onMessage((payload) => {
         console.log('Message received. ', payload);
       });
@@ -49,16 +58,20 @@ export default class Notifications {
     askForPushNotifications = async () => {
       try {
         const messaging = firebase.messaging();
-        await messaging.requestPermission();
-        const token = await messaging.getToken();
+        let token;
 
-        const user = await User.current() as User;
-        user.pushNotificationKeys = [...user.pushNotificationKeys, token];
-        await user.save()
+        await messaging.requestPermission();
+        token = await messaging.getToken();
+
+        if (this.granted) {
+          const user = await User.current() as User;
+          user.pushNotificationKeys = [...user.pushNotificationKeys, token];
+          await user.save()
+        }
 
         return token;
       } catch(error) {
-        console.error(error);
+        throw error
       }
     }
 }
