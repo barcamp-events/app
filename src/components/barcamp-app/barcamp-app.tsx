@@ -123,6 +123,8 @@ export class BarcampApp {
                   <this.PrivateEventManagerRoute url='/host/:eventId/format' component='barcamp-host-set-format' />
                   <this.PrivateEventManagerRoute url='/host/:eventId/branding' component='barcamp-host-branding' />
 
+                  <this.PrivateRoute url='/:slug/:year/schedule/switch' component='barcamp-schedule-switch-talk' />
+                  <this.PrivateRoute url='/:slug/schedule/switch' component='barcamp-schedule-switch-talk' />
                   <this.PrivateRoute url='/:slug/:year/schedule' component='barcamp-schedule' />
                   <this.PrivateRoute url='/:slug/schedule' component='barcamp-schedule' />
                   <this.Route url='/:slug/:year' component='barcamp-default-marketing' />

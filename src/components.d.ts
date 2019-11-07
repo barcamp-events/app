@@ -69,6 +69,11 @@ export namespace Components {
     'user': User;
   }
   interface BarcampScheduleSignup {}
+  interface BarcampScheduleSwitchTalk {
+    'history': RouterHistory;
+    'match': MatchResults;
+    'user': User;
+  }
   interface BarcampScheduleTalk {
     'talk': Talk;
     'user': User;
@@ -76,6 +81,7 @@ export namespace Components {
   interface BarcampScheduleTalkAvailable {
     'talk': Talk;
     'user': User;
+    'writable': boolean;
   }
   interface BarcampScheduleTalkGroup {
     'active': string;
@@ -260,6 +266,12 @@ declare global {
     new (): HTMLBarcampScheduleSignupElement;
   };
 
+  interface HTMLBarcampScheduleSwitchTalkElement extends Components.BarcampScheduleSwitchTalk, HTMLStencilElement {}
+  var HTMLBarcampScheduleSwitchTalkElement: {
+    prototype: HTMLBarcampScheduleSwitchTalkElement;
+    new (): HTMLBarcampScheduleSwitchTalkElement;
+  };
+
   interface HTMLBarcampScheduleTalkElement extends Components.BarcampScheduleTalk, HTMLStencilElement {}
   var HTMLBarcampScheduleTalkElement: {
     prototype: HTMLBarcampScheduleTalkElement;
@@ -333,6 +345,7 @@ declare global {
     'barcamp-profile': HTMLBarcampProfileElement;
     'barcamp-schedule': HTMLBarcampScheduleElement;
     'barcamp-schedule-signup': HTMLBarcampScheduleSignupElement;
+    'barcamp-schedule-switch-talk': HTMLBarcampScheduleSwitchTalkElement;
     'barcamp-schedule-talk': HTMLBarcampScheduleTalkElement;
     'barcamp-schedule-talk-available': HTMLBarcampScheduleTalkAvailableElement;
     'barcamp-schedule-talk-group': HTMLBarcampScheduleTalkGroupElement;
@@ -398,6 +411,11 @@ declare namespace LocalJSX {
     'user'?: User;
   }
   interface BarcampScheduleSignup {}
+  interface BarcampScheduleSwitchTalk {
+    'history'?: RouterHistory;
+    'match'?: MatchResults;
+    'user'?: User;
+  }
   interface BarcampScheduleTalk {
     'talk'?: Talk;
     'user'?: User;
@@ -405,6 +423,7 @@ declare namespace LocalJSX {
   interface BarcampScheduleTalkAvailable {
     'talk'?: Talk;
     'user'?: User;
+    'writable'?: boolean;
   }
   interface BarcampScheduleTalkGroup {
     'active'?: string;
@@ -456,6 +475,7 @@ declare namespace LocalJSX {
     'barcamp-profile': BarcampProfile;
     'barcamp-schedule': BarcampSchedule;
     'barcamp-schedule-signup': BarcampScheduleSignup;
+    'barcamp-schedule-switch-talk': BarcampScheduleSwitchTalk;
     'barcamp-schedule-talk': BarcampScheduleTalk;
     'barcamp-schedule-talk-available': BarcampScheduleTalkAvailable;
     'barcamp-schedule-talk-group': BarcampScheduleTalkGroup;
@@ -498,6 +518,7 @@ declare module "@stencil/core" {
       'barcamp-profile': LocalJSX.BarcampProfile & JSXBase.HTMLAttributes<HTMLBarcampProfileElement>;
       'barcamp-schedule': LocalJSX.BarcampSchedule & JSXBase.HTMLAttributes<HTMLBarcampScheduleElement>;
       'barcamp-schedule-signup': LocalJSX.BarcampScheduleSignup & JSXBase.HTMLAttributes<HTMLBarcampScheduleSignupElement>;
+      'barcamp-schedule-switch-talk': LocalJSX.BarcampScheduleSwitchTalk & JSXBase.HTMLAttributes<HTMLBarcampScheduleSwitchTalkElement>;
       'barcamp-schedule-talk': LocalJSX.BarcampScheduleTalk & JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkElement>;
       'barcamp-schedule-talk-available': LocalJSX.BarcampScheduleTalkAvailable & JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkAvailableElement>;
       'barcamp-schedule-talk-group': LocalJSX.BarcampScheduleTalkGroup & JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkGroupElement>;

@@ -112,4 +112,32 @@ export default class Talk extends FirebaseModel {
 	isRecievingNotification(user: User) {
 		return this.notify.includes(user.key)
 	}
+
+	static async switch(from: Talk, to: Talk) {
+		const fromClone = from.clone();
+		const toClone = to.clone();
+
+		await to.populate({
+			speakerKey: fromClone.speakerKey,
+			signingUpKey: fromClone.signingUpKey,
+			title: fromClone.title,
+			description: fromClone.description,
+			attendees: fromClone.attendees,
+			notify: fromClone.notify,
+		});
+
+		await from.populate({
+			speakerKey: toClone.speakerKey,
+			signingUpKey: toClone.signingUpKey,
+			title: toClone.title,
+			description: toClone.description,
+			attendees: toClone.attendees,
+			notify: toClone.notify,
+		});
+
+		await to.save();
+		await from.save();
+
+		return true;
+	}
 }

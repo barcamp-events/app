@@ -2,12 +2,15 @@ import { Component, Host, h, Prop, State, Method, Element } from '@stencil/core'
 import Conference from '../../../models/Conference';
 import AuthenticationTunnel from '../../../tunnels/authentication';
 import ConferenceTunnel from '../../../tunnels/conference';
+import WritableTunnel from '../../../tunnels/writable';
 import { MatchResults, RouterHistory } from '@stencil/router';
 import Track from '../../../models/Track';
 import delay from 'async-delay';
 import Dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-Dayjs.extend(isBetween)
+Dayjs.extend(isBetween);
+import KonamiCode from "konami-code";
+
 
 @Component({
   tag: 'barcamp-schedule'
@@ -19,6 +22,7 @@ export class BarcampSchedule {
   @Prop() history: RouterHistory;
 
   @Prop() user: User;
+  @State() writable: boolean = false;
 
   @State() conference: Conference;
   @State() tracks: Track[] = [];
@@ -31,6 +35,7 @@ export class BarcampSchedule {
   @State() activeTab: string = "all";
 
   interval!: any;
+  konami: KonamiCode = new KonamiCode();
 
   componentWillLoad() {
     this.slug = this.match.params.slug;
@@ -43,6 +48,10 @@ export class BarcampSchedule {
         this.element.forceUpdate();
       }, 30 * 1000)
     }
+
+    this.konami.listen(() => {
+        this.writable = true;
+    });
   }
 
   async loadConference() {
@@ -103,7 +112,12 @@ export class BarcampSchedule {
       conference: this.conference
     };
 
+    const writableState = {
+      writable: this.writable
+    };
+
     return this.conference && <Host>
+      <WritableTunnel.Provider state={writableState}>
       <ConferenceTunnel.Provider state={conferenceState}>
         <stencil-route-title title="Schedule" />
         <stellar-layout class="hero z-1">
@@ -128,6 +142,7 @@ export class BarcampSchedule {
           {this.talks && Object.entries(this.talks).map(entry => <barcamp-schedule-talk-group entry={entry[1]} active={this.activeTab} />)}
         </stellar-layout>}
       </ConferenceTunnel.Provider>
+      </WritableTunnel.Provider>
     </Host>
   }
 }

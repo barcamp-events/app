@@ -44,7 +44,8 @@ export default class Notifications {
     }
 
     static supported () {
-      return isAvailable && firebase.messaging.isSupported
+      return false;
+      // return isAvailable && firebase.messaging.isSupported()
     }
 
     foregroundMessages() {

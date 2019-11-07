@@ -2,6 +2,7 @@ import { Component, Host, h, Prop, Element } from '@stencil/core';
 import Talk from '../../../models/Talk';
 import User from '../../../models/User';
 import AuthenticationTunnel from '../../../tunnels/authentication';
+import WritableTunnel from '../../../tunnels/writable';
 
 @Component({
   tag: 'barcamp-schedule-talk-available'
@@ -11,6 +12,7 @@ export class BarcampScheduleTalkAvailable {
 
   @Prop() talk: Talk;
   @Prop() user: User;
+  @Prop() writable: boolean;
 
   async flipped(e) {
     if (e.target.flipped) {
@@ -39,20 +41,20 @@ export class BarcampScheduleTalkAvailable {
 
   render() {
     return <Host class="dc">
-      <stellar-card flippable onFlip={this.flipped.bind(this)} flip-icon={"false"}>
+      <stellar-card flippable={this.writable} onFlip={this.flipped.bind(this)} flip-icon={"false"}>
         <section class="flush hero">
           <copy-wrap align="center" class="ma3">
             <h6>No one</h6>
             <p>Looks like this time slot is empty.</p>
           </copy-wrap>
         </section>
-        <footer class="flex items-center justify-between">
+        {this.writable && <footer class="flex items-center justify-between">
           <stellar-button tag="button" block onClick={this.flipCard.bind(this)} ghost>Sign up for this slot!</stellar-button>
-        </footer>
-        <header slot="back" class="hero">
+        </footer>}
+        {this.writable && <header slot="back" class="hero">
           <h6 class="fs7 ttu b mv3">{this.talk.friendlyLength} in {this.talk.trackTitle}</h6>
-        </header>
-        <section slot="back">
+        </header>}
+        {this.writable && <section slot="back">
           <stellar-form ajax onSubmitted={this.addTalk.bind(this)}>
             <stellar-grid cols="1" noresponsive>
               {this.user.anonymous && this.user.displayName === "Guest" && <stellar-input name="user[displayName]" placeholder="Betty White" label="Your name" />}
@@ -65,7 +67,7 @@ export class BarcampScheduleTalkAvailable {
               <stellar-button tag="button" onClick={this.flipCard.bind(this)} ghost block>Cancel</stellar-button>
             </stellar-grid>
           </stellar-form>
-        </section>
+        </section>}
       </stellar-card>
     </Host>
   }
@@ -73,3 +75,4 @@ export class BarcampScheduleTalkAvailable {
 }
 
 AuthenticationTunnel.injectProps(BarcampScheduleTalkAvailable, ['user']);
+WritableTunnel.injectProps(BarcampScheduleTalkAvailable, ['writable']);
