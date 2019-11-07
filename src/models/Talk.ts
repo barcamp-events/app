@@ -141,3 +141,5 @@ export default class Talk extends FirebaseModel {
 		return true;
 	}
 }
+
+window["Talk"] = Talk;

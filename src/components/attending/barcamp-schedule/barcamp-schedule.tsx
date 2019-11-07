@@ -84,8 +84,7 @@ export class BarcampSchedule {
   }
 
   get isHappening() {
-    return true;
-    // return this.conference && Dayjs().isBetween(this.conference.start, this.conference.end, 'minute')
+    return this.conference && Dayjs().isBetween(this.conference.start, this.conference.end, 'minute')
   }
 
   get isBefore() {
