@@ -3,8 +3,8 @@
   "short_name": "Events",
   "theme_color": "#9550e6",
   "background_color": "#6c3aa6",
-  "display": "minimal-ui",
   "orientation": "portrait",
+  "display": "standalone",
   "Scope": "/",
   "start_url": "/",
   "icons": [
