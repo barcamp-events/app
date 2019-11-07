@@ -125,8 +125,8 @@ export class BarcampApp {
 
                   <this.PrivateRoute url='/:slug/:year/schedule/switch' component='barcamp-schedule-switch-talk' />
                   <this.PrivateRoute url='/:slug/schedule/switch' component='barcamp-schedule-switch-talk' />
-                  <this.PrivateRoute url='/:slug/:year/schedule' component='barcamp-schedule' />
-                  <this.PrivateRoute url='/:slug/schedule' component='barcamp-schedule' />
+                  <this.Route url='/:slug/:year/schedule' component='barcamp-schedule' />
+                  <this.Route url='/:slug/schedule' component='barcamp-schedule' />
                   <this.Route url='/:slug/:year' component='barcamp-default-marketing' />
                   <this.Route url='/:slug' component='barcamp-default-marketing' />
 
