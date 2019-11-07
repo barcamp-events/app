@@ -11,8 +11,8 @@ export class AppHeader {
 
   render() {
     return (
-      <Host class="bg-white dm-bg-black">
-        <div class="flex items-center w-90 center">
+      <Host class="bg-white dm-bg-black z-max">
+        <div class="flex items-center justify-between w-90 center">
           <h6 class="parco i ma0 pa0 nowrap">
             <stencil-route-link url={this.user ? "/dashboard" : "/"} class="black dm-white no-underline" anchorClass="black dm-white no-underline">BarCamp <span class="dn di-l">Events</span></stencil-route-link>
           </h6>

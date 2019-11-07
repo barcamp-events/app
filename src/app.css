@@ -118,13 +118,17 @@ app-footer > div.flex {
 }
 
 @media (max-width: 700px) {
-    app-header,
+
+    app-header {
+        height: auto;
+        padding: 1rem 0;
+    }
+
     app-footer {
         height: auto;
         padding: 2rem 0;
     }
 
-    app-header > div.flex,
     app-footer > div.flex {
         display: grid;
         justify-content: space-evenly;
