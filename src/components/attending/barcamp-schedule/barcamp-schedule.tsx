@@ -88,11 +88,11 @@ export class BarcampSchedule {
   }
 
   get isBefore() {
-    return this.conference && Dayjs().isBefore(this.conference.start)
+    return this.conference && Dayjs().isBefore(this.conference.start.subtract(1, "minute"))
   }
 
   get isAfter() {
-    return this.conference && Dayjs().isAfter(this.conference.end)
+    return this.conference && Dayjs().isAfter(this.conference.end.add(1, "minute"))
   }
 
   render() {
@@ -128,6 +128,10 @@ export class BarcampSchedule {
             <h1 class="b i mb4 ttu parco theme-base9 dm-theme-base0 fs-massive">Whoops!</h1>
             {this.isBefore && <h3>The schedule for {this.conference.stylizedName} is not available until the conference starts.</h3>}
             {this.isAfter && <h3>Looks like this event is over! The schedule will be published within the week.</h3>}
+            {this.isBefore && <h2 class="parco i b mt4">Starts in about <count-down time={this.conference.start} onReady={() => {
+              // @ts-ignore
+              this.element.forceUpdate()
+            }}></count-down></h2>}
           </copy-wrap>
         </stellar-layout>}
 

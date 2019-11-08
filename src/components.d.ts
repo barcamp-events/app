@@ -106,6 +106,9 @@ export namespace Components {
   interface BarcampSponsor {
     'sponsor': Sponsor;
   }
+  interface CountDown {
+    'time': DayjsType;
+  }
 }
 
 declare global {
@@ -319,6 +322,12 @@ declare global {
     prototype: HTMLBarcampSponsorElement;
     new (): HTMLBarcampSponsorElement;
   };
+
+  interface HTMLCountDownElement extends Components.CountDown, HTMLStencilElement {}
+  var HTMLCountDownElement: {
+    prototype: HTMLCountDownElement;
+    new (): HTMLCountDownElement;
+  };
   interface HTMLElementTagNameMap {
     'app-footer': HTMLAppFooterElement;
     'app-header': HTMLAppHeaderElement;
@@ -354,6 +363,7 @@ declare global {
     'barcamp-schedule-track': HTMLBarcampScheduleTrackElement;
     'barcamp-sign-out': HTMLBarcampSignOutElement;
     'barcamp-sponsor': HTMLBarcampSponsorElement;
+    'count-down': HTMLCountDownElement;
   }
 }
 
@@ -448,6 +458,10 @@ declare namespace LocalJSX {
   interface BarcampSponsor {
     'sponsor'?: Sponsor;
   }
+  interface CountDown {
+    'onReady'?: (event: CustomEvent<any>) => void;
+    'time'?: DayjsType;
+  }
 
   interface IntrinsicElements {
     'app-footer': AppFooter;
@@ -484,6 +498,7 @@ declare namespace LocalJSX {
     'barcamp-schedule-track': BarcampScheduleTrack;
     'barcamp-sign-out': BarcampSignOut;
     'barcamp-sponsor': BarcampSponsor;
+    'count-down': CountDown;
   }
 }
 
@@ -527,6 +542,7 @@ declare module "@stencil/core" {
       'barcamp-schedule-track': LocalJSX.BarcampScheduleTrack & JSXBase.HTMLAttributes<HTMLBarcampScheduleTrackElement>;
       'barcamp-sign-out': LocalJSX.BarcampSignOut & JSXBase.HTMLAttributes<HTMLBarcampSignOutElement>;
       'barcamp-sponsor': LocalJSX.BarcampSponsor & JSXBase.HTMLAttributes<HTMLBarcampSponsorElement>;
+      'count-down': LocalJSX.CountDown & JSXBase.HTMLAttributes<HTMLCountDownElement>;
     }
   }
 }
