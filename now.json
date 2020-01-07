@@ -33,7 +33,7 @@
   "env": {
     "IS_NOW": "true"
   },
-  "alias": ["beta.barcamp.events"],
+  "alias": ["beta.barcamp.events", "barcamp.events"],
   "routes": [
     { "src": "/assets/(.*)", "dest": "public/assets/$1" },
     { "src": "/build/(.*)", "dest": "public/build/$1" },

@@ -10,31 +10,13 @@ export class BarcampScheduleTalkSigningUp {
 
   @Prop() talk: Talk;
   @Prop() user: User;
+  @Prop() readonly: boolean = false;
 
   @Prop() signingUp: User;
 
-  componentWillLoad() {
-    this.startCountdown();
-  }
-
-  componentDidUnload () {
-    this.unload()
-  }
-
-  async unload() {
-    this.talk.signingUpKey = null;
-    await this.talk.save();
-  }
-
-  startCountdown() {
-    setTimeout(async () => {
-      this.unload()
-    }, 300000)
-  }
-
   render() {
     return <Host class="dc">
-      <stellar-card style={{"opacity": "0.75", "filter":"grayscale(1)"}}>
+      <stellar-card style={{ "opacity": "0.75", "filter": "grayscale(1)" }}>
         <header class="hero">
           <h5>Incoming...</h5>
         </header>

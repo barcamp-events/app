@@ -12,77 +12,105 @@ export class BarcampScheduleTalkSignedUp {
   @Prop() talk: Talk;
   @Prop() user: User;
   @Prop() speaker: User;
+  @Prop() readonly: boolean = false;
 
   @State() confirmCancel: boolean = false;
   @State() notifPermission: string;
   notifications!: Notifications;
 
   async onCancel() {
-    if (this.confirmCancel) {
-      await (await document.querySelector("web-audio").source("cancel")).play();
-      await this.talk.release();
-    }
-    else {
-      this.confirmCancel = true;
+    if (!this.readonly) {
+      if (this.confirmCancel) {
+        await (await document.querySelector("web-audio").source("cancel")).play();
+        await this.talk.release();
+      }
+      else {
+        this.confirmCancel = true;
+      }
     }
   }
 
   async onRemindMe() {
-    if (!this.notifications) {
-      this.notifications = new Notifications();
-    }
+    if (!this.readonly) {
+      if (!this.notifications) {
+        this.notifications = new Notifications();
+      }
 
-    if (this.notifications.granted) {
-      this.notifPermission = "granted";
-      await this.talk.sendNotification(this.user);
-    } else {
-      this.notifPermission = "denied";
+      if (this.notifications.granted) {
+        this.notifPermission = "granted";
+        await this.talk.sendNotification(this.user);
+      } else {
+        this.notifPermission = "denied";
+      }
     }
   }
 
   async onDontRemindMe() {
-    if (!this.notifications) {
-      this.notifications = new Notifications();
-    }
+    if (!this.readonly) {
+      if (!this.notifications) {
+        this.notifications = new Notifications();
+      }
 
-    if (this.notifications.granted) {
-      this.notifPermission = "granted";
-      await this.talk.dontSendNotification(this.user);
-    } else {
-      this.notifPermission = "denied";
+      if (this.notifications.granted) {
+        this.notifPermission = "granted";
+        await this.talk.dontSendNotification(this.user);
+      } else {
+        this.notifPermission = "denied";
+      }
     }
   }
 
-  @Listen("keydown", {target: "document"})
+  @Listen("keydown", { target: "document" })
   handleEscape(e) {
-    if (e.key === 'Escape') {
-      this.confirmCancel = false;
+    if (!this.readonly) {
+      if (e.key === 'Escape') {
+        this.confirmCancel = false;
+      }
     }
+  }
+
+  renderNotifications() {
+    if (!this.talk.isRecievingNotification(this.user)
+      && !this.notifPermission
+      && (this.user && this.talk.speakerKey !== this.user.key)) {
+      return <stellar-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><stellar-asset name="notifications-outline" />Remind me</stellar-button>
+    }
+
+    if (!this.talk.isRecievingNotification(this.user) && this.notifPermission === "granted") {
+      return <stellar-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><stellar-asset name="notifications-off" /><stellar-tooltip>Reminder off</stellar-tooltip></stellar-button>;
+    }
+
+    if (this.notifPermission === "granted") {
+      return <stellar-button tag="button" onClick={this.onDontRemindMe.bind(this)} ghost dark><stellar-asset name="notifications" /><stellar-tooltip>Reminder on</stellar-tooltip></stellar-button>;
+    }
+
+    if (this.notifPermission === "denied") {
+      return <stellar-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><stellar-asset name="notifications-off" /><stellar-tooltip>No permission</stellar-tooltip></stellar-button>;
+    }
+
+    return ""
   }
 
   render() {
     return <Host class="dc">
       <stellar-card>
         <header class="hero">
+          <h6 class="ttu fs8 b tracked">{this.talk.trackTitle}</h6>
           <h5>{this.talk.title}</h5>
         </header>
         <section>
           <copy-wrap>
-            <h5>{this.talk.title}</h5>
             <p>{this.talk.description}</p>
           </copy-wrap>
         </section>
         <footer>
-          <stellar-grid style={{"--grid-width": "auto"}} class="justify-between">
+          <stellar-grid style={{ "--grid-width": "auto" }} class="justify-between">
             <div class="flex width-2">
               <stellar-avatar name={this.speaker && this.speaker.displayName} class="mr3" />
               <p>{this.speaker && this.speaker.displayName}</p>
             </div>
             {(this.user && this.talk.speakerKey === this.user.key) && <stellar-button tag="button" onClick={this.onCancel.bind(this)} ghost dark>{this.confirmCancel ? "Are you sure?" : "Cancel"}</stellar-button>}
-            {Notifications.supported && !this.talk.isRecievingNotification(this.user) && !this.notifPermission && (this.user && this.talk.speakerKey !== this.user.key) && <stellar-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><stellar-asset name="notifications-outline" />Remind me</stellar-button>}
-            {Notifications.supported && !this.talk.isRecievingNotification(this.user) && this.notifPermission === "granted" && <stellar-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><stellar-asset name="notifications-off" /><stellar-tooltip>Reminder off</stellar-tooltip></stellar-button>}
-            {Notifications.supported && this.talk.isRecievingNotification(this.user) && this.notifPermission === "granted" && <stellar-button tag="button" onClick={this.onDontRemindMe.bind(this)} ghost dark><stellar-asset name="notifications" /><stellar-tooltip>Reminder on</stellar-tooltip></stellar-button>}
-            {Notifications.supported && this.notifPermission === "denied" && <stellar-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><stellar-asset name="notifications-off" /><stellar-tooltip>No permission</stellar-tooltip></stellar-button>}
+            {(!this.readonly && Notifications.supported) && this.renderNotifications()}
           </stellar-grid>
         </footer>
       </stellar-card>

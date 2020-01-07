@@ -4,9 +4,9 @@ import isBetween from 'dayjs/plugin/isBetween';
 Dayjs.extend(isBetween)
 
 @Component({
-  tag: 'barcamp-schedule-talk-group'
+  tag: 'barcamp-schedule-published'
 })
-export class BarcampScheduleTalkGroup {
+export class BarcampSchedulePublished {
   @Element() element: HTMLElement;
   @Prop() entry: any;
   @Prop() active: string;
@@ -21,29 +21,12 @@ export class BarcampScheduleTalkGroup {
     }, 60 * 1000);
   }
 
-  get isAfter() {
-    return Dayjs().isAfter(this.entry.dayjs.add(this.entry.talks[0].talkLength, 'minute'));
-  }
-
-  get isFarAfter() {
-    return Dayjs().isAfter(this.entry.dayjs.add((this.entry.talks[0].talkLength * 2), 'minute'));
-  }
-
-  get isBetween() {
-    return Dayjs().isBetween(this.entry.dayjs, this.entry.dayjs.add(this.entry.talks[0].talkLength, 'minute'))
-  }
-
   render() {
-    if (this.isFarAfter) {
-      return <Host class="dn" />;
-    }
-
-    return !this.isFarAfter && <Host class={`db ${this.isAfter ? "o-50 grayscale noclick" : "dn"}`}>
+    return <Host class="db">
       <p>{this.entry.dayjs.format("h:mma")}</p>
       <stellar-grid style={{ "--grid-width": "17.5rem" }}>
         {this.entry.talks.map(talk => <barcamp-schedule-talk talk={talk} class={(this.active === "all" || this.active === talk.trackTitle) ? "db" : "dn"} />)}
       </stellar-grid>
     </Host>
   }
-
 }

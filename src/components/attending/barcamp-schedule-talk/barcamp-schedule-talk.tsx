@@ -1,7 +1,6 @@
 import { Component, Host, h, Prop, State, Element } from '@stencil/core';
 import Talk from '../../../models/Talk';
 import User from '../../../models/User';
-import AuthenticationTunnel from '../../../tunnels/authentication';
 import Track from '../../../models/Track';
 import delay from 'async-delay';
 
@@ -12,7 +11,6 @@ export class BarcampScheduleTalk {
   @Element() element: HTMLElement;
 
   @Prop() talk: Talk;
-  @Prop() user: User;
 
   @State() track: Track;
   @State() speaker: User;
@@ -59,14 +57,12 @@ export class BarcampScheduleTalk {
   }
 
   render() {
-    return <Host class={`db ${this.track ? `theme-${this.track.color}` : ""}`} style={{"min-height": "12rem", "min-width": "17.5rem"}}>
+    return <Host class={`db ${this.track ? `theme-${this.track.color}` : ""}`} style={{ "min-height": "12rem", "min-width": "17.5rem" }}>
       {!this.ready && <skeleton-img width={1000} height={400} block loading icon class="w-100 db ma0" />}
-      {this.ready && (this.talk.signingUpKey && this.talk.signingUpKey !== this.user.key) && !this.talk.isTaken && <barcamp-schedule-talk-signing-up talk={this.talk} signingUp={this.signingUp} />}
-      {this.ready && (!this.talk.signingUpKey || this.talk.signingUpKey === this.user.key) && !this.talk.isTaken && <barcamp-schedule-talk-available talk={this.talk} />}
-      {this.ready && this.talk.isTaken && <barcamp-schedule-talk-signed-up talk={this.talk} speaker={this.speaker} />}
+      {this.ready && (this.talk.signingUpKey) && !this.talk.isTaken && <barcamp-schedule-talk-signing-up readonly talk={this.talk} signingUp={this.signingUp} />}
+      {this.ready && (!this.talk.signingUpKey) && !this.talk.isTaken && <barcamp-schedule-talk-available readonly talk={this.talk} />}
+      {this.ready && this.talk.isTaken && <barcamp-schedule-talk-signed-up readonly talk={this.talk} speaker={this.speaker} />}
       <stellar-intersection in={this.in.bind(this)} out={this.out.bind(this)} element={this.element} />
     </Host>
   }
 }
-
-AuthenticationTunnel.injectProps(BarcampScheduleTalk, ['user']);

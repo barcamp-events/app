@@ -13,6 +13,7 @@ export class BarcampScheduleTalkAvailable {
   @Prop() talk: Talk;
   @Prop() user: User;
   @Prop() writable: boolean;
+  @Prop() readonly: boolean = false;
 
   async flipped(e) {
     if (e.target.flipped) {
@@ -44,6 +45,7 @@ export class BarcampScheduleTalkAvailable {
       <stellar-card flippable={this.writable} onFlip={this.flipped.bind(this)} flip-icon={"false"}>
         <section class="flush hero">
           <copy-wrap align="center" class="ma3">
+            <h6 class="ttu fs8 b tracked">{this.talk.trackTitle}</h6>
             <h6>No one</h6>
             <p>Looks like this time slot is empty.</p>
           </copy-wrap>
