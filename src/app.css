@@ -189,3 +189,6 @@ app-footer > div.flex {
         opacity: 1;
     }
 }
+ * {
+     contain: initial !important;
+ }
