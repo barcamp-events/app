@@ -2,3 +2,7 @@ android
 dist
 electron
 ios
+.stencil
+.envrc
+.editorconfig
+public

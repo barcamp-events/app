@@ -37,10 +37,10 @@ export class BarcampSchedule {
   interval!: any;
   konami: KonamiCode = new KonamiCode();
 
-  componentWillLoad() {
+  async componentDidLoad() {
     this.slug = this.match.params.slug;
     this.year = this.match.params.year;
-    this.loadConference();
+    await this.loadConference();
 
     if (!this.isHappening) {
       this.interval = setInterval(() => {
@@ -62,6 +62,8 @@ export class BarcampSchedule {
     } else {
       this.conference = await Conference.where([["slug", "==", this.slug], ["year", "==", Number(this.year)]], "one")
     }
+    
+    console.log(["slug", "==", this.slug], ["year", "==", Number(this.year)]);
 
     this.tracks = await this.conference.theTracks();
     this.talks = await this.conference.getTalksInOrder();

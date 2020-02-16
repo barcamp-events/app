@@ -12,9 +12,8 @@ export default class Maps {
 
 		const place = await Maps.get_place(result["place_id"]);
 
-		return {place_id: result["place_id"], ...place["result"]};
+		return { place_id: result["place_id"], ...place["result"] };
     }
-
 
 	static async reverse_geocode (lat, lng, level = "locality") {
 		let result = await (await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&result_type=${level}&key=${Maps.places_api_key}`)).json()

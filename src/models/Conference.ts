@@ -25,8 +25,17 @@ export default class Conference extends FirebaseModel {
 		})
 	}
 
-	@prop({})
+	@prop()
 	public name: string;
+
+	@prop()
+	public site_link: string;
+
+	@prop()
+	public ticket_link: string;
+
+	@prop()
+	public schedule_link: string;
 
 	@prop({ defaultValue: () => { return Dayjs().get('year') } })
 	public year: number;
@@ -112,11 +121,11 @@ export default class Conference extends FirebaseModel {
 	}
 
 	updateSlug() {
-		this.slug = slugify(this.name).toLowerCase();
+		this.slug = slugify(this.name).toLowerCase().replace("barcamp-", "");
 	}
 
 	get stylizedName() {
-		return `BarCamp ${this.name} ${this.start.format('YYYY')}`
+		return `${this.name} ${this.start.format('YYYY')}`
 	}
 
 	is_user_attending(user: User) {
@@ -208,6 +217,22 @@ export default class Conference extends FirebaseModel {
 
 		result.forEach((doc) => {
 			conferences.push(doc.data())
+		});
+
+		return conferences;
+	}
+
+	static async upcoming() {
+		let conferences = [];
+		let today = Dayjs();
+		let result = await Conference.collection.get();
+
+		result.forEach((doc) => {
+			let conf = new Conference(doc.data());
+
+			if (today.isBefore(conf.start)) {
+				conferences.push(conf);
+			}
 		});
 
 		return conferences;
