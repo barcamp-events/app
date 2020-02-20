@@ -37,7 +37,7 @@
     "@capacitor/ios": "^1.4.0",
     "@stellar-design/core": "^1.5.12",
     "@stellar-design/device": "^0.1.2",
-    "@stencil/core": "^1.9.0-17",
+    "@stencil/core": "^1.9.0-18",
     "@stencil/router": "^1.0.1",
     "@stencil/state-tunnel": "^1.0.1",
     "async-delay": "^1.0.3",
