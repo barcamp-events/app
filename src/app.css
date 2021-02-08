@@ -1,4 +1,4 @@
-@import "../node_modules/@stellar-design/core/dist/stellar-core/stellar-core.css";
+@import "~@midwest-design/core/dist/core/core.css";
 @import "./assets/fonts/work/work.css";
 @import "./assets/fonts/parco/parco.css";
 
@@ -9,14 +9,6 @@
     --font-system: var(--inter);
 }
 
-:root{--ms-base:12px;--ms-ratio: var(--minor-second);}
-@media (min-width:550px){:root{--ms-base:13px}}
-@media (min-width:700px){:root{--ms-base:14px}}
-@media (min-width:800px){:root{--ms-base:15px;--ms-ratio: 1.15;}}
-@media (min-width:900px){:root{--ms-base:16px}}
-@media (min-width:1000px){:root{--ms-base:17px}}
-@media (min-width:1200px){:root{--ms-base:18px}}
-
 html, body {
     font-family: var(--inter);
     min-width: 320px;
@@ -24,7 +16,7 @@ html, body {
 }
 
 a {
-    color: var(--theme-base5);
+    color: var(--theme-base-5);
 }
 
 article {
@@ -33,14 +25,6 @@ article {
 
 h1, h2, h3, h4, h5, h6, p {
     max-width: 36em;
-}
-
-p {
-    line-height: 1.4;
-}
-
-stellar-input {
-    --line-height: 3.5rem;
 }
 
 h1.parco, h2.parco, h3.parco, h4.parco, h5.parco, h6.parco {
@@ -54,23 +38,19 @@ h1.parco.alt, h2.parco.alt, h3.parco.alt, h4.parco.alt, h5.parco.alt, h6.parco.a
     font-style: italic;
 }
 
-html.dark-mode {
-    background: var(--black)
-}
-
 .hero {
     background-image: url("/assets/images/waves-light.png");
     background-size: 150%;
     background-position: center;
     background-repeat: no-repeat;
     background-blend-mode: screen;
-    background-color: var(--theme-base3);
+    background-color: var(--theme-base-3);
 }
 
 .dark-mode .hero, .hero.dark-mode {
     background-image: url("/assets/images/waves.png");
     background-blend-mode: exclusion;
-    background-color: var(--theme-base9);
+    background-color: var(--theme-base-9);
 }
 
 @media (max-width: 800px) {
@@ -78,26 +58,26 @@ html.dark-mode {
         background-size: 100vh;
     }
 
-    stellar-layout[padding="large"]:not(.hero) {
+    midwest-layout[padding="large"]:not(.hero) {
         --padding: 2rem !important;
     }
 }
 
-stellar-button:not([ghost]) {
+midwest-button:not([ghost]) {
     --corners: 0.5rem;
     backdrop-filter: blur(5px);
     -webkit-clip-path: polygon(var(--corners) 0, calc(100% - var(--corners)) 0,100% var(--corners),100% calc(100% - var(--corners)),calc(100% - var(--corners)) 100%,var(--corners) 100%,0 calc(100% - var(--corners)),0 var(--corners));
     clip-path: polygon(var(--corners) 0, calc(100% - var(--corners)) 0,100% var(--corners),100% calc(100% - var(--corners)),calc(100% - var(--corners)) 100%,var(--corners) 100%,0 calc(100% - var(--corners)),0 var(--corners));
 }
 
-stellar-button.secondary {
+midwest-button.secondary {
     --background: transparent;
-    --color: var(--theme-base5);
+    --color: var(--theme-base-5);
 }
 
-.dark-mode stellar-button.secondary {
+.dark-mode midwest-button.secondary {
     --background: transparent;
-    --color: var(--theme-base0);
+    --color: var(--theme-base-0);
 }
 
 app-header,

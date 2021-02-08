@@ -1,0 +1,46 @@
+@import "../../../app.css";
+
+
+h1.parco, h2.parco, h3.parco, h4.parco, h5.parco, h6.parco {
+  font-family: var(--parco) !important;
+  font-weight: 500;
+}
+
+
+:host * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray3) var(--white);
+}
+
+:host([dark]) *,
+:host .dark-mode * {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray9) var(--black);
+}
+
+:host *::-webkit-scrollbar {
+  height: 10px;
+  width: 10px;
+}
+
+:host *::-webkit-scrollbar-track {
+  background: var(--white);
+}
+
+:host *::-webkit-scrollbar-thumb {
+  background-color: var(--gray3);
+  border-radius: 6px;
+  border: 3px solid var(--white);
+}
+
+:host([dark]) *::-webkit-scrollbar-track,
+:host .dark-mode *::-webkit-scrollbar-track {
+  background: var(--black);
+}
+
+:host([dark]) *::-webkit-scrollbar-thumb,
+:host .dark-mode *::-webkit-scrollbar-thumb {
+  background-color: var(--gray9);
+  border-radius: 6px;
+  border: 3px solid var(--black);
+}

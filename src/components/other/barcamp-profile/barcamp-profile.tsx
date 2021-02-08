@@ -13,10 +13,10 @@ export class BarcampProfile {
   @State() user: User;
   @State() success: boolean = false;
 
-  @State() profileCard: HTMLStellarCardElement;
+  @State() profileCard: HTMLMidwestCardElement;
 
   componentDidLoad() {
-    this.profileCard = this.element.querySelector('stellar-card#profile')
+    this.profileCard = this.element.querySelector('midwest-card#profile')
   }
 
   async onSubmit(e) {
@@ -47,39 +47,43 @@ export class BarcampProfile {
   render() {
     return <Host>
     <stencil-route-title title="Sign up or Sign in" />
-    <stellar-layout class="hero" size="flush" padding="medium">
-      <stellar-layout size="small">
-        <stellar-card id="profile" flippable={this.success} flip-icon={"false"}>
-          <header>
-            <copy-wrap align="center">
-              <h5 class="parco i">Edit your Profile</h5>
-            </copy-wrap>
+    <midwest-layout class="hero" size="flush" padding="medium">
+      <midwest-layout size="tiny">
+        <midwest-card id="profile" flippable={this.success} flip-icon={"false"}>
+          <header class="text-center overflow-hidden">
+            <h2 class="parco i text-base-12 dm:text-base-4">Edit your Profile</h2>
           </header>
           <section>
-            <stellar-form ajax onSubmitted={this.onSubmit.bind(this)}>
-              <stellar-grid>
-                <stellar-input name="displayName" placeholder="example@barcamp.events" label="Name" default={this.user.displayName} class="width-2" />
-                <stellar-input name="bio" type="textarea" placeholder="Share your passion" label="Bio" class="width-2" default={this.user.bio} />
-                <stellar-select name="color" label="Favorite color" overlay default={this.user.color}>
-                  {colors.map(color => <stellar-item value={color}>{color}</stellar-item>)}
-                </stellar-select>
-                <stellar-input type="hidden" name="dark_mode" value={"false"} />
-                <stellar-switch name="dark_mode" checkedDefault={this.user.dark_mode}><p>Dark Mode</p></stellar-switch>
-                <stellar-input type="hidden" name="reduced_motion" value={"false"} />
-                <stellar-switch name="reduced_motion" checkedDefault={this.user.reduced_motion}><p>Reduce Motion</p></stellar-switch>
-              </stellar-grid>
-              <stellar-button tag="submit">Save</stellar-button>
-            </stellar-form>
+            <midwest-form ajax onSubmitted={this.onSubmit.bind(this)}>
+              <midwest-grid>
+                <midwest-input name="displayName" placeholder="example@barcamp.events" label="Name" default={this.user.displayName} />
+                <midwest-input name="bio" type="textarea" placeholder="Share your passion" label="Bio" default={this.user.bio} />
+                <midwest-select name="color" label="Favorite color">
+                  {colors.map(color => <midwest-item value={color} checked={this.user.color === color}>{color}</midwest-item>)}
+                </midwest-select>
+                <midwest-switch name="dark_mode" checked={this.user.dark_mode}>
+                  <p slot="yes">Dark Mode Enabled</p>
+                  <p slot="no">Dark Mode Disabled</p>
+                </midwest-switch>
+                <midwest-switch name="reduced_motion" checked={this.user.reduced_motion}>
+                  <p slot="yes">Reduced Motion Enabled</p>
+                  <p slot="no">Reduced Motion Disabled</p>
+                </midwest-switch>
+                <div>
+                  <midwest-button tag="submit" label="Save">Save</midwest-button>
+                </div>
+              </midwest-grid>
+            </midwest-form>
           </section>
-          {this.user && <section slot="back">
-            <copy-wrap align="center" class="mt5">
-              <stellar-avatar name={this.user.displayName} size="large" shape="circle" />
-              <h4 class="parco">Saved your settings {this.user.displayName}!</h4>
+          {this.user && <section slot="back" class="flex items-center justify-center">
+            <copy-wrap align="center" class="-mt-12">
+              <midwest-avatar name={this.user.displayName} size="large" shape="circle" />
+              <h4 class="parco text-base-6 dm:text-base-6">Saved your settings {this.user.displayName}!</h4>
             </copy-wrap>
           </section>}
-        </stellar-card>
-      </stellar-layout>
-    </stellar-layout>
+        </midwest-card>
+      </midwest-layout>
+    </midwest-layout>
   </Host>;
   }
 }

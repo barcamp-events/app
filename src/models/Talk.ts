@@ -1,12 +1,12 @@
-import { prop } from './Model';
+import { prop } from '@midwest-design/common';
 import Dayjs from 'dayjs';
 import FirebaseModel from './FirebaseModel';
 
 export default class Talk extends FirebaseModel {
 	static format = "h:mma";
 	static bucket = "talk/";
-    static get model () { return Talk }
-    static instantiate (args?) { return new Talk(args) }
+	static get model () { return Talk }
+	static instantiate (args?) { return new Talk(args) }
 
 	@prop({})
 	public key: string;

@@ -26,7 +26,7 @@ export class BarcampScheduleTalkAvailable {
   }
 
   flipCard() {
-    this.element.querySelector('stellar-card').flip_card();
+    this.element.querySelector('midwest-card').flip_card();
   }
 
   async addTalk(e) {
@@ -42,7 +42,7 @@ export class BarcampScheduleTalkAvailable {
 
   render() {
     return <Host class="dc">
-      <stellar-card flippable={this.writable} onFlip={this.flipped.bind(this)} flip-icon={"false"}>
+      <midwest-card flippable={this.writable} onFlip={this.flipped.bind(this)} flip-icon={"false"}>
         <section class="flush hero">
           <copy-wrap align="center" class="ma3">
             <h6 class="ttu fs8 b tracked">{this.talk.trackTitle}</h6>
@@ -51,26 +51,26 @@ export class BarcampScheduleTalkAvailable {
           </copy-wrap>
         </section>
         {this.writable && <footer class="flex items-center justify-between">
-          <stellar-button tag="button" block onClick={this.flipCard.bind(this)} ghost>Sign up for this slot!</stellar-button>
+          <midwest-button tag="button" block onClick={this.flipCard.bind(this)} ghost>Sign up for this slot!</midwest-button>
         </footer>}
         {this.writable && <header slot="back" class="hero">
           <h6 class="fs7 ttu b mv3">{this.talk.friendlyLength} in {this.talk.trackTitle}</h6>
         </header>}
         {this.writable && <section slot="back">
-          <stellar-form ajax onSubmitted={this.addTalk.bind(this)}>
-            <stellar-grid cols="1" noresponsive>
-              {this.user.anonymous && this.user.displayName === "Guest" && <stellar-input name="user[displayName]" placeholder="Betty White" label="Your name" />}
-              {this.user.anonymous && !this.user.email && <stellar-input name="user[email]" placeholder="bettywhite@gmail.com" label="Your email" />}
-              <stellar-input type="hidden" name="key" value={this.talk.key} />
-              <stellar-input type="hidden" name="speakerKey" value={this.user.key} />
-              <stellar-input name="title" label="Title" placeholder="Food Court" />
-              <stellar-input type="textarea" name="description" label="Describe your talk" placeholder="Is a hot dog a sandwich?" />
-              <stellar-button tag="submit" block>Add your talk</stellar-button>
-              <stellar-button tag="button" onClick={this.flipCard.bind(this)} ghost block>Cancel</stellar-button>
-            </stellar-grid>
-          </stellar-form>
+          <midwest-form ajax onSubmitted={this.addTalk.bind(this)}>
+            <midwest-grid cols="1" noresponsive>
+              {this.user.anonymous && this.user.displayName === "Guest" && <midwest-input name="user[displayName]" placeholder="Betty White" label="Your name" />}
+              {this.user.anonymous && !this.user.email && <midwest-input name="user[email]" placeholder="bettywhite@gmail.com" label="Your email" />}
+              <midwest-input type="hidden" name="key" value={this.talk.key} />
+              <midwest-input type="hidden" name="speakerKey" value={this.user.key} />
+              <midwest-input name="title" label="Title" placeholder="Food Court" />
+              <midwest-input type="textarea" name="description" label="Describe your talk" placeholder="Is a hot dog a sandwich?" />
+              <midwest-button tag="submit" block>Add your talk</midwest-button>
+              <midwest-button tag="button" onClick={this.flipCard.bind(this)} ghost block>Cancel</midwest-button>
+            </midwest-grid>
+          </midwest-form>
         </section>}
-      </stellar-card>
+      </midwest-card>
     </Host>
   }
 

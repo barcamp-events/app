@@ -37,10 +37,10 @@ export class BarcampSchedule {
   interval!: any;
   konami: KonamiCode = new KonamiCode();
 
-  componentWillLoad() {
+  async componentDidLoad() {
     this.slug = this.match.params.slug;
     this.year = this.match.params.year;
-    this.loadConference();
+    await this.loadConference();
 
     if (!this.isHappening) {
       this.interval = setInterval(() => {
@@ -62,6 +62,8 @@ export class BarcampSchedule {
     } else {
       this.conference = await Conference.where([["slug", "==", this.slug], ["year", "==", Number(this.year)]], "one")
     }
+
+    console.log(["slug", "==", this.slug], ["year", "==", Number(this.year)]);
 
     this.tracks = await this.conference.theTracks();
     this.talks = await this.conference.getTalksInOrder();
@@ -104,12 +106,12 @@ export class BarcampSchedule {
   render() {
     if (this.conference && !this.user && !this.isDone) {
       return <Host>
-        <stellar-layout class="hero">
+        <midwest-layout class="hero">
           <h3 class="b">Sign up, Sign in, or Continue as a Guest.</h3>
-        </stellar-layout>
-        <stellar-layout>
+        </midwest-layout>
+        <midwest-layout>
           <barcamp-auth-choices />
-        </stellar-layout>
+        </midwest-layout>
       </Host>;
     }
 
@@ -125,34 +127,34 @@ export class BarcampSchedule {
       <WritableTunnel.Provider state={writableState}>
         <ConferenceTunnel.Provider state={conferenceState}>
           <stencil-route-title title="Schedule" />
-          <stellar-layout class="hero z-1">
-            <h3 class="b tc parco black dm-white"><stellar-animate-text>{this.conference.stylizedName}</stellar-animate-text></h3>
-          </stellar-layout>
+          <midwest-layout class="hero z-1">
+            <h3 class="b tc parco black dm:white"><midwest-animate-text>{this.conference.stylizedName}</midwest-animate-text></h3>
+          </midwest-layout>
 
-          {!this.isHappening && !this.isDone && <stellar-layout padding="large">
+          {!this.isHappening && !this.isDone && <midwest-layout padding="large">
             <copy-wrap align="center">
-              <h1 class="b i mb4 ttu parco theme-base9 dm-theme-base0 fs-massive">Whoops!</h1>
+              <h1 class="b i mb-4 ttu parco base9 dm:base0 fs-massive">Whoops!</h1>
               {this.isBefore && <h3>The schedule for {this.conference.stylizedName} is not available until the conference starts.</h3>}
               {this.isAfter && <h3>Looks like this event is over! The schedule will be published within the week.</h3>}
-              {this.isBefore && <h2 class="parco i b mt4">Starts in about <count-down time={this.conference.start} onReady={() => {
+              {this.isBefore && <h2 class="parco i b mt-4">Starts in about <count-down time={this.conference.start} onReady={() => {
                 // @ts-ignore
                 this.element.forceUpdate()
               }}></count-down></h2>}
             </copy-wrap>
-          </stellar-layout>}
+          </midwest-layout>}
 
-          {(this.isHappening || this.isDone) && <stellar-layout size="flush" padding="none" class="sticky top-0 z-1">
-            <stellar-tabs block blockIndicator size="large" class={`w-100 bn relative theme-${this.activeColor}`} style={{ "--max-width": "100%" }}>
-              <stellar-tab name="all" dark class="w-100" open onContentChange={this.displayTrack.bind(this)}>All Tracks</stellar-tab>
-              {this.tracks.map(track => <stellar-tab name={track.name} class={`w-100 theme-${track.color}`} onContentChange={(e) => this.displayTrack(e, track.color)}>{track.name}</stellar-tab>)}
-            </stellar-tabs>
-          </stellar-layout>}
-          {this.isHappening && <stellar-layout size={(this.activeTab === "all") ? "full" : "small"}>
+          {(this.isHappening || this.isDone) && <midwest-layout size="flush" padding="none" class="sticky top-0 z-1">
+            <midwest-tabs block blockIndicator size="large" class={`w-100 bn relative ${this.activeColor}`} style={{ "--max-width": "100%" }}>
+              <midwest-tab name="all" dark class="w-100" open onContentChange={this.displayTrack.bind(this)}>All Tracks</midwest-tab>
+              {this.tracks.map(track => <midwest-tab name={track.name} class={`w-100 theme-${track.color}`} onContentChange={(e) => this.displayTrack(e, track.color)}>{track.name}</midwest-tab>)}
+            </midwest-tabs>
+          </midwest-layout>}
+          {this.isHappening && <midwest-layout size={(this.activeTab === "all") ? "full" : "small"}>
             {this.talks && Object.entries(this.talks).map(entry => <barcamp-schedule-talk-group entry={entry[1]} active={this.activeTab} />)}
-          </stellar-layout>}
-          {this.isDone && <stellar-layout size={(this.activeTab === "all") ? "full" : "small"}>
+          </midwest-layout>}
+          {this.isDone && <midwest-layout size={(this.activeTab === "all") ? "full" : "small"}>
             {this.talks && Object.entries(this.talks).map(entry => <barcamp-schedule-published entry={entry[1]} active={this.activeTab} />)}
-          </stellar-layout>}
+          </midwest-layout>}
         </ConferenceTunnel.Provider>
       </WritableTunnel.Provider>
     </Host>

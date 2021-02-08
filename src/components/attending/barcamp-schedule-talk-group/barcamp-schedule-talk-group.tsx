@@ -40,9 +40,9 @@ export class BarcampScheduleTalkGroup {
 
     return !this.isFarAfter && <Host class={`db ${this.isAfter ? "o-50 grayscale noclick" : "dn"}`}>
       <p>{this.entry.dayjs.format("h:mma")}</p>
-      <stellar-grid style={{ "--grid-width": "17.5rem" }}>
+      <midwest-grid style={{ "--grid-width": "17.5rem" }}>
         {this.entry.talks.map(talk => <barcamp-schedule-talk talk={talk} class={(this.active === "all" || this.active === talk.trackTitle) ? "db" : "dn"} />)}
-      </stellar-grid>
+      </midwest-grid>
     </Host>
   }
 

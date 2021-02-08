@@ -5,12 +5,6 @@ export const config: Config = {
   namespace: 'app',
   preamble: 'BarCamp Events',
   globalStyle: "./src/app.css",
-  commonjs: {
-    namedExports: {
-      './node_modules/idb/build/idb.js': ['openDb'],
-      './node_modules/firebase/dist/index.cjs.js': ['initializeApp', 'firestore']
-    }
-  },
   testing: {
     emulate: [
       { device: "iPad" },
@@ -41,7 +35,7 @@ export const config: Config = {
     {
       type: 'www',
       dir: "public",
-      baseUrl: "https://beta.barcamp.events",
+      baseUrl: process.env.BASE_URL,
       serviceWorker: {
         swSrc: 'src/sw.js'
       },

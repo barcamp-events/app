@@ -62,7 +62,7 @@ export class BarcampScheduleTalk {
       {this.ready && (this.talk.signingUpKey) && !this.talk.isTaken && <barcamp-schedule-talk-signing-up readonly talk={this.talk} signingUp={this.signingUp} />}
       {this.ready && (!this.talk.signingUpKey) && !this.talk.isTaken && <barcamp-schedule-talk-available readonly talk={this.talk} />}
       {this.ready && this.talk.isTaken && <barcamp-schedule-talk-signed-up readonly talk={this.talk} speaker={this.speaker} />}
-      <stellar-intersection in={this.in.bind(this)} out={this.out.bind(this)} element={this.element} />
+      <midwest-intersection in={this.in.bind(this)} out={this.out.bind(this)} element={this.element} />
     </Host>
   }
 }

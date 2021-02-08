@@ -16,7 +16,7 @@ export class BarcampScheduleTalkSigningUp {
 
   render() {
     return <Host class="dc">
-      <stellar-card style={{ "opacity": "0.75", "filter": "grayscale(1)" }}>
+      <midwest-card style={{ "opacity": "0.75", "filter": "grayscale(1)" }}>
         <header class="hero">
           <h5>Incoming...</h5>
         </header>
@@ -27,9 +27,9 @@ export class BarcampScheduleTalkSigningUp {
         </section>
         <footer class="flex items-center justify-between">
           <p>{this.signingUp && this.signingUp.displayName}</p>
-          <stellar-avatar name={this.signingUp && this.signingUp.displayName} />
+          <midwest-avatar name={this.signingUp && this.signingUp.displayName} />
         </footer>
-      </stellar-card>
+      </midwest-card>
     </Host>
   }
 

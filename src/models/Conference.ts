@@ -1,4 +1,4 @@
-import { prop, asyncForEach } from './Model';
+import { prop, asyncForEach } from '@midwest-design/common';
 import Location from './Location'
 import User from './User';
 import Maps from './Maps';
@@ -10,6 +10,8 @@ import { SponsorList } from "./SponsorList";
 import FirebaseModel from './FirebaseModel';
 import Talk from './Talk';
 import TalkList from './TalkList';
+import LineItem from './LineItem';
+import { LineItemList } from './LineItemList';
 
 export default class Conference extends FirebaseModel {
 	static bucket = "conference/";
@@ -25,14 +27,41 @@ export default class Conference extends FirebaseModel {
 		})
 	}
 
-	@prop({})
+	@prop()
 	public name: string;
+	
+	@prop({ defaultValue: "Share Your Passion", emptyValue: "Share Your Passion" })
+	public mantra: string;
+
+	@prop()
+	public site_link: string;
+
+	@prop()
+	public ticket_link: string;
+
+	@prop()
+	public schedule_link: string;
+
+	@prop()
+	public color: ThemeableColors;
+
+	@prop()
+	public dark: boolean;
+
+	@prop({ defaultValue: false, emptyValue: false })
+	public createable: boolean;
 
 	@prop({ defaultValue: () => { return Dayjs().get('year') } })
 	public year: number;
 
-	@prop({ })
+	@prop()
 	public slug: string;
+
+	@prop()
+	public step: string;
+
+	@prop()
+	public type: "online"|"in-person"|"hybrid";
 
 	@prop({ defaultValue: false, emptyValue: false })
 	public approved: boolean;
@@ -51,6 +80,9 @@ export default class Conference extends FirebaseModel {
 
 	@prop({defaultValue: [], emptyValue: []})
 	public sponsors: string[];
+
+	@prop({defaultValue: [], emptyValue: []})
+	public lineItems: string[];
 
 	@prop({
 		defaultValue: Dayjs().set('hour', 8).set('second', 0).set('minute', 0).set('millisecond', 0),
@@ -80,7 +112,9 @@ export default class Conference extends FirebaseModel {
 	public talkLength: number;
 
 	async prepare() {
-		await this.createTracks()
+		if (this.createable) {
+			await this.createTracks()
+		}
 	}
 
 	async attend(user: User) {
@@ -111,12 +145,22 @@ export default class Conference extends FirebaseModel {
 		}
 	}
 
+	async addLineItem(lineItem: LineItem) {
+		this.lineItems = [...this.lineItems, lineItem.key];
+		return await this.save()
+	}
+
+	async removeLineItem(lineItem: LineItem) {
+		this.lineItems = this.lineItems.filter((key) => { return lineItem.key !== key });
+		return await this.save()
+	}
+
 	updateSlug() {
-		this.slug = slugify(this.name).toLowerCase();
+		this.slug = slugify(this.name).toLowerCase().replace("barcamp-", "");
 	}
 
 	get stylizedName() {
-		return `BarCamp ${this.name} ${this.start.format('YYYY')}`
+		return `${this.name} ${this.start.format('YYYY')}`
 	}
 
 	is_user_attending(user: User) {
@@ -173,6 +217,17 @@ export default class Conference extends FirebaseModel {
 		return new SponsorList(sponsors);
 	}
 
+	async theLineItems(): Promise<LineItemList> {
+		const lineItems = [];
+
+		await asyncForEach(this.lineItems, async (key, index) => {
+			const lineItem = await LineItem.get(key);
+			lineItems[index] = lineItem;
+		});
+
+		return new LineItemList(lineItems);
+	}
+
 	async theAttendees(): Promise<User[]> {
 		const users = [];
 
@@ -197,6 +252,27 @@ export default class Conference extends FirebaseModel {
 	public async distance(user: User) {
 		const current = await user.currentLocation();
 		return await Maps.get_distance(current, this.venue)
+	}
+
+	static async list(): Promise<Conference[]> { return await super.list() }
+	static async create(data: Conference): Promise<Conference> { return await super.create(data) }
+	static async update(data: Conference): Promise<Conference> { return await super.update(data) }
+	static async get(key: string): Promise<Conference> { return await super.get(key) }
+
+	static async upcoming() {
+		let conferences = [];
+		let today = Dayjs();
+		let result = await Conference.collection.get();
+
+		result.forEach((doc) => {
+			let conf = new Conference(doc.data());
+
+			if (today.isBefore(conf.start)) {
+				conferences.push(conf);
+			}
+		});
+
+		return conferences;
 	}
 
 	static async near_me() {

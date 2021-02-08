@@ -1,6 +1,6 @@
-import firebase from '@firebase/app';
-import '@firebase/firestore';
-import { Model, prop } from './Model';
+import * as firebase from 'firebase/app';
+import 'firebase/firestore';
+import { Model, prop } from '@midwest-design/common';
 
 export default class FirebaseModel extends Model {
 	static bucket = "default/";
@@ -147,7 +147,7 @@ export default class FirebaseModel extends Model {
 
 	static async delete(key) {
 		const ref = this.model.doc(key)
-		await ref.delete();
+		return await ref.delete();
 	}
 
 	static async onChange(key, cb) {

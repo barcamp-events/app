@@ -10,30 +10,28 @@ export class AppHeader {
   @Prop() user: User;
 
   render() {
-    return (
-      <Host class="bg-white dm-bg-black z-max">
-        <div class="flex items-center justify-between w-90 center">
-          <h6 class="parco i ma0 pa0 nowrap">
-            <stencil-route-link url={this.user ? "/dashboard" : "/"} class="black dm-white no-underline" anchorClass="black dm-white no-underline">BarCamp <span class="dn di-l">Events</span></stencil-route-link>
-          </h6>
+    return <Host class="bg-base-0 dm:bg-base-12 z-40 sticky top-0 border-b border-base-0 dm:border-base-11">
+      <midwest-layout size="full" class="w-full center" padding="small">
+        <div class="flex items-center justify-between">
+          <h2 class="parco italic m-0 p-0 nowrap text-base-8 dm:text-base-4">
+            <stencil-route-link url={this.user ? "/dashboard" : "/"} class="text-base-8 dm:text-base-4 no-underline" anchorClass="text-base-8 dm:text-base-4 no-underline">BarCamp <span class="hidden md:inline-block">Events</span></stencil-route-link>
+          </h2>
 
           <div class="flex items-center justify-end">
-            {!this.user && <stellar-button tag="route-link" href="/auth" ghost invert dark={false} class="mv3">Sign in</stellar-button>}
+            {!this.user && <midwest-button tag="stencil-route" href="/auth" ghost class="my-3">Sign in</midwest-button>}
 
-            {this.user && <stellar-button tag="route-link" href="/sign-out" ghost invert dark={false} class="mr4">Sign out</stellar-button>}
-
-            {this.user && <stellar-dropdown class="bn mw6 ml-auto" position="right">
-              <p slot="handle" class="fw4 parco flex items-center"><stellar-avatar name={this.user.displayName} notooltip class="mr3 s-bevel" />{this.user.displayName}</p>
-              <stellar-item type="stencil-route-link" href="/profile">Profile</stellar-item>
-              {/* <stellar-item type="stencil-route-link" href="/attend">Attend</stellar-item> */}
-              {/* <stellar-item type="stencil-route-link" href="/host">Host</stellar-item> */}
-              {/* <stellar-item type="stencil-route-link" href="/search"><stellar-icon name="search" class="fs6" /> Search</stellar-item> */}
-              {/* <stellar-item type="stencil-route-link" href="/sign-out">Sign out</stellar-item> */}
-            </stellar-dropdown>}
+            {this.user && <midwest-dropdown class="bn mw6 ml-auto" position="right">
+              <p slot="handle" class="fw4 parco flex items-center"><midwest-avatar name={this.user.displayName} noTooltip class="mr-3 s-bevel" />{this.user.displayName}</p>
+              <midwest-item tag="stencil-route" href="/profile">Profile</midwest-item>
+              <midwest-item tag="stencil-route" href="/attend">Attend</midwest-item>
+              <midwest-item tag="stencil-route" href="/host">Host</midwest-item>
+              {/* <midwest-item type="stencil-route" href="/search"><midwest-icon name="search" class="fs6" /> Search</midwest-item> */}
+              <midwest-item tag="stencil-route" href="/sign-out">Sign out</midwest-item>
+            </midwest-dropdown>}
           </div>
         </div>
-      </Host>
-    );
+      </midwest-layout>
+    </Host>
   }
 }
 

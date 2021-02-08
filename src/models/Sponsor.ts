@@ -1,12 +1,12 @@
-import { prop } from './Model';
+import { prop } from '@midwest-design/common';
 import FirebaseModel from './FirebaseModel';
 import { SponsorList } from './SponsorList';
 
 export default class Sponsor extends FirebaseModel {
 	static bucket = "sponsor/";
-    static get model () { return Sponsor }
-    static instantiate (args?) { return new Sponsor(args) }
-    static instantiateList (args?) { return new SponsorList(args) }
+	static get model () { return Sponsor }
+	static instantiate (args?) { return new Sponsor(args) }
+	static instantiateList (args?) { return new SponsorList(args) }
 
 	constructor(data?, config?) {
 		super(data, config);

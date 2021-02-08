@@ -73,19 +73,19 @@ export class BarcampScheduleTalkSignedUp {
     if (!this.talk.isRecievingNotification(this.user)
       && !this.notifPermission
       && (this.user && this.talk.speakerKey !== this.user.key)) {
-      return <stellar-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><stellar-asset name="notifications-outline" />Remind me</stellar-button>
+      return <midwest-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><midwest-asset name="notifications-outline" />Remind me</midwest-button>
     }
 
     if (!this.talk.isRecievingNotification(this.user) && this.notifPermission === "granted") {
-      return <stellar-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><stellar-asset name="notifications-off" /><stellar-tooltip>Reminder off</stellar-tooltip></stellar-button>;
+      return <midwest-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><midwest-asset name="notifications-off" /><midwest-tooltip>Reminder off</midwest-tooltip></midwest-button>;
     }
 
     if (this.notifPermission === "granted") {
-      return <stellar-button tag="button" onClick={this.onDontRemindMe.bind(this)} ghost dark><stellar-asset name="notifications" /><stellar-tooltip>Reminder on</stellar-tooltip></stellar-button>;
+      return <midwest-button tag="button" onClick={this.onDontRemindMe.bind(this)} ghost dark><midwest-asset name="notifications" /><midwest-tooltip>Reminder on</midwest-tooltip></midwest-button>;
     }
 
     if (this.notifPermission === "denied") {
-      return <stellar-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><stellar-asset name="notifications-off" /><stellar-tooltip>No permission</stellar-tooltip></stellar-button>;
+      return <midwest-button tag="button" onClick={this.onRemindMe.bind(this)} ghost dark><midwest-asset name="notifications-off" /><midwest-tooltip>No permission</midwest-tooltip></midwest-button>;
     }
 
     return ""
@@ -93,7 +93,7 @@ export class BarcampScheduleTalkSignedUp {
 
   render() {
     return <Host class="dc">
-      <stellar-card>
+      <midwest-card>
         <header class="hero">
           <h6 class="ttu fs8 b tracked">{this.talk.trackTitle}</h6>
           <h5>{this.talk.title}</h5>
@@ -104,16 +104,16 @@ export class BarcampScheduleTalkSignedUp {
           </copy-wrap>
         </section>
         <footer>
-          <stellar-grid style={{ "--grid-width": "auto" }} class="justify-between">
+          <midwest-grid style={{ "--grid-width": "auto" }} class="justify-between">
             <div class="flex width-2">
-              <stellar-avatar name={this.speaker && this.speaker.displayName} class="mr3" />
+              <midwest-avatar name={this.speaker && this.speaker.displayName} class="mr-3" />
               <p>{this.speaker && this.speaker.displayName}</p>
             </div>
-            {(this.user && this.talk.speakerKey === this.user.key) && <stellar-button tag="button" onClick={this.onCancel.bind(this)} ghost dark>{this.confirmCancel ? "Are you sure?" : "Cancel"}</stellar-button>}
+            {(this.user && this.talk.speakerKey === this.user.key) && <midwest-button tag="button" onClick={this.onCancel.bind(this)} ghost dark>{this.confirmCancel ? "Are you sure?" : "Cancel"}</midwest-button>}
             {(!this.readonly && Notifications.supported) && this.renderNotifications()}
-          </stellar-grid>
+          </midwest-grid>
         </footer>
-      </stellar-card>
+      </midwest-card>
     </Host>
   }
 }

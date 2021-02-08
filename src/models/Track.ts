@@ -1,8 +1,8 @@
-import { prop, asyncForEach } from './Model';
+import { prop, asyncForEach } from '@midwest-design/common';
 import Talk from './Talk';
 import Conference from './Conference';
 import FirebaseModel from './FirebaseModel';
-import {colors} from '@stellar-design/core/dist/collection/utils';
+import { colors } from '@midwest-design/common';
 
 export default class Track extends FirebaseModel {
 	static bucket = "track/";

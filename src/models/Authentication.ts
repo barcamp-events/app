@@ -36,6 +36,7 @@ export default class Authentication {
 
   constructor () {
     firebase.auth().onAuthStateChanged(async (firebaseUser) => {
+      console.log("Something changed!")
       if (firebaseUser) {
         this.firebaseUser = firebaseUser;
         this.user = await User.get(this.firebaseUser.uid);
@@ -49,12 +50,14 @@ export default class Authentication {
         this.firebaseUser = undefined;
         this.user = undefined;
       }
+      
+      console.log("hello")
 
       this.fireEvent()
     });
   }
 
-  fire_error_event(message) {
+  fireErrorEvent(message) {
     var event = new CustomEvent('auth_error', {
       detail: {
         message
@@ -112,6 +115,7 @@ export default class Authentication {
   async signIn(email: string, password: string) {
     await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
     const user = await firebase.auth().signInWithEmailAndPassword(email, password)
+
     return user;
   }
 

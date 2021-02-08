@@ -6,11 +6,9 @@ import { Component, Host, h } from '@stencil/core';
 export class BarcampHostBranding {
 
   render() {
-    return (
-      <Host>
-        <slot></slot>
-      </Host>
-    );
+    return <Host>
+      Branding
+    </Host>
   }
 
 }

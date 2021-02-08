@@ -1,5 +1,5 @@
 import firebase from '@firebase/app';
-import { prop } from './Model';
+import { prop } from '@midwest-design/common';
 import { MD5 } from './utils';
 import Location from './Location';
 import FirebaseModel from './FirebaseModel';
@@ -29,7 +29,7 @@ export default class User extends FirebaseModel {
 		emptyValue: "violet",
 		serializable: ['firebase']
 	})
-	public color: string;
+	public color: ThemeableColors;
 
 	@prop({
 		emptyValue: true,

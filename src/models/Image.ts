@@ -1,4 +1,4 @@
-import { prop } from './Model';
+import { prop } from '@midwest-design/common';
 import FirebaseModel from './FirebaseModel';
 
 export default class Image extends FirebaseModel {

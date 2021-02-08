@@ -15,7 +15,7 @@ export class BarcampAuthChoiceSignUp {
   @Prop() user: User;
   @State() auth: Authentication = window["Authentication"] as Authentication;
 
-  @State() card: HTMLStellarCardElement;
+  @State() card: HTMLMidwestCardElement;
 
   @State() success: boolean = false;
   @State() error: string;
@@ -40,7 +40,7 @@ export class BarcampAuthChoiceSignUp {
   }
 
   componentDidLoad() {
-    this.card = this.element.querySelector('stellar-card');
+    this.card = this.element.querySelector('midwest-card');
   }
 
   redirect () {
@@ -65,25 +65,25 @@ export class BarcampAuthChoiceSignUp {
   render() {
     return (
       <Host>
-        <stellar-card id="sign-up" flippable={this.success} flip-icon={"false"}>
+        <midwest-card id="sign-up" flippable={this.success} flip-icon={"false"}>
             <section>
-              <stellar-form ajax onSubmitted={this.onSubmit.bind(this)}>
-                <stellar-grid cols="1" noresponsive>
-                  <stellar-input name="name" placeholder="BarCamp Events" label="Your Name" />
-                  <stellar-input type="email" name="email" placeholder="example@barcamp.events" label="Your Email Address" />
-                  <stellar-input type="password" name="password" placeholder="password" label="Your Password" />
-                  <stellar-button tag="submit" block>Sign Up</stellar-button>
-                </stellar-grid>
-              </stellar-form>
+              <midwest-form ajax onSubmitted={this.onSubmit.bind(this)}>
+                <midwest-grid cols="1" noresponsive>
+                  <midwest-input name="name" placeholder="BarCamp Events" label="Your Name" />
+                  <midwest-input type="email" name="email" placeholder="example@barcamp.events" label="Your Email Address" />
+                  <midwest-input type="password" name="password" placeholder="password" label="Your Password" />
+                  <midwest-button tag="submit" block>Sign Up</midwest-button>
+                </midwest-grid>
+              </midwest-form>
             </section>
             {this.user && <section slot="back">
-            <copy-wrap align="center" class="mt5">
-              <stellar-avatar name={this.user.displayName} size="large" shape="circle" />
+            <copy-wrap align="center" class="mt-5">
+              <midwest-avatar name={this.user.displayName} size="large" shape="circle" />
               <h4 class="parco">Welcome to BarCamp Events, {this.user.displayName}!</h4>
-              <stellar-button tag="route-link" href="/">Continue</stellar-button>
+              <midwest-button tag="stencil-route" href="/">Continue</midwest-button>
             </copy-wrap>
           </section>}
-          </stellar-card>
+          </midwest-card>
       </Host>
     );
   }

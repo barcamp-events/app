@@ -1,4 +1,4 @@
-import { prop } from './Model';
+import { prop } from '@midwest-design/common';
 import { Plugins } from '@capacitor/core';
 import Maps from './Maps';
 import FirebaseModel from './FirebaseModel';

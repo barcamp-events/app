@@ -35,11 +35,11 @@ export class BarcampDocs {
   render() {
     return (
       <Host>
-        <stellar-layout size="medium" padding="large">
+        <midwest-layout size="medium" padding="large">
           <copy-wrap>
-            {this.name && <stellar-markdown src={this.source} flavor="github" />}
+            {this.name && <midwest-markdown src={this.source} flavor="github" />}
           </copy-wrap>
-        </stellar-layout>
+        </midwest-layout>
       </Host>
     );
   }

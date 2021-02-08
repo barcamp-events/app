@@ -1,6 +1,6 @@
 import { Component, h, Prop, State } from '@stencil/core';
 import { RouterHistory } from '@stencil/router';
-import '@stellar-design/core';
+import '@midwest-design/core';
 import '@stencil/router';
 import Authentication from '../../models/Authentication';
 import User from '../../models/User';
@@ -99,9 +99,8 @@ export class BarcampApp {
       user: this.user
     };
 
-    return (
-        <Tunnel.Provider state={userState}>
-          <stellar-theme body system base={this.user && this.user.color || "violet"} complement={this.user && this.user.color || "violet"} dark={this.user && this.user.dark_mode} />
+    return <Tunnel.Provider state={userState}>
+        <midwest-theme body system base={this.user && this.user.color || "violet"} complement={this.user && this.user.color || "violet"} dark={this.user && this.user.dark_mode}>
           <main>
             <app-header />
             <article>
@@ -114,14 +113,9 @@ export class BarcampApp {
                   <this.PrivateRoute url='/dashboard' component='barcamp-dashboard' />
 
                   <this.PrivateRoute url='/profile' component='barcamp-profile' />
-                  <this.PrivateRoute url='/host' component='barcamp-host-name-your-event' />
-                  <this.PrivateEventManagerRoute url='/host/:eventId/budget' component='barcamp-host-set-budget' />
-                  <this.PrivateEventManagerRoute url='/host/:eventId/venue' component='barcamp-host-find-venue' />
-                  <this.PrivateEventManagerRoute url='/host/:eventId/agenda' component='barcamp-host-set-agenda' />
-                  <this.PrivateEventManagerRoute url='/host/:eventId/sponsors' component='barcamp-host-find-sponsors' />
-                  <this.PrivateEventManagerRoute url='/host/:eventId/volunteers' component='barcamp-host-volunteers' />
-                  <this.PrivateEventManagerRoute url='/host/:eventId/format' component='barcamp-host-set-format' />
-                  <this.PrivateEventManagerRoute url='/host/:eventId/branding' component='barcamp-host-branding' />
+                  <this.PrivateRoute url='/host/:conferenceId/:tabId' component='barcamp-host' />
+                  <this.PrivateRoute url='/host/:conferenceId' component='barcamp-host' />
+                  <this.PrivateRoute url='/host' component='barcamp-host' />
 
                   <this.PrivateRoute url='/:slug/:year/schedule/switch' component='barcamp-schedule-switch-talk' />
                   <this.PrivateRoute url='/:slug/schedule/switch' component='barcamp-schedule-switch-talk' />
@@ -141,7 +135,7 @@ export class BarcampApp {
               <web-audio-source name="cancel" src="/assets/audio/cancel.mp3" />
             </web-audio>
           </main>
-        </Tunnel.Provider>
-    );
+        </midwest-theme>
+      </Tunnel.Provider>
   }
 }

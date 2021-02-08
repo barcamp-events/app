@@ -15,7 +15,7 @@ export class BarcampAuthChoiceGuest {
   @Prop() user: User;
   @State() auth: Authentication = window["Authentication"] as Authentication;
 
-  @State() card: HTMLStellarCardElement;
+  @State() card: HTMLMidwestCardElement;
 
   @State() success: boolean = false;
   @State() error: string;
@@ -40,7 +40,7 @@ export class BarcampAuthChoiceGuest {
   }
 
   componentDidLoad() {
-    this.card = this.element.querySelector('stellar-card');
+    this.card = this.element.querySelector('midwest-card');
   }
 
   redirect () {
@@ -61,26 +61,26 @@ export class BarcampAuthChoiceGuest {
   }
   render() {
     return <Host>
-      <stellar-card id="guest" flippable={this.success} flip-icon={"false"}>
+      <midwest-card id="guest" flippable={this.success} flip-icon={"false"}>
         <section>
-          <stellar-form ajax onSubmitted={this.onSubmit.bind(this)}>
-            <stellar-grid cols="1" noresponsive>
+          <midwest-form ajax onSubmitted={this.onSubmit.bind(this)}>
+            <midwest-grid cols="1" noresponsive>
               <h5 class="tc lh-copy">Don't want to deal with this right now? <br />I got you fam.</h5>
-              <stellar-button tag="submit" block>Sign in as a Guest</stellar-button>
-            </stellar-grid>
-          </stellar-form>
+              <midwest-button tag="submit" block>Sign in as a Guest</midwest-button>
+            </midwest-grid>
+          </midwest-form>
         </section>
         {this.user && <section slot="back">
-            <copy-wrap align="center" class="mt5">
-              <stellar-avatar name={this.user.displayName} size="large" class="s-bevel" />
-              <h4 class="parco mb5">Welcome to BarCamp Events!</h4>
-              <stellar-grid class="mw6 w-80" style={{"--grid-width" : "100px", "--grid-gap": "1rem"}}>
-                <stellar-button tag="route-link" href={this.redirectURL} class="mr4" block>Continue to Redirect</stellar-button>
-                <stellar-button tag="route-link" href={this.redirectURL} ghost block>Dashboard</stellar-button>
-              </stellar-grid>
+            <copy-wrap align="center" class="mt-5">
+              <midwest-avatar name={this.user.displayName} size="large" class="s-bevel" />
+              <h4 class="parco mb-5">Welcome to BarCamp Events!</h4>
+              <midwest-grid class="mw6 w-80" style={{"--grid-width" : "100px", "--grid-gap": "1rem"}}>
+                <midwest-button tag="stencil-route" href={this.redirectURL} class="mr-4" block>Continue to Redirect</midwest-button>
+                <midwest-button tag="stencil-route" href={this.redirectURL} ghost block>Dashboard</midwest-button>
+              </midwest-grid>
             </copy-wrap>
           </section>}
-      </stellar-card>
+      </midwest-card>
     </Host>;
   }
 }

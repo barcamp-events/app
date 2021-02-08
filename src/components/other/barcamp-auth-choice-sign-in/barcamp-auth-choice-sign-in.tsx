@@ -14,13 +14,15 @@ export class BarcampAuthChoiceSignIn {
   @Prop() user: User;
   @State() auth: Authentication = window["Authentication"] as Authentication;
 
-  @State() card: HTMLStellarCardElement;
+  @State() card: HTMLMidwestCardElement;
 
   @State() success: boolean = false;
   @State() error: string;
   @State() step: number = 0;
 
   @State() redirectURL: string;
+
+  
 
   componentWillLoad() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -30,6 +32,7 @@ export class BarcampAuthChoiceSignIn {
     }
 
     Authentication.onAuthStateChanged(async (user) => {
+      console.log(user);
       if (user) {
         this.success = true;
         await delay(100);
@@ -39,7 +42,7 @@ export class BarcampAuthChoiceSignIn {
   }
 
   componentDidLoad() {
-    this.card = this.element.querySelector('stellar-card');
+    this.card = this.element.querySelector('midwest-card');
   }
 
   redirect () {
@@ -61,27 +64,27 @@ export class BarcampAuthChoiceSignIn {
   render() {
     return (
       <Host>
-        <stellar-card id="sign-in" flippable={this.success} flip-icon={"false"}>
+        <midwest-card id="sign-in" flippable={this.success} flip-icon={"false"} style={{"--background": "var(--gray12)"}}>
           <section>
-            <stellar-form ajax onSubmitted={this.onSubmit.bind(this)}>
-              <stellar-grid cols="1" noresponsive>
-                <stellar-input type="email" name="email" placeholder="example@barcamp.events" label="Email Address" />
-                <stellar-input type="password" name="password" placeholder="password" label="Password" />
-                <stellar-button tag="submit" block>Sign in</stellar-button>
-              </stellar-grid>
-            </stellar-form>
+            <midwest-form ajax onSubmitted={this.onSubmit.bind(this)}>
+              <midwest-grid cols="1" noresponsive>
+                <midwest-input type="email" name="email" placeholder="example@barcamp.events" label="Email Address" />
+                <midwest-input type="password" name="password" placeholder="password" label="Password" />
+                <midwest-button tag="submit" block>Sign in</midwest-button>
+              </midwest-grid>
+            </midwest-form>
           </section>
           {this.user && <section slot="back">
-            <copy-wrap align="center" class="mt5">
-              <stellar-avatar name={this.user.displayName} size="large" class="s-bevel" />
-              <h4 class="parco mb5">Welcome back {this.user.displayName}!</h4>
-              <stellar-grid class="mw6 w-80" style={{"--grid-width" : "100px", "--grid-gap": "1rem"}}>
-                <stellar-button tag="route-link" href={this.redirectURL} class="mr4" block>Continue to Redirect</stellar-button>
-                <stellar-button tag="route-link" href={this.redirectURL} ghost block>Dashboard</stellar-button>
-              </stellar-grid>
+            <copy-wrap align="center" class="mt-5">
+              <midwest-avatar name={this.user.displayName} size="large" class="s-bevel" />
+              <h4 class="parco mb-5">Welcome back {this.user.displayName}!</h4>
+              <midwest-grid class="mw6 w-80" style={{"--grid-width" : "100px", "--grid-gap": "1rem"}}>
+                <midwest-button tag="stencil-route" href={this.redirectURL} class="mr-4" block>Continue to Redirect</midwest-button>
+                <midwest-button tag="stencil-route" href={this.redirectURL} ghost block>Dashboard</midwest-button>
+              </midwest-grid>
             </copy-wrap>
           </section>}
-        </stellar-card>
+        </midwest-card>
       </Host>
     );
   }
