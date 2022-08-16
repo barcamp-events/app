@@ -51,7 +51,6 @@ export namespace Components {
     }
     interface BarcampHostEventPreview {
         "color": ThemeableColors;
-        "conference": Conference;
         "dark": boolean;
         "lineItems": LineItemList;
         "mantra": string;
@@ -111,7 +110,6 @@ export namespace Components {
         "readonly": boolean;
         "speaker": User;
         "talk": Talk;
-        "user": User;
     }
     interface BarcampScheduleTalkSigningUp {
         "readonly": boolean;
@@ -457,7 +455,6 @@ declare namespace LocalJSX {
     }
     interface BarcampHostEventPreview {
         "color"?: ThemeableColors;
-        "conference"?: Conference;
         "dark"?: boolean;
         "lineItems"?: LineItemList;
         "mantra"?: string;
@@ -516,7 +513,6 @@ declare namespace LocalJSX {
         "readonly"?: boolean;
         "speaker"?: User;
         "talk"?: Talk;
-        "user"?: User;
     }
     interface BarcampScheduleTalkSigningUp {
         "readonly"?: boolean;

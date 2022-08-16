@@ -1,18 +1,17 @@
 import { Component, Host, h, Prop, Element } from '@stencil/core';
 import Talk from '../../../models/Talk';
 import User from '../../../models/User';
-import AuthenticationTunnel from '../../../tunnels/authentication';
-import WritableTunnel from '../../../tunnels/writable';
+import BarcampAppState from "../../../stores/barcamp-app-state";
 
 @Component({
-  tag: 'barcamp-schedule-talk-available'
+  tag: "barcamp-schedule-talk-available",
 })
 export class BarcampScheduleTalkAvailable {
   @Element() element: HTMLElement;
 
   @Prop() talk: Talk;
-  @Prop() user: User;
-  @Prop() writable: boolean;
+  @Prop() user: User = BarcampAppState.state.user;
+  @Prop() writable: boolean = BarcampAppState.state.writable;
   @Prop() readonly: boolean = false;
 
   async flipped(e) {
@@ -26,7 +25,7 @@ export class BarcampScheduleTalkAvailable {
   }
 
   flipCard() {
-    this.element.querySelector('midwest-card').flip_card();
+    this.element.querySelector("midwest-card").flip_card();
   }
 
   async addTalk(e) {
@@ -132,8 +131,4 @@ export class BarcampScheduleTalkAvailable {
       </Host>
     );
   }
-
 }
-
-AuthenticationTunnel.injectProps(BarcampScheduleTalkAvailable, ['user']);
-WritableTunnel.injectProps(BarcampScheduleTalkAvailable, ['writable']);

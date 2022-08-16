@@ -1,11 +1,11 @@
 import { Component, Host, h, Prop, State, Element, forceUpdate } from '@stencil/core';
 import { LineItemList } from '../../../models/LineItemList';
-import ConferenceTunnel from '../../../tunnels/conference';
+import BarcampAppState from "../../../stores/barcamp-app-state";
 
 @Component({
-  tag: 'barcamp-host-event-preview',
-  styleUrl: 'preview.css',
-  shadow: true
+  tag: "barcamp-host-event-preview",
+  styleUrl: "preview.css",
+  shadow: true,
 })
 export class BarcampHostEventPreview {
   @Element() element: HTMLElement;
@@ -13,7 +13,7 @@ export class BarcampHostEventPreview {
   @Prop() showBudget: boolean;
   @Prop() showVenue: boolean;
 
-  @Prop() conference: Conference;
+  @State() conference: Conference = BarcampAppState.state.conference;
   @Prop() color: ThemeableColors;
   @Prop() dark: boolean;
   @Prop() name: string;
@@ -21,7 +21,8 @@ export class BarcampHostEventPreview {
   @Prop() lineItems: LineItemList;
   @Prop() type: string;
 
-  @State() preview: "iphone-xs-max"|"imac"|"ipad-pro-portrait" = "iphone-xs-max";
+  @State() preview: "iphone-xs-max" | "imac" | "ipad-pro-portrait" =
+    "iphone-xs-max";
 
   async componentWillLoad() {
     this.lineItems = await this.conference.theLineItems();
@@ -194,29 +195,41 @@ export class BarcampHostEventPreview {
   }
 
   render() {
-    return <Host class="flex flex-col items-center">
-      <midwest-group class="m-auto mb-6">
-        <midwest-button onClick={() => this.preview = "imac"}>Desktop</midwest-button>
-        <midwest-button onClick={() => this.preview = "ipad-pro-portrait"}>Tablet</midwest-button>
-        <midwest-button onClick={() => this.preview = "iphone-xs-max"}>Phone</midwest-button>
-      </midwest-group>
-      <midwest-device frame={this.preview}>
-        <midwest-theme base={this.color || this.conference.color} dark={this.dark} class="relative">
-          <div class="bg-white dm:bg-black absolute top-0 left-0 right-0 bottom-0 text-center overflow-auto" style={{"transition": "all 200ms var(--ease) 0s"}}>
-            {this.renderHeader()}
-            {this.showBudget && this.renderBudget()}
-            {this.showVenue && this.renderVenue()}
-            {false && this.renderAgenda()}
-            {false && this.renderSponsors()}
-            {false && this.renderVolunteers()}
-            {false && this.renderFormat()}
-            {false && this.renderBranding()}
-          </div>
-        </midwest-theme>
-      </midwest-device>
-    </Host>
+    return (
+      <Host class="flex flex-col items-center">
+        <midwest-group class="m-auto mb-6">
+          <midwest-button onClick={() => (this.preview = "imac")}>
+            Desktop
+          </midwest-button>
+          <midwest-button onClick={() => (this.preview = "ipad-pro-portrait")}>
+            Tablet
+          </midwest-button>
+          <midwest-button onClick={() => (this.preview = "iphone-xs-max")}>
+            Phone
+          </midwest-button>
+        </midwest-group>
+        <midwest-device frame={this.preview}>
+          <midwest-theme
+            base={this.color || this.conference.color}
+            dark={this.dark}
+            class="relative"
+          >
+            <div
+              class="bg-white dm:bg-black absolute top-0 left-0 right-0 bottom-0 text-center overflow-auto"
+              style={{ transition: "all 200ms var(--ease) 0s" }}
+            >
+              {this.renderHeader()}
+              {this.showBudget && this.renderBudget()}
+              {this.showVenue && this.renderVenue()}
+              {false && this.renderAgenda()}
+              {false && this.renderSponsors()}
+              {false && this.renderVolunteers()}
+              {false && this.renderFormat()}
+              {false && this.renderBranding()}
+            </div>
+          </midwest-theme>
+        </midwest-device>
+      </Host>
+    );
   }
-
 }
-
-ConferenceTunnel.injectProps(BarcampHostEventPreview, ["conference"])

@@ -1,51 +1,57 @@
 import { Component, Host, h, State } from '@stencil/core';
-import ConferenceTunnel from '../../../tunnels/conference';
-import { asyncForEach } from '@midwest-design/common';
-import LineItem from '../../../models/LineItem';
-import { LineItemList } from '../../../models/LineItemList';
+import BarcampAppState from "../../../stores/barcamp-app-state";
+import { asyncForEach } from "@midwest-design/common";
+import LineItem from "../../../models/LineItem";
+import { LineItemList } from "../../../models/LineItemList";
 import delay from "async-delay";
 
 @Component({
-  tag: 'barcamp-host-set-budget'
+  tag: "barcamp-host-set-budget",
 })
 export class BarcampHostSetBudget {
-
-  @State() conference: Conference;
+  @State() conference: Conference = BarcampAppState.state.conference;
   @State() lineItems: LineItemList;
 
   async componentWillLoad() {
     this.lineItems = await this.conference.theLineItems();
   }
 
-  async createLineItems (e) {
+  async createLineItems(e) {
     const lineItems = Object.entries(e.detail.json.lineItems);
 
-    let missingItems = this.conference.lineItems.filter(x => !lineItems.map(li => (li[1] as any).key).includes(x));
+    let missingItems = this.conference.lineItems.filter(
+      (x) => !lineItems.map((li) => (li[1] as any).key).includes(x)
+    );
 
     await asyncForEach(missingItems, async (key) => {
       const result = await LineItem.delete(key);
       console.log(result);
-    })
+    });
 
     this.conference.lineItems = [];
 
     await asyncForEach(lineItems, async (item) => {
       let itemObject: LineItem;
-      item[1].cost = item[1].cost.replace("$", "")
-      item[1].raised = item[1].raised.replace("$", "")
+      item[1].cost = item[1].cost.replace("$", "");
+      item[1].raised = item[1].raised.replace("$", "");
 
       if (item[1].key) {
-        itemObject = await LineItem.get(item[1].key)
-        itemObject.populate(item[1])
-        await itemObject.save()
+        itemObject = await LineItem.get(item[1].key);
+        itemObject.populate(item[1]);
+        await itemObject.save();
       } else {
-        itemObject = await LineItem.create({...item[1], conferenceKey: this.conference.key })
+        itemObject = await LineItem.create({
+          ...item[1],
+          conferenceKey: this.conference.key,
+        });
       }
 
-      this.conference.lineItems = [...new Set([...this.conference.lineItems, itemObject.key])];
+      this.conference.lineItems = [
+        ...new Set([...this.conference.lineItems, itemObject.key]),
+      ];
 
       await this.conference.save();
-    })
+    });
 
     this.lineItems = await this.conference.theLineItems();
 
@@ -103,16 +109,10 @@ export class BarcampHostSetBudget {
             </midwest-card>
           </section>
           <aside class="sticky top-0 bottom-0 m-auto mt-0">
-            <barcamp-host-event-preview
-              conference={this.conference}
-              lineItems={this.lineItems}
-              showBudget
-            />
+            <barcamp-host-event-preview lineItems={this.lineItems} showBudget />
           </aside>
         </midwest-layout>
       </Host>
     );
   }
-
 }
-ConferenceTunnel.injectProps(BarcampHostSetBudget, ["conference"])

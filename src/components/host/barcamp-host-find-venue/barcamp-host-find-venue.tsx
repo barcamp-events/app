@@ -1,17 +1,16 @@
 import { Component, Host, h, State } from '@stencil/core';
-import ConferenceTunnel from '../../../tunnels/conference';
+import BarcampAppState from "../../../stores/barcamp-app-state";
 
 @Component({
-  tag: 'barcamp-host-find-venue'
+  tag: "barcamp-host-find-venue",
 })
 export class BarcampHostFindVenue {
-
-  @State() conference: Conference;
+  @State() conference: Conference = BarcampAppState.state.conference;
   @State() type: string = "online";
 
   handleChange(e) {
     if (e.detail) {
-      this.type = e.detail
+      this.type = e.detail;
     }
   }
 
@@ -83,8 +82,7 @@ export class BarcampHostFindVenue {
             </midwest-card>
           </section>
           <aside class="sticky top-0 bottom-0 m-auto mt-0">
-            <barcamp-host-event-preview
-              conference={this.conference}
+            <barcamp-host-event-previewz
               type={this.type}
               showVenue
               showBudget
@@ -95,5 +93,3 @@ export class BarcampHostFindVenue {
     );
   }
 }
-
-ConferenceTunnel.injectProps(BarcampHostFindVenue, ["conference"])

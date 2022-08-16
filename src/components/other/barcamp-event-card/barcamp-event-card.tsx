@@ -1,23 +1,23 @@
 import { Component, Host, h, Prop, Element, State, Method } from '@stencil/core';
-import Conference from '../../../models/Conference';
-import AuthenticationTunnel from '../../../tunnels/authentication';
-import delay from 'async-delay'
+import BarcampAppState from "../../../stores/barcamp-app-state";
+import Conference from "../../../models/Conference";
+import delay from "async-delay";
 
 @Component({
-  tag: 'barcamp-event-card',
-  styleUrl: 'barcamp-event-card.css'
+  tag: "barcamp-event-card",
+  styleUrl: "barcamp-event-card.css",
 })
 export class BarcampEventCard {
   @Element() element: HTMLElement;
   @Prop() conference: Conference;
-  @Prop() user: User;
+  @Prop() user: User = BarcampAppState.state.user;
   @State() loading: boolean = false;
 
   componentDidLoad() {
     this.conference.onChange(() => {
       // @ts-ignore
       this.element.forceUpdate();
-    })
+    });
   }
 
   @Method()
@@ -33,14 +33,14 @@ export class BarcampEventCard {
   async onAttendClick() {
     this.loading = true;
     await this.conference.attend(this.user);
-    await delay(600)
+    await delay(600);
     this.loading = false;
   }
 
   async onUnattendClick() {
     this.loading = true;
     await this.conference.unattend(this.user);
-    await delay(600)
+    await delay(600);
     this.loading = false;
   }
 
@@ -147,7 +147,4 @@ export class BarcampEventCard {
       </Host>
     );
   }
-
 }
-
-AuthenticationTunnel.injectProps(BarcampEventCard, ['user']);

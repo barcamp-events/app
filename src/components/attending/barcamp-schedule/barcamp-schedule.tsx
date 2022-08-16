@@ -1,8 +1,6 @@
 import { Component, Host, h, Prop, State, Method, Element } from '@stencil/core';
 import Conference from '../../../models/Conference';
-import AuthenticationTunnel from '../../../tunnels/authentication';
-import ConferenceTunnel from '../../../tunnels/conference';
-import WritableTunnel from '../../../tunnels/writable';
+import BarcampAppState from "../../../stores/barcamp-app-state";
 import Track from "../../../models/Track";
 import delay from "async-delay";
 import Dayjs from "dayjs";
@@ -16,7 +14,7 @@ import KonamiCode from "konami-code";
 export class BarcampSchedule {
   @Element() element: HTMLElement;
 
-  @Prop() user: User;
+  @Prop() user: User = BarcampAppState.state.user;
 
   @Prop() slug: string;
   @Prop() year: string;
@@ -45,7 +43,7 @@ export class BarcampSchedule {
 
     if (!this.isAfter) {
       this.konami.listen(() => {
-        this.writable = true;
+        BarcampAppState.set("writable", this.writable);
       });
     }
   }
@@ -66,7 +64,7 @@ export class BarcampSchedule {
       );
     }
 
-    console.log(["slug", "==", this.slug], ["year", "==", Number(this.year)]);
+    BarcampAppState.set("conference", this.conference);
 
     this.tracks = await this.conference.theTracks();
     this.talks = await this.conference.getTalksInOrder();
@@ -75,6 +73,7 @@ export class BarcampSchedule {
       this.conference.populate(conference);
       this.tracks = await this.conference.theTracks();
       this.talks = await this.conference.getTalksInOrder();
+      BarcampAppState.set("conference", this.conference);
     });
   }
 
@@ -130,128 +129,110 @@ export class BarcampSchedule {
       );
     }
 
-    const conferenceState = {
-      conference: this.conference,
-    };
-
-    const writableState = {
-      writable: this.writable,
-    };
-
     return (
       this.conference && (
         <Host>
-          <WritableTunnel.Provider state={writableState}>
-            <ConferenceTunnel.Provider state={conferenceState}>
-              <stencil-route-title title="Schedule" />
-              <midwest-layout class="hero z-1">
-                <h3 class="b tc parco black dm:white">
-                  <midwest-animate-text>
-                    {this.conference.stylizedName}
-                  </midwest-animate-text>
-                </h3>
-              </midwest-layout>
+          <stencil-route-title title="Schedule" />
+          <midwest-layout class="hero z-1">
+            <h3 class="b tc parco black dm:white">
+              <midwest-animate-text>
+                {this.conference.stylizedName}
+              </midwest-animate-text>
+            </h3>
+          </midwest-layout>
 
-              {!this.isHappening && !this.isDone && (
-                <midwest-layout padding="large">
-                  <copy-wrap align="center">
-                    <h1 class="b i mb-4 ttu parco base9 dm:base0 fs-massive">
-                      Whoops!
-                    </h1>
-                    {this.isBefore && (
-                      <h3>
-                        The schedule for {this.conference.stylizedName} is not
-                        available until the conference starts.
-                      </h3>
-                    )}
-                    {this.isAfter && (
-                      <h3>
-                        Looks like this event is over! The schedule will be
-                        published within the week.
-                      </h3>
-                    )}
-                    {this.isBefore && (
-                      <h2 class="parco i b mt-4">
-                        Starts in about{" "}
-                        <count-down
-                          time={this.conference.start}
-                          onReady={() => {
-                            // @ts-ignore
-                            this.element.forceUpdate();
-                          }}
-                        ></count-down>
-                      </h2>
-                    )}
-                  </copy-wrap>
-                </midwest-layout>
-              )}
+          {!this.isHappening && !this.isDone && (
+            <midwest-layout padding="large">
+              <copy-wrap align="center">
+                <h1 class="b i mb-4 ttu parco base9 dm:base0 fs-massive">
+                  Whoops!
+                </h1>
+                {this.isBefore && (
+                  <h3>
+                    The schedule for {this.conference.stylizedName} is not
+                    available until the conference starts.
+                  </h3>
+                )}
+                {this.isAfter && (
+                  <h3>
+                    Looks like this event is over! The schedule will be
+                    published within the week.
+                  </h3>
+                )}
+                {this.isBefore && (
+                  <h2 class="parco i b mt-4">
+                    Starts in about{" "}
+                    <count-down
+                      time={this.conference.start}
+                      onReady={() => {
+                        // @ts-ignore
+                        this.element.forceUpdate();
+                      }}
+                    ></count-down>
+                  </h2>
+                )}
+              </copy-wrap>
+            </midwest-layout>
+          )}
 
-              {(this.isHappening || this.isDone) && (
-                <midwest-layout
-                  size="flush"
-                  padding="none"
-                  class="sticky top-0 z-1"
+          {(this.isHappening || this.isDone) && (
+            <midwest-layout
+              size="flush"
+              padding="none"
+              class="sticky top-0 z-1"
+            >
+              <midwest-tabs
+                block
+                blockIndicator
+                size="large"
+                class={`w-100 bn relative ${this.activeColor}`}
+                style={{ "--max-width": "100%" }}
+              >
+                <midwest-tab
+                  name="all"
+                  dark
+                  class="w-100"
+                  open
+                  onContentOpen={this.displayTrack.bind(this)}
                 >
-                  <midwest-tabs
-                    block
-                    blockIndicator
-                    size="large"
-                    class={`w-100 bn relative ${this.activeColor}`}
-                    style={{ "--max-width": "100%" }}
+                  All Tracks
+                </midwest-tab>
+                {this.tracks.map((track) => (
+                  <midwest-tab
+                    name={track.name}
+                    class={`w-100 theme-${track.color}`}
+                    onContentOpen={(e) => this.displayTrack(e, track.color)}
                   >
-                    <midwest-tab
-                      name="all"
-                      dark
-                      class="w-100"
-                      open
-                      onContentOpen={this.displayTrack.bind(this)}
-                    >
-                      All Tracks
-                    </midwest-tab>
-                    {this.tracks.map((track) => (
-                      <midwest-tab
-                        name={track.name}
-                        class={`w-100 theme-${track.color}`}
-                        onContentOpen={(e) => this.displayTrack(e, track.color)}
-                      >
-                        {track.name}
-                      </midwest-tab>
-                    ))}
-                  </midwest-tabs>
-                </midwest-layout>
-              )}
-              {this.isHappening && (
-                <midwest-layout
-                  size={this.activeTab === "all" ? "full" : "small"}
-                >
-                  {this.talks &&
-                    Object.entries(this.talks).map((entry) => (
-                      <barcamp-schedule-talk-group
-                        entry={entry[1]}
-                        active={this.activeTab}
-                      />
-                    ))}
-                </midwest-layout>
-              )}
-              {this.isDone && (
-                <midwest-layout
-                  size={this.activeTab === "all" ? "full" : "small"}
-                >
-                  {this.talks &&
-                    Object.entries(this.talks).map((entry) => (
-                      <barcamp-schedule-published
-                        entry={entry[1]}
-                        active={this.activeTab}
-                      />
-                    ))}
-                </midwest-layout>
-              )}
-            </ConferenceTunnel.Provider>
-          </WritableTunnel.Provider>
+                    {track.name}
+                  </midwest-tab>
+                ))}
+              </midwest-tabs>
+            </midwest-layout>
+          )}
+          {this.isHappening && (
+            <midwest-layout size={this.activeTab === "all" ? "full" : "small"}>
+              {this.talks &&
+                Object.entries(this.talks).map((entry) => (
+                  <barcamp-schedule-talk-group
+                    entry={entry[1]}
+                    active={this.activeTab}
+                  />
+                ))}
+            </midwest-layout>
+          )}
+          {this.isDone && (
+            <midwest-layout size={this.activeTab === "all" ? "full" : "small"}>
+              {this.talks &&
+                Object.entries(this.talks).map((entry) => (
+                  <barcamp-schedule-published
+                    entry={entry[1]}
+                    active={this.activeTab}
+                  />
+                ))}
+            </midwest-layout>
+          )}
         </Host>
       )
     );
   }
 }
-
-AuthenticationTunnel.injectProps(BarcampSchedule, ['user']);

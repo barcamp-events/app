@@ -2,8 +2,8 @@ import { Config } from '@stencil/core';
 import replace from 'rollup-plugin-replace';
 
 export const config: Config = {
-  namespace: 'app',
-  preamble: 'BarCamp Events',
+  namespace: "app",
+  preamble: "BarCamp Events",
   globalStyle: "./src/app.css",
   testing: {
     emulate: [
@@ -11,9 +11,8 @@ export const config: Config = {
       { device: "iPhone 8" },
       { device: "iPhone SE" },
       { device: "Pixel 2" },
-      { viewport: { width: 1400, height: 1200 } }
+      { viewport: { width: 1400, height: 1200 } },
     ],
-    verbose: false,
     collectCoverage: true,
     notify: true,
     coverageDirectory: "./data/tests/",
@@ -25,19 +24,15 @@ export const config: Config = {
     //     statements: -1000
     //   }
     // },
-    coverageReporters: [
-      "json-summary",
-      "lcov",
-      "text",
-    ]
+    coverageReporters: ["json-summary", "lcov", "text"],
   },
   outputTargets: [
     {
-      type: 'www',
+      type: "www",
       dir: "public",
       baseUrl: process.env.BASE_URL,
       serviceWorker: {
-        swSrc: 'src/sw.js'
+        swSrc: "src/sw.js",
       },
       copy: [
         { src: "svg/*.svg", dest: "./build/svg/" },
@@ -49,7 +44,7 @@ export const config: Config = {
         { src: "assets/video" },
         { src: "*.html" },
       ],
-    }
+    },
   ],
   plugins: [
     replace({
@@ -64,7 +59,7 @@ export const config: Config = {
       FIREBASE_SENDER_ID: process.env.FIREBASE_SENDER_ID,
       GOOGLE_PLACES_API: process.env.GOOGLE_PLACES_API,
       GOOGLE_MAPS_API: process.env.GOOGLE_MAPS_API,
-      delimiters: ['<@', '@>'],
-    })
-  ]
+      delimiters: ["<@", "@>"],
+    }),
+  ],
 };

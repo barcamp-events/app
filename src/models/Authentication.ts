@@ -67,6 +67,8 @@ export default class Authentication {
         BarCampStore.set("user", this.user);
       }
 
+      debugger;
+
       this.fireEvent();
     });
   }
@@ -129,11 +131,11 @@ export default class Authentication {
   async signInAsGuest() {
     let response = await signInAnonymously(getAuth());
 
-    this.user = (await User.create({
+    this.user = await User.create({
       key: response.user.uid,
       displayName: "Guest",
       anonymous: response.user.isAnonymous,
-    })) as User;
+    });
 
     return this.user;
   }

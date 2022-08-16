@@ -1,7 +1,6 @@
 import { Component, Host, h, State, Element } from "@stencil/core";
 import Authentication from "../../../models/Authentication";
 import delay from "async-delay";
-import AuthenticationTunnel from "../../../tunnels/authentication";
 import { href } from "stencil-router-v2";
 import BarcampAppState from "../../../stores/barcamp-app-state";
 
@@ -134,5 +133,3 @@ export class BarcampAuthChoiceSignIn {
     );
   }
 }
-
-AuthenticationTunnel.injectProps(BarcampAuthChoiceSignIn, ["user"]);

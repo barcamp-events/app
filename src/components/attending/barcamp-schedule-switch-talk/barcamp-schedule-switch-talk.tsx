@@ -1,5 +1,5 @@
 import { Component, Host, h, Element, Prop, State } from '@stencil/core';
-import AuthenticationTunnel from "../../../tunnels/authentication";
+import BarcampAppState from "../../../stores/barcamp-app-state";
 import Conference from "../../../models/Conference";
 import Track from "../../../models/Track";
 import Talk from "../../../models/Talk";
@@ -11,7 +11,7 @@ import delay from "async-delay";
 export class BarcampScheduleSwitchTalk {
   @Element() element: HTMLElement;
 
-  @Prop() user: User;
+  @Prop() user: User = BarcampAppState.state.user;
   @Prop() slug: string;
   @Prop() conference: Conference;
   @Prop() year: string;
@@ -227,5 +227,3 @@ export class BarcampScheduleSwitchTalk {
     );
   }
 }
-
-AuthenticationTunnel.injectProps(BarcampScheduleSwitchTalk, ['user']);

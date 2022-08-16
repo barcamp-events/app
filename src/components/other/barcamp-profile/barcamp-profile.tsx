@@ -1,28 +1,46 @@
-import { Component, Host, h, State, Element } from '@stencil/core';
-import AuthenticationTunnel from '../../../tunnels/authentication'
-import delay from 'async-delay';
+import { Component, Host, h, State, Element } from "@stencil/core";
+import delay from "async-delay";
+import BarcampAppState from "../../../stores/barcamp-app-state";
 
-const colors = ["red", "orange", "yellow", "lime", "green", "teal", "cyan", "blue", "indigo", "violet", "fuschia", "pink", "gray"]
+const colors = [
+  "red",
+  "orange",
+  "yellow",
+  "lime",
+  "green",
+  "teal",
+  "cyan",
+  "blue",
+  "indigo",
+  "violet",
+  "fuschia",
+  "pink",
+  "gray",
+];
 
 @Component({
-  tag: 'barcamp-profile',
-  styleUrl: 'barcamp-profile.css',
+  tag: "barcamp-profile",
+  styleUrl: "barcamp-profile.css",
 })
 export class BarcampProfile {
   @Element() element: HTMLElement;
-  @State() user: User;
+  @State() user: User = BarcampAppState.state.user;
   @State() success: boolean = false;
 
   @State() profileCard: HTMLMidwestCardElement;
 
   componentDidLoad() {
-    this.profileCard = this.element.querySelector('midwest-card#profile')
+    this.profileCard = this.element.querySelector("midwest-card#profile");
   }
 
   async onSubmit(e) {
-    this.user.populate({...e.detail.json});
-    this.user.dark_mode = (e.detail.json.dark_mode === "false") ? false : e.detail.json.dark_mode;
-    this.user.reduced_motion = (e.detail.json.reduced_motion === "false") ? false : e.detail.json.reduced_motion;
+    this.user.populate({ ...e.detail.json });
+    this.user.dark_mode =
+      e.detail.json.dark_mode === "false" ? false : e.detail.json.dark_mode;
+    this.user.reduced_motion =
+      e.detail.json.reduced_motion === "false"
+        ? false
+        : e.detail.json.reduced_motion;
 
     this.user.save();
 
@@ -129,5 +147,3 @@ export class BarcampProfile {
     );
   }
 }
-
-AuthenticationTunnel.injectProps(BarcampProfile, ['user']);

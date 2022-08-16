@@ -2,13 +2,13 @@ import { Component, Host, h, State } from "@stencil/core";
 import "@midwest-design/device";
 import { colors } from "@midwest-design/common";
 import Conference from "../../../models/Conference";
-import ConferenceTunnel from "../../../tunnels/conference";
+import BarcampAppState from "../../../stores/barcamp-app-state";
 
 @Component({
   tag: "barcamp-host-name-your-event",
 })
 export class BarcampHostNameYourEvent {
-  @State() conference: Conference;
+  @State() conference: Conference = BarcampAppState.state.conference;
 
   @State() name: string;
   @State() mantra: string;
@@ -160,7 +160,6 @@ export class BarcampHostNameYourEvent {
           </section>
           <aside class="sticky top-0 bottom-0 m-auto mt-0">
             <barcamp-host-event-preview
-              conference={this.conference}
               color={this.color}
               dark={this.dark}
               name={this.name}
@@ -172,5 +171,3 @@ export class BarcampHostNameYourEvent {
     );
   }
 }
-
-ConferenceTunnel.injectProps(BarcampHostNameYourEvent, ["conference"]);

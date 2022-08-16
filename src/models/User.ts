@@ -1,5 +1,5 @@
 import { getAuth } from "@firebase/auth";
-import { setDoc } from "@firebase/firestore";
+import { addDoc, doc } from "@firebase/firestore";
 import { prop } from "@midwest-design/common";
 import { MD5 } from "./utils";
 import Location from "./Location";
@@ -110,7 +110,10 @@ export default class User extends FirebaseModel {
   static async create(data: any) {
     const key = data.key;
     const user = new User({ ...data, key });
-    await setDoc(key, user.serialize("firebase"));
+    const docRef = doc(key);
+
+    await addDoc(docRef, user.serialize("firebase"));
+    debugger;
     return user;
   }
 }
