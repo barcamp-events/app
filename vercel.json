@@ -19,6 +19,6 @@
   "env": {
     "IS_NOW": "true"
   },
-  "rewrites": [{ "source": "/:path((?!uk/).*)", "destination": "/index.html" }],
+  "rewrites": [{ "source": "/:path", "destination": "/index.html" }],
   "alias": ["barcamp.events", "www.barcamp.events"]
 }
