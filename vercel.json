@@ -1,7 +1,5 @@
 {
   "version": 2,
-  "cleanUrls": true,
-  "trailingSlash": false,
   "build": {
     "env": {
       "FIREBASE_API_KEY": "@firebase-api-key",
