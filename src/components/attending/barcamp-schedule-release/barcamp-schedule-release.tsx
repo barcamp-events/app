@@ -4,7 +4,7 @@ import AuthenticationTunnel from "../../../tunnels/authentication";
 import Conference from "../../../models/Conference";
 import Track from "../../../models/Track";
 import Talk from "../../../models/Talk";
-import delay from "async-delay";
+import { Hero } from "../../../helpers";
 
 @Component({
   tag: "barcamp-schedule-release",
@@ -83,9 +83,8 @@ export class BarcampScheduleRelease {
     if (!this.user) {
       return (
         <Host>
-          <midwest-layout class="hero">
-            <h3 class="b">Sign up, Sign in, or Continue as a Guest.</h3>
-          </midwest-layout>
+          {Hero("Sign up, Sign in, or Continue as a Guest")}
+
           <midwest-layout>
             <barcamp-auth-choices />
           </midwest-layout>
@@ -98,13 +97,8 @@ export class BarcampScheduleRelease {
       this.tracks && (
         <Host class="mb-7">
           <stencil-route-title title="Schedule" />
-          <midwest-layout class="hero z-1">
-            <h3 class="b tc parco black dm:white">
-              <midwest-animate-text>
-                {this.conference.stylizedName} Release A Talk
-              </midwest-animate-text>
-            </h3>
-          </midwest-layout>
+          {Hero(`${this.conference.stylizedName} Release A Talk`)}
+
           <midwest-layout size="full">
             <midwest-grid class="items-center justify-between w-100 center mb-5">
               <midwest-card class="w-100">
@@ -164,7 +158,7 @@ export class BarcampScheduleRelease {
             </midwest-grid>
           </midwest-layout>
           <midwest-layout size="full" class="sticky bottom-0 ">
-            <midwest-grid class="bg-black items-center justify-between center pv4 w-100">
+            <midwest-grid class="items-center justify-between center pv4 w-100">
               <div>
                 {this.talk && <barcamp-schedule-talk talk={this.talk} />}
               </div>

@@ -10,7 +10,7 @@ import Dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 Dayjs.extend(isBetween);
 import KonamiCode from "konami-code";
-
+import { Hero } from "../../../helpers";
 
 @Component({
   tag: "barcamp-schedule",
@@ -150,34 +150,28 @@ export class BarcampSchedule {
           <WritableTunnel.Provider state={writableState}>
             <ConferenceTunnel.Provider state={conferenceState}>
               <stencil-route-title title="Schedule" />
-              <midwest-layout class="hero z-1">
-                <h3 class="text-black dm:text-white b tc parco">
-                  <midwest-animate-text>
-                    {this.conference.stylizedName}
-                  </midwest-animate-text>
-                </h3>
-              </midwest-layout>
+              {Hero(this.conference.stylizedName)}
 
               {!this.isHappening && !this.isDone && (
                 <midwest-layout padding="large">
                   <copy-wrap align="center">
-                    <h1 class="b i mb-4 ttu parco base9 dm:base0 fs-massive">
+                    <h1 class="italic mb-4 uppercase parco text-base-5 dm:text-white fs-massive">
                       Whoops!
                     </h1>
                     {this.isBefore && (
-                      <h3>
+                      <h3 class="text-base-8 dm:text-base-0">
                         The schedule for {this.conference.stylizedName} is not
                         available until the conference starts.
                       </h3>
                     )}
                     {this.isAfter && (
-                      <h3>
+                      <h3 class="text-base-8 dm:text-base-0">
                         Looks like this event is over! The schedule will be
                         published within the week.
                       </h3>
                     )}
                     {this.isBefore && (
-                      <h2 class="parco i b mt-4">
+                      <h2 class="parco i b mt-4 text-base-11 dm:text-base-2">
                         Starts in about{" "}
                         <count-down
                           time={this.conference.start}

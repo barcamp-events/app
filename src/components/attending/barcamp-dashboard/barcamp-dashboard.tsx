@@ -1,4 +1,5 @@
 import { Component, Host, h, State } from '@stencil/core';
+import { Hero } from "../../../helpers";
 import Conference from '../../../models/Conference';
 import Location from '../../../models/Location';
 
@@ -34,13 +35,7 @@ export class BarcampDashboard {
     return (
       <Host>
         <stencil-route-title title="Your Dashboard" />
-        <midwest-layout class="hero" padding="large">
-          <section>
-            <h1 class="parco dm:text-base-0 m-auto text-center">
-              BarCamp's near {(this.city && this.city.name) || "you"}
-            </h1>
-          </section>
-        </midwest-layout>
+        {Hero(`BarCamp's near ${(this.city && this.city.name) || "you"}`)}
         <midwest-layout size="full">
           <section>
             {this.conferences && (
