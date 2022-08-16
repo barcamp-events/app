@@ -267,9 +267,9 @@ export default class Conference extends FirebaseModel {
 		result.forEach((doc) => {
 			let conf = new Conference(doc.data());
 
-			if (today.isBefore(conf.start)) {
-				conferences.push(conf);
-			}
+			if (today.isBefore(conf.end)) {
+        conferences.push(conf);
+      }
 		});
 
 		return conferences;

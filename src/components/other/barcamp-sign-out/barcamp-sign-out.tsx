@@ -11,11 +11,11 @@ export class BarcampSignOut {
 
   async componentWillLoad() {
     await this.auth.signOut();
-    this.history.push(`/omaha/2019/schedule`, {});
+    this.history.push(`/omaha/2022/schedule`, {});
   }
 
   async componentDidLoad() {
     await this.auth.signOut();
-    this.history.push(`/omaha/2019/schedule`, {});
+    this.history.push(`/omaha/2022/schedule`, {});
   }
 }

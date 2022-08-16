@@ -47,7 +47,7 @@ export namespace Components {
     interface BarcampEventCard {
         "conference": Conference;
         "get_conf": () => Promise<Conference>;
-        "get_user": () => Promise<import("/Users/williammriley/Sites/BarCamp/app/src/models/User").default>;
+        "get_user": () => Promise<import("/Users/will/Sites/barcamp/app/src/models/User").default>;
         "user": User;
     }
     interface BarcampForgotPassword {
@@ -98,6 +98,11 @@ export namespace Components {
         "active": string;
         "entry": any;
     }
+    interface BarcampScheduleRelease {
+        "history": RouterHistory;
+        "match": MatchResults;
+        "user": User;
+    }
     interface BarcampScheduleSignup {
     }
     interface BarcampScheduleSwitchTalk {
@@ -107,6 +112,7 @@ export namespace Components {
     }
     interface BarcampScheduleTalk {
         "talk": Talk;
+        "user": User;
     }
     interface BarcampScheduleTalkAvailable {
         "readonly": boolean;
@@ -308,6 +314,12 @@ declare global {
         prototype: HTMLBarcampSchedulePublishedElement;
         new (): HTMLBarcampSchedulePublishedElement;
     };
+    interface HTMLBarcampScheduleReleaseElement extends Components.BarcampScheduleRelease, HTMLStencilElement {
+    }
+    var HTMLBarcampScheduleReleaseElement: {
+        prototype: HTMLBarcampScheduleReleaseElement;
+        new (): HTMLBarcampScheduleReleaseElement;
+    };
     interface HTMLBarcampScheduleSignupElement extends Components.BarcampScheduleSignup, HTMLStencilElement {
     }
     var HTMLBarcampScheduleSignupElement: {
@@ -408,6 +420,7 @@ declare global {
         "barcamp-profile": HTMLBarcampProfileElement;
         "barcamp-schedule": HTMLBarcampScheduleElement;
         "barcamp-schedule-published": HTMLBarcampSchedulePublishedElement;
+        "barcamp-schedule-release": HTMLBarcampScheduleReleaseElement;
         "barcamp-schedule-signup": HTMLBarcampScheduleSignupElement;
         "barcamp-schedule-switch-talk": HTMLBarcampScheduleSwitchTalkElement;
         "barcamp-schedule-talk": HTMLBarcampScheduleTalkElement;
@@ -510,6 +523,11 @@ declare namespace LocalJSX {
         "active"?: string;
         "entry"?: any;
     }
+    interface BarcampScheduleRelease {
+        "history"?: RouterHistory;
+        "match"?: MatchResults;
+        "user"?: User;
+    }
     interface BarcampScheduleSignup {
     }
     interface BarcampScheduleSwitchTalk {
@@ -519,6 +537,7 @@ declare namespace LocalJSX {
     }
     interface BarcampScheduleTalk {
         "talk"?: Talk;
+        "user"?: User;
     }
     interface BarcampScheduleTalkAvailable {
         "readonly"?: boolean;
@@ -585,6 +604,7 @@ declare namespace LocalJSX {
         "barcamp-profile": BarcampProfile;
         "barcamp-schedule": BarcampSchedule;
         "barcamp-schedule-published": BarcampSchedulePublished;
+        "barcamp-schedule-release": BarcampScheduleRelease;
         "barcamp-schedule-signup": BarcampScheduleSignup;
         "barcamp-schedule-switch-talk": BarcampScheduleSwitchTalk;
         "barcamp-schedule-talk": BarcampScheduleTalk;
@@ -630,6 +650,7 @@ declare module "@stencil/core" {
             "barcamp-profile": LocalJSX.BarcampProfile & JSXBase.HTMLAttributes<HTMLBarcampProfileElement>;
             "barcamp-schedule": LocalJSX.BarcampSchedule & JSXBase.HTMLAttributes<HTMLBarcampScheduleElement>;
             "barcamp-schedule-published": LocalJSX.BarcampSchedulePublished & JSXBase.HTMLAttributes<HTMLBarcampSchedulePublishedElement>;
+            "barcamp-schedule-release": LocalJSX.BarcampScheduleRelease & JSXBase.HTMLAttributes<HTMLBarcampScheduleReleaseElement>;
             "barcamp-schedule-signup": LocalJSX.BarcampScheduleSignup & JSXBase.HTMLAttributes<HTMLBarcampScheduleSignupElement>;
             "barcamp-schedule-switch-talk": LocalJSX.BarcampScheduleSwitchTalk & JSXBase.HTMLAttributes<HTMLBarcampScheduleSwitchTalkElement>;
             "barcamp-schedule-talk": LocalJSX.BarcampScheduleTalk & JSXBase.HTMLAttributes<HTMLBarcampScheduleTalkElement>;

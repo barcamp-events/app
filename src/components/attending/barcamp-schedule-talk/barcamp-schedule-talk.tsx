@@ -1,16 +1,18 @@
 import { Component, Host, h, Prop, State, Element } from '@stencil/core';
-import Talk from '../../../models/Talk';
-import User from '../../../models/User';
-import Track from '../../../models/Track';
-import delay from 'async-delay';
+import AuthenticationTunnel from "../../../tunnels/authentication";
+import Talk from "../../../models/Talk";
+import User from "../../../models/User";
+import Track from "../../../models/Track";
+import delay from "async-delay";
 
 @Component({
-  tag: 'barcamp-schedule-talk'
+  tag: "barcamp-schedule-talk",
 })
 export class BarcampScheduleTalk {
   @Element() element: HTMLElement;
 
   @Prop() talk: Talk;
+  @Prop() user: User;
 
   @State() track: Track;
   @State() speaker: User;
@@ -21,8 +23,12 @@ export class BarcampScheduleTalk {
 
   async componentWillLoad() {
     this.talk.onChange(async (talk: Talk) => {
-      if (!talk.signingUpKey) { talk.signingUpKey = null; }
-      if (!talk.speakerKey) { talk.speakerKey = null; }
+      if (!talk.signingUpKey) {
+        talk.signingUpKey = null;
+      }
+      if (!talk.speakerKey) {
+        talk.speakerKey = null;
+      }
 
       this.talk.populate(talk);
       await this.load();
@@ -33,15 +39,15 @@ export class BarcampScheduleTalk {
 
   async load() {
     if (this.talk.speakerKey) {
-      this.speaker = await User.get(this.talk.speakerKey)
+      this.speaker = await User.get(this.talk.speakerKey);
     }
 
     if (this.talk.trackKey) {
-      this.track = await Track.get(this.talk.trackKey)
+      this.track = await Track.get(this.talk.trackKey);
     }
 
     if (this.talk.signingUpKey) {
-      this.signingUp = await User.get(this.talk.signingUpKey)
+      this.signingUp = await User.get(this.talk.signingUpKey);
     }
   }
 
@@ -57,12 +63,51 @@ export class BarcampScheduleTalk {
   }
 
   render() {
-    return <Host class={`db ${this.track ? `theme-${this.track.color}` : ""}`} style={{ "min-height": "12rem", "min-width": "17.5rem" }}>
-      {!this.ready && <skeleton-img width={1000} height={400} block loading icon class="w-100 db ma0" />}
-      {this.ready && (this.talk.signingUpKey) && !this.talk.isTaken && <barcamp-schedule-talk-signing-up readonly talk={this.talk} signingUp={this.signingUp} />}
-      {this.ready && (!this.talk.signingUpKey) && !this.talk.isTaken && <barcamp-schedule-talk-available readonly talk={this.talk} />}
-      {this.ready && this.talk.isTaken && <barcamp-schedule-talk-signed-up readonly talk={this.talk} speaker={this.speaker} />}
-      <midwest-intersection in={this.in.bind(this)} out={this.out.bind(this)} element={this.element} />
-    </Host>
+    return (
+      <Host
+        class={`db ${this.track ? `theme-${this.track.color}` : ""}`}
+        style={{ "min-height": "12rem", "min-width": "17.5rem" }}
+      >
+        {!this.ready && (
+          <skeleton-img
+            width={1000}
+            height={400}
+            block
+            loading
+            icon
+            class="w-100 db ma0"
+          />
+        )}
+        {this.ready &&
+          this.talk.signingUpKey &&
+          this.talk.signingUpKey !== this.user.key &&
+          !this.talk.isTaken && (
+            <barcamp-schedule-talk-signing-up
+              readonly
+              talk={this.talk}
+              signingUp={this.signingUp}
+            />
+          )}
+        {this.ready &&
+          (!this.talk.signingUpKey ||
+            this.talk.signingUpKey === this.user.key) &&
+          !this.talk.isTaken && (
+            <barcamp-schedule-talk-available readonly talk={this.talk} />
+          )}
+        {this.ready && this.talk.isTaken && (
+          <barcamp-schedule-talk-signed-up
+            readonly
+            talk={this.talk}
+            speaker={this.speaker}
+          />
+        )}
+        <midwest-intersection
+          in={this.in.bind(this)}
+          out={this.out.bind(this)}
+          element={this.element}
+        />
+      </Host>
+    );
   }
 }
+AuthenticationTunnel.injectProps(BarcampScheduleTalk, ["user"]);

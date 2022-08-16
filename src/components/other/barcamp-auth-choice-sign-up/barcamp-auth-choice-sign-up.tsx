@@ -31,7 +31,7 @@ export class BarcampAuthChoiceSignUp {
     }
 
     Authentication.onAuthStateChanged(async (user) => {
-      if (user) {
+      if (!!user.firebaseUser && !!user.user) {
         this.success = true;
         await delay(100);
         await this.card.flip_card();
@@ -65,25 +65,56 @@ export class BarcampAuthChoiceSignUp {
   render() {
     return (
       <Host>
-        <midwest-card id="sign-up" flippable={this.success} flip-icon={"false"}>
-            <section>
-              <midwest-form ajax onSubmitted={this.onSubmit.bind(this)}>
-                <midwest-grid cols="1" noresponsive>
-                  <midwest-input name="name" placeholder="BarCamp Events" label="Your Name" />
-                  <midwest-input type="email" name="email" placeholder="example@barcamp.events" label="Your Email Address" />
-                  <midwest-input type="password" name="password" placeholder="password" label="Your Password" />
-                  <midwest-button tag="submit" block>Sign Up</midwest-button>
-                </midwest-grid>
-              </midwest-form>
+        <midwest-card
+          id="sign-up"
+          flippable={this.success}
+          flip-icon={"false"}
+          style={{ "--border": "none" }}
+        >
+          <section>
+            <midwest-form ajax onSubmitted={this.onSubmit.bind(this)}>
+              <midwest-grid cols="1" noresponsive>
+                <midwest-input
+                  name="name"
+                  placeholder="BarCamp Events"
+                  label="Your Name"
+                />
+                <midwest-input
+                  type="email"
+                  name="email"
+                  placeholder="example@barcamp.events"
+                  label="Your Email Address"
+                />
+                <midwest-input
+                  type="password"
+                  name="password"
+                  placeholder="password"
+                  label="Your Password"
+                />
+                <midwest-button tag="submit" block>
+                  Sign Up
+                </midwest-button>
+              </midwest-grid>
+            </midwest-form>
+          </section>
+          {this.user && (
+            <section slot="back">
+              <copy-wrap align="center" class="mt-5">
+                <midwest-avatar
+                  name={this.user.displayName}
+                  size="large"
+                  shape="circle"
+                />
+                <h4 class="parco text-black dm:text-white ">
+                  Welcome to BarCamp Events, {this.user.displayName}!
+                </h4>
+                <midwest-button tag="stencil-route" href="/">
+                  Continue
+                </midwest-button>
+              </copy-wrap>
             </section>
-            {this.user && <section slot="back">
-            <copy-wrap align="center" class="mt-5">
-              <midwest-avatar name={this.user.displayName} size="large" shape="circle" />
-              <h4 class="parco">Welcome to BarCamp Events, {this.user.displayName}!</h4>
-              <midwest-button tag="stencil-route" href="/">Continue</midwest-button>
-            </copy-wrap>
-          </section>}
-          </midwest-card>
+          )}
+        </midwest-card>
       </Host>
     );
   }

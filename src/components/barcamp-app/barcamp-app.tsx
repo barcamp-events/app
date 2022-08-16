@@ -99,32 +99,77 @@ export class BarcampApp {
       user: this.user
     };
 
-    return <Tunnel.Provider state={userState}>
-        <midwest-theme body system base={this.user && this.user.color || "violet"} complement={this.user && this.user.color || "violet"} dark={this.user && this.user.dark_mode}>
+    return (
+      <Tunnel.Provider state={userState}>
+        <midwest-theme
+          body
+          system
+          base={(this.user && this.user.color) || "violet"}
+          complement={(this.user && this.user.color) || "violet"}
+          dark={this.user && this.user.dark_mode}
+        >
           <main>
             <app-header />
             <article>
               <stencil-router>
                 <stencil-route-switch scrollTopOffset={0}>
-                  <this.Route url='/docs/:name' component='barcamp-docs' />
-                  <this.Route url='/auth' component='barcamp-auth' />
-                  <this.Route url='/sign-out' component='barcamp-sign-out' />
+                  <this.Route url="/docs/:name" component="barcamp-docs" />
+                  <this.Route url="/auth" component="barcamp-auth" />
+                  <this.Route url="/sign-out" component="barcamp-sign-out" />
 
-                  <this.PrivateRoute url='/dashboard' component='barcamp-dashboard' />
+                  <this.PrivateRoute
+                    url="/dashboard"
+                    component="barcamp-dashboard"
+                  />
 
-                  <this.PrivateRoute url='/profile' component='barcamp-profile' />
-                  <this.PrivateRoute url='/host/:conferenceId/:tabId' component='barcamp-host' />
-                  <this.PrivateRoute url='/host/:conferenceId' component='barcamp-host' />
-                  <this.PrivateRoute url='/host' component='barcamp-host' />
+                  <this.PrivateRoute
+                    url="/profile"
+                    component="barcamp-profile"
+                  />
+                  <this.PrivateRoute
+                    url="/host/:conferenceId/:tabId"
+                    component="barcamp-host"
+                  />
+                  <this.PrivateRoute
+                    url="/host/:conferenceId"
+                    component="barcamp-host"
+                  />
+                  <this.PrivateRoute url="/host" component="barcamp-host" />
 
-                  <this.PrivateRoute url='/:slug/:year/schedule/switch' component='barcamp-schedule-switch-talk' />
-                  <this.PrivateRoute url='/:slug/schedule/switch' component='barcamp-schedule-switch-talk' />
-                  <this.Route url='/:slug/:year/schedule' component='barcamp-schedule' />
-                  <this.Route url='/:slug/schedule' component='barcamp-schedule' />
-                  <this.Route url='/:slug/:year' component='barcamp-default-marketing' />
-                  <this.Route url='/:slug' component='barcamp-default-marketing' />
+                  <this.PrivateRoute
+                    url="/:slug/:year/schedule/switch"
+                    component="barcamp-schedule-switch-talk"
+                  />
+                  <this.PrivateRoute
+                    url="/:slug/:year/schedule/release"
+                    component="barcamp-schedule-release"
+                  />
+                  <this.PrivateRoute
+                    url="/:slug/schedule/switch"
+                    component="barcamp-schedule-switch-talk"
+                  />
+                  <this.PrivateRoute
+                    url="/:slug/schedule/release"
+                    component="barcamp-schedule-release"
+                  />
+                  <this.Route
+                    url="/:slug/:year/schedule"
+                    component="barcamp-schedule"
+                  />
+                  <this.Route
+                    url="/:slug/schedule"
+                    component="barcamp-schedule"
+                  />
+                  <this.Route
+                    url="/:slug/:year"
+                    component="barcamp-default-marketing"
+                  />
+                  <this.Route
+                    url="/:slug"
+                    component="barcamp-default-marketing"
+                  />
 
-                  <this.Route url='/' component='barcamp-home' />
+                  <this.Route url="/" component="barcamp-home" />
                 </stencil-route-switch>
               </stencil-router>
             </article>
@@ -137,5 +182,6 @@ export class BarcampApp {
           </main>
         </midwest-theme>
       </Tunnel.Provider>
+    );
   }
 }

@@ -35,15 +35,28 @@ export class BarcampScheduleTalkGroup {
 
   render() {
     if (this.isFarAfter) {
-      return <Host class="dn" />;
+      return <Host class="hidden" />;
     }
 
-    return !this.isFarAfter && <Host class={`db ${this.isAfter ? "o-50 grayscale noclick" : "dn"}`}>
-      <p>{this.entry.dayjs.format("h:mma")}</p>
-      <midwest-grid style={{ "--grid-width": "17.5rem" }}>
-        {this.entry.talks.map(talk => <barcamp-schedule-talk talk={talk} class={(this.active === "all" || this.active === talk.trackTitle) ? "db" : "dn"} />)}
-      </midwest-grid>
-    </Host>
+    return (
+      !this.isFarAfter && (
+        <Host class={`block ${this.isAfter ? "o-50 grayscale noclick" : ""}`}>
+          <p>{this.entry.dayjs.format("h:mma")}</p>
+          <midwest-grid style={{ "--grid-width": "17.5rem" }}>
+            {this.entry.talks.map((talk) => (
+              <barcamp-schedule-talk
+                talk={talk}
+                class={
+                  this.active === "all" || this.active === talk.trackTitle
+                    ? "block"
+                    : "hidden"
+                }
+              />
+            ))}
+          </midwest-grid>
+        </Host>
+      )
+    );
   }
 
 }

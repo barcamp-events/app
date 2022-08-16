@@ -2,7 +2,20 @@ import { Component, Host, h, State, Element } from '@stencil/core';
 import AuthenticationTunnel from '../../../tunnels/authentication'
 import delay from 'async-delay';
 
-const colors = ["red", "orange", "yellow", "lime", "green", "teal", "cyan", "blue", "indigo", "violet", "fuschia", "pink", "gray"]
+const colors = [
+  "red",
+  "orange",
+  "yellow",
+  "lime",
+  "green",
+  "teal",
+  "cyan",
+  "blue",
+  "indigo",
+  "violet",
+  "pink",
+  "gray",
+];
 
 @Component({
   tag: 'barcamp-profile',
