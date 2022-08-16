@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Element, forceUpdate } from "@stencil/core";
+import { Component, Host, h, Prop, Element } from "@stencil/core";
 import Talk from "../../../models/Talk";
 import User from "../../../models/User";
 

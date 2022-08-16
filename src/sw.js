@@ -31,4 +31,5 @@ self.addEventListener('notificationclick', function(event) {
   }
 })
 
-self.workbox.precaching.precacheAndRoute([]);
+
+self.workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
