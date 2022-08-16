@@ -19,6 +19,9 @@
   "env": {
     "IS_NOW": "true"
   },
-  "rewrites": [{ "source": "/:path", "destination": "/index.html" }],
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "/index.html" }
+  ],
   "alias": ["barcamp.events", "www.barcamp.events"]
 }
