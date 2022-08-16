@@ -16,7 +16,7 @@ html, body {
 }
 
 a {
-    color: var(--theme-base-5);
+    color: var(--theme-5);
 }
 
 article {
@@ -44,13 +44,13 @@ h1.parco.alt, h2.parco.alt, h3.parco.alt, h4.parco.alt, h5.parco.alt, h6.parco.a
     background-position: center;
     background-repeat: no-repeat;
     background-blend-mode: screen;
-    background-color: var(--theme-base-3);
+    background-color: var(--theme-3);
 }
 
 .dark-mode .hero, .hero.dark-mode {
     background-image: url("/assets/images/waves.png");
     background-blend-mode: exclusion;
-    background-color: var(--theme-base-9);
+    background-color: var(--theme-9);
 }
 
 @media (max-width: 800px) {
@@ -72,12 +72,12 @@ midwest-button:not([ghost]) {
 
 midwest-button.secondary {
     --background: transparent;
-    --color: var(--theme-base-5);
+    --color: var(--theme-5);
 }
 
 .dark-mode midwest-button.secondary {
     --background: transparent;
-    --color: var(--theme-base-0);
+    --color: var(--theme-0);
 }
 
 app-header,

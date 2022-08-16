@@ -5,49 +5,38 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { MatchResults, RouterHistory } from "@stencil/router";
 import { LineItemList } from "./models/LineItemList";
 export namespace Components {
     interface AppFooter {
-        "user": User;
     }
     interface AppHeader {
-        "user": User;
     }
     interface BarcampApp {
-        "history": RouterHistory;
     }
     interface BarcampAuth {
     }
     interface BarcampAuthChoiceGuest {
-        "history": RouterHistory;
-        "user": User;
     }
     interface BarcampAuthChoiceSignIn {
-        "history": RouterHistory;
-        "user": User;
     }
     interface BarcampAuthChoiceSignUp {
-        "history": RouterHistory;
         "user": User;
     }
     interface BarcampAuthChoices {
-        "user": User;
     }
     interface BarcampDashboard {
     }
     interface BarcampDefaultMarketing {
-        "history": RouterHistory;
-        "match": MatchResults;
+        "slug": string;
+        "year": string;
     }
     interface BarcampDocs {
-        "history": RouterHistory;
-        "match": MatchResults;
+        "name": string;
     }
     interface BarcampEventCard {
         "conference": Conference;
         "get_conf": () => Promise<Conference>;
-        "get_user": () => Promise<import("/Users/williammriley/Sites/BarCamp/app/src/models/User").default>;
+        "get_user": () => Promise<import("/Users/will/Sites/barcamp/app/src/models/User").default>;
         "user": User;
     }
     interface BarcampForgotPassword {
@@ -55,8 +44,8 @@ export namespace Components {
     interface BarcampHome {
     }
     interface BarcampHost {
-        "history": RouterHistory;
-        "match": MatchResults;
+        "conferenceId": string;
+        "tabId": string;
     }
     interface BarcampHostBranding {
     }
@@ -78,7 +67,6 @@ export namespace Components {
     interface BarcampHostGatherVolunteers {
     }
     interface BarcampHostNameYourEvent {
-        "history": RouterHistory;
     }
     interface BarcampHostSetAgenda {
     }
@@ -90,9 +78,9 @@ export namespace Components {
     }
     interface BarcampSchedule {
         "getConference": () => Promise<Conference>;
-        "history": RouterHistory;
-        "match": MatchResults;
+        "slug": string;
         "user": User;
+        "year": string;
     }
     interface BarcampSchedulePublished {
         "active": string;
@@ -101,9 +89,10 @@ export namespace Components {
     interface BarcampScheduleSignup {
     }
     interface BarcampScheduleSwitchTalk {
-        "history": RouterHistory;
-        "match": MatchResults;
+        "conference": Conference;
+        "slug": string;
         "user": User;
+        "year": string;
     }
     interface BarcampScheduleTalk {
         "talk": Talk;
@@ -134,7 +123,6 @@ export namespace Components {
         "track": Track;
     }
     interface BarcampSignOut {
-        "history": RouterHistory;
     }
     interface BarcampSponsor {
         "sponsor": Sponsor;
@@ -144,6 +132,10 @@ export namespace Components {
     }
     interface UpcomingBarcamps {
     }
+}
+export interface CountDownCustomEvent<T> extends CustomEvent<T> {
+    detail: T;
+    target: HTMLCountDownElement;
 }
 declare global {
     interface HTMLAppFooterElement extends Components.AppFooter, HTMLStencilElement {
@@ -424,40 +416,30 @@ declare global {
 }
 declare namespace LocalJSX {
     interface AppFooter {
-        "user"?: User;
     }
     interface AppHeader {
-        "user"?: User;
     }
     interface BarcampApp {
-        "history"?: RouterHistory;
     }
     interface BarcampAuth {
     }
     interface BarcampAuthChoiceGuest {
-        "history"?: RouterHistory;
-        "user"?: User;
     }
     interface BarcampAuthChoiceSignIn {
-        "history"?: RouterHistory;
-        "user"?: User;
     }
     interface BarcampAuthChoiceSignUp {
-        "history"?: RouterHistory;
         "user"?: User;
     }
     interface BarcampAuthChoices {
-        "user"?: User;
     }
     interface BarcampDashboard {
     }
     interface BarcampDefaultMarketing {
-        "history"?: RouterHistory;
-        "match"?: MatchResults;
+        "slug"?: string;
+        "year"?: string;
     }
     interface BarcampDocs {
-        "history"?: RouterHistory;
-        "match"?: MatchResults;
+        "name"?: string;
     }
     interface BarcampEventCard {
         "conference"?: Conference;
@@ -468,8 +450,8 @@ declare namespace LocalJSX {
     interface BarcampHome {
     }
     interface BarcampHost {
-        "history"?: RouterHistory;
-        "match"?: MatchResults;
+        "conferenceId"?: string;
+        "tabId"?: string;
     }
     interface BarcampHostBranding {
     }
@@ -491,7 +473,6 @@ declare namespace LocalJSX {
     interface BarcampHostGatherVolunteers {
     }
     interface BarcampHostNameYourEvent {
-        "history"?: RouterHistory;
     }
     interface BarcampHostSetAgenda {
     }
@@ -502,9 +483,9 @@ declare namespace LocalJSX {
     interface BarcampProfile {
     }
     interface BarcampSchedule {
-        "history"?: RouterHistory;
-        "match"?: MatchResults;
+        "slug"?: string;
         "user"?: User;
+        "year"?: string;
     }
     interface BarcampSchedulePublished {
         "active"?: string;
@@ -513,9 +494,10 @@ declare namespace LocalJSX {
     interface BarcampScheduleSignup {
     }
     interface BarcampScheduleSwitchTalk {
-        "history"?: RouterHistory;
-        "match"?: MatchResults;
+        "conference"?: Conference;
+        "slug"?: string;
         "user"?: User;
+        "year"?: string;
     }
     interface BarcampScheduleTalk {
         "talk"?: Talk;
@@ -546,13 +528,12 @@ declare namespace LocalJSX {
         "track"?: Track;
     }
     interface BarcampSignOut {
-        "history"?: RouterHistory;
     }
     interface BarcampSponsor {
         "sponsor"?: Sponsor;
     }
     interface CountDown {
-        "onReady"?: (event: CustomEvent<any>) => void;
+        "onReady"?: (event: CountDownCustomEvent<any>) => void;
         "time"?: DayjsType;
     }
     interface UpcomingBarcamps {

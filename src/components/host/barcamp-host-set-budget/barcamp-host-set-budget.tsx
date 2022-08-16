@@ -56,18 +56,31 @@ export class BarcampHostSetBudget {
   }
 
   render() {
-    return <Host>
-      <midwest-layout type="supporting-content" class="align-start" size="large">
-        <section>
-          <midwest-card>
-            <header>
-              <h3 class="parco italic dm:text-white">Set Your Budget</h3>
-            </header>
-            <section>
-              <midwest-form ajax onSubmitted={this.createLineItems.bind(this)}>
-                <midwest-grid cols="1" noresponsive>
-                  <midwest-repeatable-fields data={JSON.stringify(this.lineItems.list)} addOneIfEmpty verbiage="Line Item">
-                    <template innerHTML={`
+    return (
+      <Host>
+        <midwest-layout
+          type="supporting-content"
+          class="align-start"
+          size="large"
+        >
+          <section>
+            <midwest-card>
+              <header>
+                <h3 class="parco italic dm:text-white">Set Your Budget</h3>
+              </header>
+              <section>
+                <midwest-form
+                  ajax
+                  onSubmitted={this.createLineItems.bind(this)}
+                >
+                  <midwest-grid cols="1" responsive={false}>
+                    <midwest-repeatable-fields
+                      data={JSON.stringify(this.lineItems.list)}
+                      addOneIfEmpty
+                      verbiage="Line Item"
+                    >
+                      <template
+                        innerHTML={`
                       <midwest-grid class="border border-gray-1 dm:border-gray-11 bg-gray-0 dm:bg-gray-10 rounded p-4 relative" column-width="100" column-gap="1">
                         <midwest-input type="hidden" name="lineItems[{index}][key]"></midwest-input>
                         <midwest-input type="hidden" name="lineItems[{index}][owner]"></midwest-input>
@@ -78,19 +91,27 @@ export class BarcampHostSetBudget {
                         <midwest-input type="currency" autoformat name="lineItems[{index}][raised]" placeholder="Raised"></midwest-input>
                         <midwest-button tag="button" for="delete-entry" icon-only ghost class="-mr-4 -mt-20 absolute bg-white dm:bg-gray-10 right-0 rounded-full too-0"><ion-icon name="trash" slot="icon"></ion-icon></midwest-button>
                       </midwest-grid>
-                    `} />
-                  </midwest-repeatable-fields>
-                  <midwest-button tag="submit" class="inline-block">Save and Continue</midwest-button>
-                </midwest-grid>
-              </midwest-form>
-            </section>
-          </midwest-card>
-        </section>
-        <aside class="sticky top-0 bottom-0 m-auto mt-0">
-          <barcamp-host-event-preview conference={this.conference} lineItems={this.lineItems} showBudget />
-        </aside>
-      </midwest-layout>
-    </Host>
+                    `}
+                      />
+                    </midwest-repeatable-fields>
+                    <midwest-button tag="submit" class="inline-block">
+                      Save and Continue
+                    </midwest-button>
+                  </midwest-grid>
+                </midwest-form>
+              </section>
+            </midwest-card>
+          </section>
+          <aside class="sticky top-0 bottom-0 m-auto mt-0">
+            <barcamp-host-event-preview
+              conference={this.conference}
+              lineItems={this.lineItems}
+              showBudget
+            />
+          </aside>
+        </midwest-layout>
+      </Host>
+    );
   }
 
 }
