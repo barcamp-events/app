@@ -170,16 +170,40 @@ export class BarcampSchedule {
                       </h3>
                     )}
                     {this.isBefore && (
-                      <h2 class="parco i b mt-4 text-base-11 dm:text-base-2">
-                        Starts in about{" "}
-                        <count-down
-                          time={this.conference.start}
-                          onReady={() => {
-                            // @ts-ignore
-                            this.element.forceUpdate();
-                          }}
-                        ></count-down>
-                      </h2>
+                      <div>
+                        <h2 class="parco i b mt-4 text-base-11 dm:text-base-2">
+                          Starts in about{" "}
+                          <count-down
+                            time={this.conference.start}
+                            onReady={() => {
+                              // @ts-ignore
+                              this.element.forceUpdate();
+                            }}
+                          ></count-down>
+                        </h2>
+
+                        <p class="text-center mx-auto">
+                          Doors &amp; Schedule opens at{" "}
+                          <midwest-time
+                            value={this.conference.start}
+                            format="h:mm a"
+                          />
+                        </p>
+                        <p class="text-center mx-auto">
+                          Talks begin at{" "}
+                          <midwest-time
+                            value={this.conference.talksBegin}
+                            format="h:mm a"
+                          />
+                        </p>
+                        <p class="text-center mx-auto">
+                          Event wraps at{" "}
+                          <midwest-time
+                            value={this.conference.end}
+                            format="h:mm a"
+                          />
+                        </p>
+                      </div>
                     )}
                   </copy-wrap>
                 </midwest-layout>
