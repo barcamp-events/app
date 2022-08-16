@@ -20,6 +20,7 @@ export class BarcampApp {
   @State() conference: Conference;
 
   componentWillLoad() {
+    console.log("party time!");
     Authentication.onAuthStateChanged(({user}) => {
       this.user = user;
 
