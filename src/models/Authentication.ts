@@ -36,7 +36,6 @@ export default class Authentication {
 
   constructor () {
     firebase.auth().onAuthStateChanged(async (firebaseUser) => {
-      console.log("Something changed!")
       if (firebaseUser) {
         this.firebaseUser = firebaseUser;
         this.user = await User.get(this.firebaseUser.uid);
@@ -50,10 +49,8 @@ export default class Authentication {
         this.firebaseUser = undefined;
         this.user = undefined;
       }
-      
-      console.log("hello")
 
-      this.fireEvent()
+      this.fireEvent();
     });
   }
 

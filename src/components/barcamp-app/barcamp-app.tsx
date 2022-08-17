@@ -1,16 +1,16 @@
-import { Component, h, Prop, State } from '@stencil/core';
-import { RouterHistory } from '@stencil/router';
-import '@midwest-design/core';
-import '@stencil/router';
-import Authentication from '../../models/Authentication';
-import User from '../../models/User';
-import Conference from '../../models/Conference';
-import Tunnel from '../../tunnels/authentication';
+import { Component, forceUpdate, h, Prop, State } from "@stencil/core";
+import { RouterHistory } from "@stencil/router";
+import "@midwest-design/core";
+import "@stencil/router";
+import Authentication from "../../models/Authentication";
+import User from "../../models/User";
+import Conference from "../../models/Conference";
+import Tunnel from "../../tunnels/authentication";
 
 const components = "app-header, app-footer, barcamp-app, barcamp-profile";
 
 @Component({
-  tag: 'barcamp-app'
+  tag: "barcamp-app",
 })
 export class BarcampApp {
   @Prop() history: RouterHistory;
@@ -20,85 +20,95 @@ export class BarcampApp {
   @State() conference: Conference;
 
   componentWillLoad() {
-    console.log("Let's get ready to RUMBLEEEEE");
-    
-    Authentication.onAuthStateChanged(({user}) => {
+    Authentication.onAuthStateChanged(({ user }) => {
       this.user = user;
 
       if (this.user) {
         this.user.onChange(() => {
           document.querySelectorAll(components).forEach((component: any) => {
-            component.forceUpdate();
-          })
-        })
+                forceUpdate(component);
+          });
+        });
       }
-    })
+    });
   }
 
   getRedirectURL() {
-    const relativeLink = `${window.location.pathname}${window.location.search}`
-    return `/auth?redirect=${encodeURI(relativeLink)}`
+    const relativeLink = `${window.location.pathname}${window.location.search}`;
+    return `/auth?redirect=${encodeURI(relativeLink)}`;
   }
 
   updateClass(component) {
     if (component) {
-      document.querySelector('html').setAttribute('route', component)
+      document.querySelector("html").setAttribute("route", component);
     }
   }
 
-  Route = ({ component, ...props}: { [key: string]: any}) => {
+  Route = ({ component, ...props }: { [key: string]: any }) => {
     const Component = component;
 
     return (
-      <stencil-route {...props} routeRender={
-        (props: { [key: string]: any}) => {
+      <stencil-route
+        {...props}
+        routeRender={(props: { [key: string]: any }) => {
           this.updateClass(Component);
 
           return <Component {...props} {...props.componentProps} />;
-        }
-      }/>
+        }}
+      />
     );
-  }
+  };
 
-  PrivateRoute = ({ component, ...props}: { [key: string]: any}) => {
+  PrivateRoute = ({ component, ...props }: { [key: string]: any }) => {
     const Component = component;
 
     return (
-      <stencil-route {...props} routeRender={
-        (props: { [key: string]: any}) => {
+      <stencil-route
+        {...props}
+        routeRender={(props: { [key: string]: any }) => {
           this.updateClass(Component);
 
           if (this.user) {
             return <Component {...props} {...props.componentProps} />;
           }
 
-          return <stencil-router-redirect url={this.getRedirectURL()} />
-        }
-      }/>
+          return <stencil-router-redirect url={this.getRedirectURL()} />;
+        }}
+      />
     );
-  }
+  };
 
-  PrivateEventManagerRoute = ({ component, ...props}: { [key: string]: any}) => {
+  PrivateEventManagerRoute = ({
+    component,
+    ...props
+  }: {
+    [key: string]: any;
+  }) => {
     const Component = component;
 
     return (
-      <stencil-route {...props} routeRender={
-        (props: { [key: string]: any}) => {
+      <stencil-route
+        {...props}
+        routeRender={(props: { [key: string]: any }) => {
           this.updateClass(Component);
 
-          if (this.user && this.conference && this.conference.isManagedBy(this.user)) {
+          if (
+            this.user &&
+            this.conference &&
+            this.conference.isManagedBy(this.user)
+          ) {
             return <Component {...props} {...props.componentProps} />;
           }
 
-          return <stencil-router-redirect url={this.getRedirectURL()} />
-        }
-      }/>
+          return <stencil-router-redirect url={this.getRedirectURL()} />;
+        }}
+      />
     );
-  }
+  };
 
   render() {
     const userState = {
-      user: this.user
+      user: this.user,
     };
 
     return (

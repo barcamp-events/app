@@ -47,6 +47,7 @@
     "@stencil/core": "^1.17.3",
     "@stencil/router": "^1.0.1",
     "@stencil/state-tunnel": "^1.0.1",
+    "@stencil/store": "^2.0.0",
     "async-delay": "^1.0.3",
     "dayjs": "^1.8.16",
     "firebase": "^7.2.2",

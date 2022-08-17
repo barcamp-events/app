@@ -1,15 +1,25 @@
-import { Component, Host, h, Prop, State, Method, Element } from '@stencil/core';
-import Conference from '../../../models/Conference';
-import AuthenticationTunnel from '../../../tunnels/authentication';
-import ConferenceTunnel from '../../../tunnels/conference';
-import WritableTunnel from '../../../tunnels/writable';
-import { MatchResults, RouterHistory } from '@stencil/router';
+import {
+  Component,
+  Host,
+  h,
+  Prop,
+  State,
+  Method,
+  Element,
+  forceUpdate,
+} from "@stencil/core";
+import Conference from "../../../models/Conference";
+import AuthenticationTunnel from "../../../tunnels/authentication";
+import ConferenceTunnel from "../../../tunnels/conference";
+import WritableTunnel from "../../../tunnels/writable";
+import { MatchResults, RouterHistory } from "@stencil/router";
 import Track from "../../../models/Track";
-import Dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
+import Dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
 Dayjs.extend(isBetween);
 import KonamiCode from "konami-code";
 import { Hero } from "../../../helpers";
+import BarcampAppState from "../../../stores/barcamp-app-state";
 
 @Component({
   tag: "barcamp-schedule",
@@ -21,7 +31,7 @@ export class BarcampSchedule {
   @Prop() history: RouterHistory;
 
   @Prop() user: User;
-  @State() writable: boolean = false;
+  @State() writable: boolean = BarcampAppState.get("writable");
 
   @State() conference: Conference;
   @State() tracks: Track[] = [];
@@ -36,21 +46,24 @@ export class BarcampSchedule {
   interval!: any;
   konami: KonamiCode = new KonamiCode();
 
-  async componentDidLoad() {
+  componentWillLoad() {
     this.slug = this.match.params.slug;
     this.year = this.match.params.year;
+  }
+
+  async componentDidLoad() {
     await this.loadConference();
 
     if (!this.isHappening) {
       this.interval = setInterval(() => {
-        // @ts-ignore
-        this.element.forceUpdate();
+        forceUpdate(this.element);
       }, 30 * 1000);
     }
 
     if (!this.isAfter) {
       this.konami.listen(() => {
         this.writable = true;
+        BarcampAppState.set("writable", true);
       });
     }
   }
@@ -70,8 +83,6 @@ export class BarcampSchedule {
         "one"
       );
     }
-
-    console.log(["slug", "==", this.slug], ["year", "==", Number(this.year)]);
 
     this.tracks = await this.conference.theTracks();
     this.talks = await this.conference.getTalksInOrder();
@@ -176,8 +187,7 @@ export class BarcampSchedule {
                           <count-down
                             time={this.conference.start}
                             onReady={() => {
-                              // @ts-ignore
-                              this.element.forceUpdate();
+                              forceUpdate(this.element);
                             }}
                           ></count-down>
                         </h2>
@@ -279,4 +289,4 @@ export class BarcampSchedule {
   }
 }
 
-AuthenticationTunnel.injectProps(BarcampSchedule, ['user']);
+AuthenticationTunnel.injectProps(BarcampSchedule, ["user"]);

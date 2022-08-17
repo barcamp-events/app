@@ -1,4 +1,12 @@
-import { Component, Host, h, Prop, State, Element } from '@stencil/core';
+import {
+  Component,
+  Host,
+  h,
+  Prop,
+  State,
+  Element,
+  forceUpdate,
+} from "@stencil/core";
 import AuthenticationTunnel from "../../../tunnels/authentication";
 import Talk from "../../../models/Talk";
 import User from "../../../models/User";
@@ -32,8 +40,7 @@ export class BarcampScheduleTalk {
 
       this.talk.populate(talk);
       await this.load();
-      // @ts-ignore
-      this.element.forceUpdate();
+      forceUpdate(this.element);
     });
   }
 

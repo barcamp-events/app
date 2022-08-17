@@ -5,8 +5,8 @@ import delay from 'async-delay';
 import AuthenticationTunnel from '../../../tunnels/authentication';
 
 @Component({
-  tag: 'barcamp-auth-choice-guest',
-  styleUrl: 'barcamp-auth-choice-guest.css'
+  tag: "barcamp-auth-choice-guest",
+  styleUrl: "barcamp-auth-choice-guest.css",
 })
 export class BarcampAuthChoiceGuest {
   @Element() element: HTMLElement;
@@ -15,19 +15,21 @@ export class BarcampAuthChoiceGuest {
   @Prop() user: User;
   @State() auth: Authentication = window["Authentication"] as Authentication;
 
-  @State() card: HTMLMidwestCardElement;
-
   @State() success: boolean = false;
   @State() error: string;
   @State() step: number = 0;
 
   @State() redirectURL: string;
 
+  card!: HTMLMidwestCardElement;
+
   componentWillLoad() {
     const urlParams = new URLSearchParams(window.location.search);
 
-    if (urlParams.get('redirect')) {
-      this.redirectURL = urlParams.get('redirect') ? decodeURI(urlParams.get('redirect')) : '/';
+    if (urlParams.get("redirect")) {
+      this.redirectURL = urlParams.get("redirect")
+        ? decodeURI(urlParams.get("redirect"))
+        : "/";
     }
 
     Authentication.onAuthStateChanged(async (user) => {
@@ -39,11 +41,7 @@ export class BarcampAuthChoiceGuest {
     });
   }
 
-  componentDidLoad() {
-    this.card = this.element.querySelector('midwest-card');
-  }
-
-  redirect () {
+  redirect() {
     this.history.push(this.redirectURL, {});
   }
 
@@ -58,6 +56,7 @@ export class BarcampAuthChoiceGuest {
     return (
       <Host>
         <midwest-card
+          ref={(el) => (this.card = el)}
           id="guest"
           flippable={this.success}
           flip-icon={"false"}

@@ -1,10 +1,18 @@
-import { Component, Host, h, Element, Prop, State } from '@stencil/core';
-import { MatchResults, RouterHistory } from '@stencil/router';
-import AuthenticationTunnel from '../../../tunnels/authentication';
-import Conference from '../../../models/Conference';
-import Track from '../../../models/Track';
-import Talk from '../../../models/Talk';
-import delay from 'async-delay';
+import {
+  Component,
+  Host,
+  h,
+  Element,
+  Prop,
+  State,
+  forceUpdate,
+} from "@stencil/core";
+import { MatchResults, RouterHistory } from "@stencil/router";
+import AuthenticationTunnel from "../../../tunnels/authentication";
+import Conference from "../../../models/Conference";
+import Track from "../../../models/Track";
+import Talk from "../../../models/Talk";
+import delay from "async-delay";
 import { Hero } from "../../../helpers";
 
 @Component({
@@ -56,8 +64,7 @@ export class BarcampScheduleSwitchTalk {
 
     this.tracks = await this.conference.theTracks();
 
-    // @ts-ignore
-    this.element.forceUpdate();
+    forceUpdate(this.element);
   }
 
   async updateFromTalks(e) {
@@ -246,4 +253,4 @@ export class BarcampScheduleSwitchTalk {
   }
 }
 
-AuthenticationTunnel.injectProps(BarcampScheduleSwitchTalk, ['user']);
+AuthenticationTunnel.injectProps(BarcampScheduleSwitchTalk, ["user"]);

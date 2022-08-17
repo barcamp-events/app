@@ -1,10 +1,10 @@
-import { Component, Host, Prop, h, Element } from '@stencil/core';
-import Dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
-Dayjs.extend(isBetween)
+import { Component, Host, Prop, h, Element, forceUpdate } from "@stencil/core";
+import Dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+Dayjs.extend(isBetween);
 
 @Component({
-  tag: 'barcamp-schedule-talk-group'
+  tag: "barcamp-schedule-talk-group",
 })
 export class BarcampScheduleTalkGroup {
   @Element() element: HTMLElement;
@@ -16,21 +16,27 @@ export class BarcampScheduleTalkGroup {
 
   attachInterval() {
     this.interval = setInterval(() => {
-      // @ts-ignore
-      this.element.forceUpdate()
+      forceUpdate(this.element);
     }, 60 * 1000);
   }
 
   get isAfter() {
-    return Dayjs().isAfter(this.entry.dayjs.add(this.entry.talks[0].talkLength, 'minute'));
+    return Dayjs().isAfter(
+      this.entry.dayjs.add(this.entry.talks[0].talkLength, "minute")
+    );
   }
 
   get isFarAfter() {
-    return Dayjs().isAfter(this.entry.dayjs.add((this.entry.talks[0].talkLength * 2), 'minute'));
+    return Dayjs().isAfter(
+      this.entry.dayjs.add(this.entry.talks[0].talkLength * 2, "minute")
+    );
   }
 
   get isBetween() {
-    return Dayjs().isBetween(this.entry.dayjs, this.entry.dayjs.add(this.entry.talks[0].talkLength, 'minute'))
+    return Dayjs().isBetween(
+      this.entry.dayjs,
+      this.entry.dayjs.add(this.entry.talks[0].talkLength, "minute")
+    );
   }
 
   render() {
@@ -58,5 +64,4 @@ export class BarcampScheduleTalkGroup {
       )
     );
   }
-
 }

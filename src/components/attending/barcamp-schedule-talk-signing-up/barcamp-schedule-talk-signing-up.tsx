@@ -1,4 +1,4 @@
-import { Component, Host, h, Prop, Element } from "@stencil/core";
+import { Component, Host, h, Prop, Element, forceUpdate } from "@stencil/core";
 import Talk from "../../../models/Talk";
 import User from "../../../models/User";
 
@@ -21,7 +21,7 @@ export class BarcampScheduleTalkSigningUp {
     this.refreshable = setInterval(() => {
       this.timeEl.value = undefined;
       this.timeEl.value = this.talk.claimedAt;
-      this.timeEl.forceUpdate();
+      forceUpdate(this.timeEl);
     }, 2000);
   }
 

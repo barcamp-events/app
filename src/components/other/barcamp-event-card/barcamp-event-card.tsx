@@ -1,11 +1,20 @@
-import { Component, Host, h, Prop, Element, State, Method } from '@stencil/core';
-import Conference from '../../../models/Conference';
-import AuthenticationTunnel from '../../../tunnels/authentication';
-import delay from 'async-delay'
+import {
+  Component,
+  Host,
+  h,
+  Prop,
+  Element,
+  State,
+  Method,
+  forceUpdate,
+} from "@stencil/core";
+import Conference from "../../../models/Conference";
+import AuthenticationTunnel from "../../../tunnels/authentication";
+import delay from "async-delay";
 
 @Component({
-  tag: 'barcamp-event-card',
-  styleUrl: 'barcamp-event-card.css'
+  tag: "barcamp-event-card",
+  styleUrl: "barcamp-event-card.css",
 })
 export class BarcampEventCard {
   @Element() element: HTMLElement;
@@ -15,9 +24,8 @@ export class BarcampEventCard {
 
   componentDidLoad() {
     this.conference.onChange(() => {
-      // @ts-ignore
-      this.element.forceUpdate();
-    })
+      forceUpdate(this.element);
+    });
   }
 
   @Method()
@@ -33,14 +41,14 @@ export class BarcampEventCard {
   async onAttendClick() {
     this.loading = true;
     await this.conference.attend(this.user);
-    await delay(600)
+    await delay(600);
     this.loading = false;
   }
 
   async onUnattendClick() {
     this.loading = true;
     await this.conference.unattend(this.user);
-    await delay(600)
+    await delay(600);
     this.loading = false;
   }
 
@@ -63,7 +71,8 @@ export class BarcampEventCard {
               </h5>
               <div class="flex flex-column text-center gap-4 items-center">
                 <midwest-calendar-date
-                  date={this.conference.start}
+                  start={this.conference.start.toISOString()}
+                  end={this.conference.end.toISOString()}
                   class="-mb-2"
                 ></midwest-calendar-date>
                 <midwest-clock
@@ -166,7 +175,6 @@ export class BarcampEventCard {
       </Host>
     );
   }
-
 }
 
-AuthenticationTunnel.injectProps(BarcampEventCard, ['user']);
+AuthenticationTunnel.injectProps(BarcampEventCard, ["user"]);

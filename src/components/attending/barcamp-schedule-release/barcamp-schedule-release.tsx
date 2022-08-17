@@ -1,4 +1,12 @@
-import { Component, Host, h, Element, Prop, State } from "@stencil/core";
+import {
+  Component,
+  Host,
+  h,
+  Element,
+  Prop,
+  State,
+  forceUpdate,
+} from "@stencil/core";
 import { MatchResults, RouterHistory } from "@stencil/router";
 import AuthenticationTunnel from "../../../tunnels/authentication";
 import Conference from "../../../models/Conference";
@@ -52,8 +60,7 @@ export class BarcampScheduleRelease {
 
     this.tracks = await this.conference.theTracks();
 
-    // @ts-ignore
-    this.element.forceUpdate();
+    forceUpdate(this.element);
   }
 
   async updateTalks(e) {
@@ -67,8 +74,7 @@ export class BarcampScheduleRelease {
   async pullTalk(e) {
     this.talk = undefined;
     this.talk = await Talk.get(e.detail);
-    // @ts-ignore
-    this.element.forceUpdate();
+    forceUpdate(this.element);
   }
 
   async releaseTalk() {
