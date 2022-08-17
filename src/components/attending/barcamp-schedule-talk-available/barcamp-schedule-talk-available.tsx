@@ -52,17 +52,17 @@ export class BarcampScheduleTalkAvailable {
           onFlip={this.flipped.bind(this)}
           flip-icon={"false"}
         >
-          <section class="flush hero">
-            <copy-wrap align="center" class="m-3">
+          <header class="flush hero">
+            <copy-wrap align="center" class="m-6 mt-3">
               <midwest-label class="uppercase" pill>
                 {this.talk.trackTitle}
               </midwest-label>
               <h4 class="text-black dm:text-white">Open Slot!</h4>
               <p>Snag this slot before someone else does!</p>
             </copy-wrap>
-          </section>
+          </header>
           {this.writable && (
-            <footer class="flex items-center justify-between">
+            <section class="flex items-center justify-between">
               <midwest-button
                 tag="button"
                 block
@@ -71,7 +71,7 @@ export class BarcampScheduleTalkAvailable {
               >
                 Sign up for this slot!
               </midwest-button>
-            </footer>
+            </section>
           )}
           {this.writable && (
             <header slot="back" class="hero">
