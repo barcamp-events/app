@@ -14,3 +14,14 @@ barcamp-docs h2 {
   margin-top: 1.25em !important;
   font-style: italic;
 }
+
+.dark-mode barcamp-docs h1,
+.dark-mode barcamp-docs h2,
+.dark-mode barcamp-docs h3,
+.dark-mode barcamp-docs h4,
+.dark-mode barcamp-docs h5,
+.dark-mode barcamp-docs h6,
+.dark-mode barcamp-docs ul,
+.dark-mode barcamp-docs ol {
+  color: white;
+}
