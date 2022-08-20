@@ -6,8 +6,7 @@ import '@firebase/firestore';
 import '@firebase/messaging';
 import '@stencil/router';
 import { User as FirebaseUser } from 'firebase'
-import User from './User';
-import Admin from "./Admin";
+import User from "./User";
 
 window["ENVIRONMENT"] = "<@ENVIRONMENT@>";
 
