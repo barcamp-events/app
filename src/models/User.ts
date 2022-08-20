@@ -40,12 +40,12 @@ export default class User extends FirebaseModel {
     defaultValue: true,
     serializable: ["firebase"],
   })
-	public dark_mode: boolean;
-	
+  public dark_mode: boolean;
+
   @prop({
-    emptyValue: true,
-		defaultValue: true,
-		serializable: []
+    emptyValue: false,
+    defaultValue: false,
+    serializable: [],
   })
   public admin: boolean;
 

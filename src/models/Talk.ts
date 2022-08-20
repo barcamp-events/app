@@ -180,6 +180,14 @@ export default class Talk extends FirebaseModel {
 
     return true;
   }
+
+  static async reassign(target: Talk, user: User) {
+    await target.populate({
+      speakerKey: user.key,
+    });
+
+    await target.save();
+  }
 }
 
 window["Talk"] = Talk;

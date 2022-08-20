@@ -142,7 +142,7 @@ export class BarcampScheduleTalkSignedUp {
               <p>{this.talk.description}</p>
             </copy-wrap>
           </section>
-          {/* <footer>
+          <footer>
             <midwest-grid
               style={{ "--grid-width": "auto" }}
               class="justify-between"
@@ -168,7 +168,7 @@ export class BarcampScheduleTalkSignedUp {
                 Notifications.supported &&
                 this.renderNotifications()}
             </midwest-grid>
-          </footer> */}
+          </footer>
         </midwest-card>
       </Host>
     );

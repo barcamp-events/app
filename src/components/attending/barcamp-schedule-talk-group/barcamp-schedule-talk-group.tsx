@@ -39,6 +39,12 @@ export class BarcampScheduleTalkGroup {
     );
   }
 
+  get timeClasses() {
+    return `text-${this.isBetween ? "black" : "gray-11"} dm:text-${
+      this.isBetween ? "white" : "gray-3"
+    }`;
+  }
+
   render() {
     if (this.isFarAfter) {
       return <Host class="hidden" />;
@@ -47,7 +53,10 @@ export class BarcampScheduleTalkGroup {
     return (
       !this.isFarAfter && (
         <Host class={`block ${this.isAfter ? "o-50 grayscale noclick" : ""}`}>
-          <p>{this.entry.dayjs.format("h:mma")}</p>
+          <p class={`mb-2 ${this.timeClasses}`}>
+            {this.entry.dayjs.format("h:mma")}
+            {this.isBetween && " • Happening now!"}
+          </p>
           <midwest-grid style={{ "--grid-width": "17.5rem" }}>
             {this.entry.talks.map((talk) => (
               <barcamp-schedule-talk

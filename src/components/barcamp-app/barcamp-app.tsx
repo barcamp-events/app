@@ -149,6 +149,11 @@ export class BarcampApp {
                   <this.PrivateRoute url="/host" component="barcamp-host" />
 
                   <this.PrivateRoute
+                    url="/:slug/:year/schedule/reassign"
+                    component="barcamp-schedule-reassign-talk"
+                  />
+
+                  <this.PrivateRoute
                     url="/:slug/:year/schedule/switch"
                     component="barcamp-schedule-switch-talk"
                   />
@@ -159,6 +164,10 @@ export class BarcampApp {
                   <this.PrivateRoute
                     url="/:slug/schedule/switch"
                     component="barcamp-schedule-switch-talk"
+                  />
+                  <this.PrivateRoute
+                    url="/:slug/schedule/reassign"
+                    component="barcamp-schedule-reassign-talk"
                   />
                   <this.PrivateRoute
                     url="/:slug/schedule/release"
