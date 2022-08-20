@@ -277,7 +277,9 @@ export class BarcampSchedule {
                       </header>
                       <section>
                         <p class="text-center mx-auto">
-                          Please sign up for your talks at the front desk!
+                          Please sign up for your talks at the front desk! When
+                          you are done signing up, please click that "switch
+                          back to guest" button in the header!
                         </p>
                         <p class="text-center mx-auto">
                           30 minutes before talks begin, we'll have a quick
