@@ -60,7 +60,7 @@ export class BarcampSchedule {
       }, 30 * 1000);
     }
 
-    if (!this.isAfter) {
+    if (this.isHappening) {
       this.konami.listen(() => {
         this.writable = true;
         BarcampAppState.set("writable", true);
@@ -113,15 +113,24 @@ export class BarcampSchedule {
 
   get isBefore() {
     return (
-      this.conference &&
-      Dayjs().isBefore(this.conference.start.subtract(1, "minute"))
+      (this.conference &&
+        Dayjs().isBefore(this.conference.start))
+    );
+  }
+
+  get isSignUpPeriod() {
+    return (
+      (this.conference &&
+        Dayjs().isBetween(
+          this.conference.start,
+          this.conference.talksBegin,
+          "minute"
+        ))
     );
   }
 
   get isAfter() {
-    return (
-      this.conference && Dayjs().isAfter(this.conference.end.add(1, "minute"))
-    );
+    return this.conference && Dayjs().isAfter(this.conference.end);
   }
 
   get isDone() {
@@ -259,6 +268,22 @@ export class BarcampSchedule {
                 <midwest-layout
                   size={this.activeTab === "all" ? "full" : "small"}
                 >
+                  {this.isSignUpPeriod && (
+                    <midwest-card>
+                      <header class="hero">
+                        <h4 class="text-center m-auto text-black dm:text-white">
+                          Welcome to BarCamp {this.conference.stylizedName}!
+                        </h4>
+                      </header>
+                      <section>
+                        <p class="text-center m-auto ">
+                          30 minutes before talks begin, we'll have a quick
+                          little welcome talk. Go to the Technology track in the
+                          all-hands room!
+                        </p>
+                      </section>
+                    </midwest-card>
+                  )}
                   {this.talks &&
                     Object.entries(this.talks).map((entry) => (
                       <barcamp-schedule-talk-group
