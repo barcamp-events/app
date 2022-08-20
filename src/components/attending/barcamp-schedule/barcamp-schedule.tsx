@@ -61,10 +61,11 @@ export class BarcampSchedule {
     }
 
     if (this.isHappening) {
-      this.konami.listen(() => {
-        this.writable = true;
-        BarcampAppState.set("writable", true);
-      });
+      this.writable = true;
+      // this.konami.listen(() => {
+      //   this.writable = true;
+      //   BarcampAppState.set("writable", true);
+      // });
     }
   }
 
@@ -276,7 +277,10 @@ export class BarcampSchedule {
                         </h4>
                       </header>
                       <section>
-                        <p class="text-center m-auto ">
+                        <p class="text-center mx-auto">
+                          Please sign up for your talks at the front desk!
+                        </p>
+                        <p class="text-center mx-auto">
                           30 minutes before talks begin, we'll have a quick
                           little welcome talk. Go to the Technology track in the
                           all-hands room!
