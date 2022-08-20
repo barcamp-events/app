@@ -61,11 +61,10 @@ export class BarcampSchedule {
     }
 
     if (this.isHappening) {
-      this.writable = true;
-      // this.konami.listen(() => {
-      //   this.writable = true;
-      //   BarcampAppState.set("writable", true);
-      // });
+      this.konami.listen(() => {
+        this.writable = true;
+        BarcampAppState.set("writable", true);
+      });
     }
   }
 
