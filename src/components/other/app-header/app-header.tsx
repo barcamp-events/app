@@ -24,6 +24,8 @@ export class AppHeader {
     this.auth.signOut();
     await delay(20);
     this.auth.signInAsGuest();
+    await delay(1500);
+    location.reload();
   }
 
   render() {
